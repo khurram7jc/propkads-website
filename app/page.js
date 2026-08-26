@@ -45,7 +45,7 @@ export default function Home() {
           <a href="#faq" style={{ color: '#475569', textDecoration: 'none' }}>FAQ</a>
         </nav>
         
-        <a href="https://wa.me/923333401101" style={{ background: '#10b981', color: '#fff', padding: '10px 22px', borderRadius: '6px', textDecoration: 'none', fontWeight: 'bold', fontSize: '0.9rem' }}>
+        <a href="https://wa.me/923333401101" target="_blank" rel="noopener noreferrer" style={{ background: '#10b981', color: '#fff', padding: '10px 22px', borderRadius: '6px', textDecoration: 'none', fontWeight: 'bold', fontSize: '0.9rem' }}>
           +92 333 3401101
         </a>
       </header>
@@ -61,7 +61,7 @@ export default function Home() {
         </p>
         <div style={{ display: 'flex', gap: '15px', justifyContent: 'center', flexWrap: 'wrap' }}>
           <a href="#enquiry" style={{ background: '#10b981', color: '#fff', padding: '16px 32px', textDecoration: 'none', borderRadius: '8px', fontWeight: 'bold', boxShadow: '0 4px 14px rgba(16, 185, 129, 0.3)' }}>Get a Free Project Review</a>
-          <a href="https://wa.me/923333401101" style={{ border: '2px solid #0f172a', color: '#0f172a', padding: '14px 30px', textDecoration: 'none', borderRadius: '8px', fontWeight: 'bold', background: '#fff' }}>Book a 20-Minute Call</a>
+          <a href="https://wa.me/923333401101" target="_blank" rel="noopener noreferrer" style={{ border: '2px solid #0f172a', color: '#0f172a', padding: '14px 30px', textDecoration: 'none', borderRadius: '8px', fontWeight: 'bold', background: '#fff' }}>Book a 20-Minute Call</a>
         </div>
       </section>
 
@@ -230,7 +230,9 @@ export default function Home() {
 
       {/* Footer */}
       <footer style={{ background: '#0f172a', padding: '40px 8%', textAlign: 'center', color: '#94a3b8', fontSize: '0.9rem' }}>
-        <p style={{ color: '#cbd5e1' }}>+92 333 3401101 | contact@propkads.com | Karachi, Pakistan</p>
+        <p style={{ color: '#cbd5e1' }}>
+          <a href="https://wa.me/923333401101" target="_blank" rel="noopener noreferrer" style={{ color: '#cbd5e1', textDecoration: 'none' }}>+92 333 3401101</a> | <a href="mailto:contact@propkads.com" target="_blank" rel="noopener noreferrer" style={{ color: '#cbd5e1', textDecoration: 'none' }}>contact@propkads.com</a> | Karachi, Pakistan
+        </p>
         <p>2020 © PROPKADS. All Rights Reserved.</p>
       </footer>
     </main>
