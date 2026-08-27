@@ -61,3 +61,6 @@ Add the same two variables in **Vercel → Project → Settings → Environment 
   passwords stored anywhere.
 - Only `admin` role users can see the Team tab and add/remove people. `team` role users can
   manage leads and content but not add other logins.
+
+---
+_Claude now has direct push access to this repo via a scoped GitHub token._
