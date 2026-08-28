@@ -10,9 +10,13 @@ const DEFAULT_CONTENT = {
   header_nav_4: 'Contact',
   header_cta_text: 'Get a Free Review',
   hero_step_1: 'Project Audit',
+  hero_step_1_desc: 'Inventory review, pricing analysis, buyer profiling, and competitor assessment.',
   hero_step_2: 'Launch & CRM Setup',
+  hero_step_2_desc: 'Campaign launch, CRM pipeline configuration, and sales team assignment rules.',
   hero_step_3: 'Weekly Optimization',
+  hero_step_3_desc: 'Lead quality improvement, follow-up correction, and sales activity monitoring.',
   hero_step_4: 'Conversion & Scaling',
+  hero_step_4_desc: 'Booking-focused optimization and revenue scaling based on real performance data.',
   hero_heading: 'Sell Your Real Estate Inventory With a Complete Revenue System — Not Just Ads',
   hero_subheading:
     'We help real estate developers generate high-intent buyers, control leads through CRM, monitor sales teams, and improve conversions — end to end.',

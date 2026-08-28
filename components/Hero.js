@@ -24,20 +24,24 @@ export default function Hero({ c, onQuickPhone }) {
         <div className="hero-v2-right">
           <div className="hero-cards-grid">
             <div className="floating-card">
-              <div className="floating-card-num">01</div>
+              <div className="floating-card-num">STEP 01</div>
               <div className="floating-card-title">{c.hero_step_1 || 'Project Audit'}</div>
+              <div className="floating-card-desc">{c.hero_step_1_desc || 'Inventory review, pricing analysis, buyer profiling, and competitor assessment.'}</div>
             </div>
             <div className="floating-card">
-              <div className="floating-card-num">02</div>
+              <div className="floating-card-num">STEP 02</div>
               <div className="floating-card-title">{c.hero_step_2 || 'Launch & CRM Setup'}</div>
+              <div className="floating-card-desc">{c.hero_step_2_desc || 'Campaign launch, CRM pipeline configuration, and sales team assignment rules.'}</div>
             </div>
             <div className="floating-card">
-              <div className="floating-card-num">03</div>
+              <div className="floating-card-num">STEP 03</div>
               <div className="floating-card-title">{c.hero_step_3 || 'Weekly Optimization'}</div>
+              <div className="floating-card-desc">{c.hero_step_3_desc || 'Lead quality improvement, follow-up correction, and sales activity monitoring.'}</div>
             </div>
             <div className="floating-card">
-              <div className="floating-card-num">04</div>
+              <div className="floating-card-num">STEP 04</div>
               <div className="floating-card-title">{c.hero_step_4 || 'Conversion & Scaling'}</div>
+              <div className="floating-card-desc">{c.hero_step_4_desc || 'Booking-focused optimization and revenue scaling based on real performance data.'}</div>
             </div>
           </div>
         </div>

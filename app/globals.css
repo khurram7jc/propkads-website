@@ -105,7 +105,8 @@ input, select, textarea{font-family:inherit;}
   font-family:'Inter',sans-serif; font-size:12px; font-weight:700; color:var(--green);
   letter-spacing:.06em; margin-bottom:10px;
 }
-.floating-card-title{font-size:15px; font-weight:700; color:var(--ink); line-height:1.35;}
+.floating-card-title{font-size:15px; font-weight:700; color:var(--ink); line-height:1.35; margin-bottom:8px;}
+.floating-card-desc{font-size:12.5px; color:var(--slate); line-height:1.55;}
 
 @media(max-width:900px){
   .hero-v2-inner{grid-template-columns:1fr;}
