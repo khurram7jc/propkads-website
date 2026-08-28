@@ -4,6 +4,7 @@ import Header from '@/components/Header';
 import Hero from '@/components/Hero';
 import Services from '@/components/Services';
 import About from '@/components/About';
+import HowItWorks from '@/components/HowItWorks';
 
 const DEFAULT_CONTENT = {
   header_nav_1: 'About Us',
@@ -25,6 +26,8 @@ const DEFAULT_CONTENT = {
   hero_bullet_1: 'Performance Marketing (Buyer Acquisition)',
   hero_bullet_2: 'CRM Integration & Lead Control',
   hero_bullet_3: 'Sales Team Accountability & Closing Support',
+  howitworks_eyebrow: 'How It Works',
+  howitworks_heading: 'Our working process.',
   about_eyebrow: 'About Propkads',
   about_heading: 'A sales-driven real estate growth partner.',
   about_lead_1: 'Propkads is a sales-driven real estate growth partner created to help developers move inventory through systems — not assumptions.',
@@ -170,16 +173,7 @@ export default function Home() {
       <Services c={c} />
 
       {/* HOW IT WORKS */}
-      <section className="section container" id="how-it-works">
-        <div className="section-tag">How It Works</div>
-        <h2>Our working process.</h2>
-        <div className="process-grid">
-          <div className="process-card"><span>STEP 01</span><h3>Project Audit</h3><p>Inventory review, pricing analysis, buyer profiling, and competitor assessment.</p></div>
-          <div className="process-card"><span>STEP 02</span><h3>Launch &amp; CRM Setup</h3><p>Campaign launch, CRM pipeline configuration, and sales team assignment rules.</p></div>
-          <div className="process-card"><span>STEP 03</span><h3>Weekly Optimization</h3><p>Lead quality improvement, follow-up correction, and sales activity monitoring.</p></div>
-          <div className="process-card"><span>STEP 04</span><h3>Conversion &amp; Scaling</h3><p>Booking-focused optimization and revenue scaling based on real performance data.</p></div>
-        </div>
-      </section>
+      <HowItWorks c={c} />
 
       {/* EXECUTION SUPPORT */}
       <section className="section container" id="execution">

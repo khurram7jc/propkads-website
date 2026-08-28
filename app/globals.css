@@ -222,13 +222,25 @@ input, select, textarea{font-family:inherit;}
   .whatwedo-wrap{grid-template-columns:1fr;}
 }
 
-/* ---------- PROCESS ---------- */
-.process-grid{display:grid; grid-template-columns:repeat(4,1fr); gap:40px; margin-top:52px;}
-.process-card span{font-size:12px; font-weight:700; color:var(--green); letter-spacing:.06em;}
-.process-card h3{font-size:16px; margin:12px 0 10px; font-weight:700;}
-.process-card p{font-size:13.5px; color:var(--slate); line-height:1.6;}
-@media(max-width:900px){.process-grid{grid-template-columns:repeat(2,1fr);}}
-@media(max-width:560px){.process-grid{grid-template-columns:1fr;}}
+/* ---------- HOW IT WORKS (connected timeline) ---------- */
+.process-v2-wrap{position:relative; margin-top:60px;}
+.process-v2-line{position:absolute; top:28px; left:28px; right:28px; height:2px; background:var(--line); z-index:0;}
+.process-v2-steps{display:grid; grid-template-columns:repeat(4,1fr); gap:24px; position:relative; z-index:1;}
+.process-v2-step{padding-right:8px;}
+.process-v2-circle{
+  width:56px; height:56px; border-radius:50%; background:var(--ink); color:#fff;
+  display:flex; align-items:center; justify-content:center; font-weight:800; font-size:17px;
+  margin-bottom:22px; position:relative; z-index:2;
+}
+.process-v2-circle.is-last{background:var(--green);}
+.process-v2-step h3{font-size:16px; font-weight:700; margin-bottom:10px;}
+.process-v2-step p{font-size:13.5px; color:var(--slate); line-height:1.65;}
+
+@media(max-width:900px){
+  .process-v2-line{display:none;}
+  .process-v2-steps{grid-template-columns:repeat(2,1fr); row-gap:36px;}
+}
+@media(max-width:560px){.process-v2-steps{grid-template-columns:1fr;}}
 
 /* ---------- EXECUTION ---------- */
 .exec-wrap{display:grid; grid-template-columns:1fr 1fr; gap:56px; margin-top:52px;}
