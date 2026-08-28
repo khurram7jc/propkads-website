@@ -4,9 +4,9 @@ import Header from '@/components/Header';
 import Hero from '@/components/Hero';
 
 const DEFAULT_CONTENT = {
-  header_nav_1: 'Services',
-  header_nav_2: 'How It Works',
-  header_nav_3: 'About',
+  header_nav_1: 'About Us',
+  header_nav_2: 'Services',
+  header_nav_3: 'How It Works',
   header_nav_4: 'Contact',
   header_cta_text: 'Get a Free Review',
   stat_founded: '2020',

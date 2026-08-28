@@ -21,9 +21,9 @@ export default function Header({ c }) {
           </a>
 
           <div className="mainnav-links">
-            <a href="#services">{c.header_nav_1 || 'Services'}</a>
-            <a href="#how-it-works">{c.header_nav_2 || 'How It Works'}</a>
-            <a href="#about">{c.header_nav_3 || 'About'}</a>
+            <a href="#about">{c.header_nav_1 || 'About Us'}</a>
+            <a href="#services">{c.header_nav_2 || 'Services'}</a>
+            <a href="#how-it-works">{c.header_nav_3 || 'How It Works'}</a>
             <a href="#contact">{c.header_nav_4 || 'Contact'}</a>
           </div>
 
