@@ -2,6 +2,7 @@
 import { useEffect, useState } from 'react';
 import Header from '@/components/Header';
 import Hero from '@/components/Hero';
+import Services from '@/components/Services';
 
 const DEFAULT_CONTENT = {
   header_nav_1: 'About Us',
@@ -23,6 +24,16 @@ const DEFAULT_CONTENT = {
   hero_bullet_1: 'Performance Marketing (Buyer Acquisition)',
   hero_bullet_2: 'CRM Integration & Lead Control',
   hero_bullet_3: 'Sales Team Accountability & Closing Support',
+  services_eyebrow: 'What We Do',
+  services_heading: 'Driving a better way of doing marketing.',
+  services_intro: 'We deliver revenue impact through a combination of performance marketing, CRM control, and sales accountability.',
+  checklist_heading: 'What This Gives You',
+  checklist_1: 'Real-time CRM visibility',
+  checklist_2: 'Weekly performance reports',
+  checklist_3: 'Direct WhatsApp & phone leads',
+  checklist_4: 'No guesswork, no excuses',
+  services_stat_value: '60–90 Days',
+  services_stat_label: 'To real sales clarity',
   service_1_title: 'Buyer Acquisition',
   service_1_desc: 'High-intent buyers through targeted digital campaigns based on location, budget, and inventory type.',
   service_2_title: 'CRM Integration & Lead Control',
@@ -191,16 +202,7 @@ export default function Home() {
       </section>
 
       {/* SERVICES */}
-      <section className="section container" id="services">
-        <div className="section-tag">Our Core Services</div>
-        <h2>Four disciplines, one system.</h2>
-        <div className="svc-grid">
-          <div className="svc"><span className="num">01</span><h3>{c.service_1_title}</h3><p>{c.service_1_desc}</p></div>
-          <div className="svc"><span className="num">02</span><h3>{c.service_2_title}</h3><p>{c.service_2_desc}</p></div>
-          <div className="svc"><span className="num">03</span><h3>{c.service_3_title}</h3><p>{c.service_3_desc}</p></div>
-          <div className="svc"><span className="num">04</span><h3>{c.service_4_title}</h3><p>{c.service_4_desc}</p></div>
-        </div>
-      </section>
+      <Services c={c} />
 
       {/* HOW IT WORKS */}
       <section className="section container" id="how-it-works">
