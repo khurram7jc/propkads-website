@@ -47,7 +47,7 @@ input, select, textarea{font-family:inherit;}
   max-width:1120px; margin:0 auto; padding:18px 32px;
   display:flex; align-items:center; justify-content:space-between; gap:24px;
 }
-.mainnav-logo img{height:28px; width:auto; display:block;}
+.mainnav-logo img{height:56px; width:auto; display:block;}
 .mainnav-links{display:flex; gap:36px;}
 .mainnav-links a{
   font-size:13px; font-weight:600; text-transform:uppercase; letter-spacing:.08em;
