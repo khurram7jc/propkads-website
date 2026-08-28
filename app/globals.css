@@ -95,25 +95,24 @@ input, select, textarea{font-family:inherit;}
 .hero-quicknote{margin-top:14px; font-size:13px; color:var(--slate);}
 .hero-quicknote a{color:var(--green); font-weight:600;}
 
-.hero-v2-right{position:relative; height:280px;}
+.hero-v2-right{position:relative;}
+.hero-cards-grid{display:grid; grid-template-columns:1fr 1fr; gap:16px;}
 .floating-card{
-  position:absolute; background:#fff; border-radius:16px; padding:22px 24px;
-  box-shadow:0 16px 40px rgba(20,22,26,0.1); width:230px;
+  background:#fff; border-radius:16px; padding:22px 20px;
+  box-shadow:0 16px 40px rgba(20,22,26,0.08);
 }
-.floating-card-icon{font-size:20px; margin-bottom:10px;}
-.floating-card-value{font-size:24px; font-weight:700; color:var(--ink);}
-.floating-card-label{font-size:12.5px; color:var(--slate); margin-top:6px; line-height:1.4;}
-.floating-card.card-a{top:0; left:10%;}
-.floating-card.card-b{top:150px; left:38%;}
+.floating-card-num{
+  font-family:'Inter',sans-serif; font-size:12px; font-weight:700; color:var(--green);
+  letter-spacing:.06em; margin-bottom:10px;
+}
+.floating-card-title{font-size:15px; font-weight:700; color:var(--ink); line-height:1.35;}
 
 @media(max-width:900px){
   .hero-v2-inner{grid-template-columns:1fr;}
-  .hero-v2-right{height:auto; display:flex; gap:20px; flex-wrap:wrap; margin-top:20px;}
-  .floating-card{position:static; width:calc(50% - 10px);}
+  .hero-v2-right{margin-top:10px;}
 }
 @media(max-width:560px){
-  .hero-v2-right{flex-direction:column;}
-  .floating-card{width:100%;}
+  .hero-cards-grid{grid-template-columns:1fr;}
 }
 
 .btn{

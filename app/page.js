@@ -9,8 +9,10 @@ const DEFAULT_CONTENT = {
   header_nav_3: 'How It Works',
   header_nav_4: 'Contact',
   header_cta_text: 'Get a Free Review',
-  stat_founded: '2020',
-  stat_clarity: '60–90 Days',
+  hero_step_1: 'Project Audit',
+  hero_step_2: 'Launch & CRM Setup',
+  hero_step_3: 'Weekly Optimization',
+  hero_step_4: 'Conversion & Scaling',
   hero_heading: 'Sell Your Real Estate Inventory With a Complete Revenue System — Not Just Ads',
   hero_subheading:
     'We help real estate developers generate high-intent buyers, control leads through CRM, monitor sales teams, and improve conversions — end to end.',

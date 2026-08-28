@@ -22,15 +22,23 @@ export default function Hero({ c, onQuickPhone }) {
         </div>
 
         <div className="hero-v2-right">
-          <div className="floating-card card-a">
-            <div className="floating-card-icon">📅</div>
-            <div className="floating-card-value">{c.stat_founded || '2020'}</div>
-            <div className="floating-card-label">Founded — Serving All Pakistan</div>
-          </div>
-          <div className="floating-card card-b">
-            <div className="floating-card-icon">📊</div>
-            <div className="floating-card-value">{c.stat_clarity || '60–90 Days'}</div>
-            <div className="floating-card-label">To Real Sales Clarity</div>
+          <div className="hero-cards-grid">
+            <div className="floating-card">
+              <div className="floating-card-num">01</div>
+              <div className="floating-card-title">{c.hero_step_1 || 'Project Audit'}</div>
+            </div>
+            <div className="floating-card">
+              <div className="floating-card-num">02</div>
+              <div className="floating-card-title">{c.hero_step_2 || 'Launch & CRM Setup'}</div>
+            </div>
+            <div className="floating-card">
+              <div className="floating-card-num">03</div>
+              <div className="floating-card-title">{c.hero_step_3 || 'Weekly Optimization'}</div>
+            </div>
+            <div className="floating-card">
+              <div className="floating-card-num">04</div>
+              <div className="floating-card-title">{c.hero_step_4 || 'Conversion & Scaling'}</div>
+            </div>
           </div>
         </div>
       </div>
