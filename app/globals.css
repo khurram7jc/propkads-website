@@ -24,27 +24,42 @@ input, select, textarea{font-family:inherit;}
 
 .container{max-width:1120px; margin:0 auto; padding:0 32px;}
 
-/* ---------- NAV ---------- */
-.nav{
+/* ---------- HEADER (top bar + main nav) ---------- */
+.site-header{background:#fff;}
+
+.topbar{border-bottom:1px solid var(--line);}
+.topbar-inner{
+  max-width:1120px; margin:0 auto; padding:9px 32px;
+  display:flex; gap:32px; font-size:12.5px; color:var(--slate);
+}
+.topbar-item{display:flex; align-items:center; gap:6px; transition:color .15s;}
+.topbar-item:hover{color:var(--green);}
+.topbar-icon{font-size:11px;}
+@media(max-width:600px){.topbar-inner{justify-content:center; gap:20px;}}
+
+.mainnav{
   position:sticky; top:0; z-index:50;
-  background:rgba(255,255,255,0.96);
+  background:rgba(255,255,255,0.97);
   backdrop-filter:blur(6px);
   border-bottom:1px solid var(--line);
 }
-.nav-inner{
-  max-width:1120px; margin:0 auto; padding:20px 32px;
+.mainnav-inner{
+  max-width:1120px; margin:0 auto; padding:18px 32px;
   display:flex; align-items:center; justify-content:space-between; gap:24px;
 }
-.nav-logo img{height:26px; width:auto; display:block;}
-.nav-links{display:flex; gap:32px; flex-wrap:wrap;}
-.nav-links a{font-size:14px; color:var(--ink-soft); font-weight:500; transition:color .15s;}
-.nav-links a:hover{color:var(--green);}
-.nav-cta{
-  font-size:13.5px; font-weight:600; color:var(--ink); border:1px solid var(--ink);
-  padding:9px 18px; transition:all .15s;
+.mainnav-logo img{height:28px; width:auto; display:block;}
+.mainnav-links{display:flex; gap:36px;}
+.mainnav-links a{
+  font-size:13px; font-weight:600; text-transform:uppercase; letter-spacing:.08em;
+  color:var(--ink); transition:color .15s;
 }
-.nav-cta:hover{background:var(--ink); color:#fff;}
-@media(max-width:900px){ .nav-links{display:none;} }
+.mainnav-links a:hover{color:var(--green);}
+.mainnav-cta{
+  background:var(--ink); color:#fff; padding:13px 28px; border-radius:999px;
+  font-size:13px; font-weight:600; white-space:nowrap; transition:background .15s;
+}
+.mainnav-cta:hover{background:var(--green);}
+@media(max-width:900px){ .mainnav-links{display:none;} }
 
 /* ---------- HERO ---------- */
 .hero{padding:110px 0 90px;}

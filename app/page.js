@@ -1,7 +1,13 @@
 'use client';
 import { useEffect, useState } from 'react';
+import Header from '@/components/Header';
 
 const DEFAULT_CONTENT = {
+  header_nav_1: 'Services',
+  header_nav_2: 'How It Works',
+  header_nav_3: 'About',
+  header_nav_4: 'Contact',
+  header_cta_text: 'Get a Free Review',
   hero_heading: 'Sell Your Real Estate Inventory With a Complete Revenue System — Not Just Ads',
   hero_subheading:
     'We help real estate developers generate high-intent buyers, control leads through CRM, monitor sales teams, and improve conversions — end to end.',
@@ -62,22 +68,8 @@ export default function Home() {
   };
 
   return (
-    <main>
-      {/* NAV */}
-      <header className="nav">
-        <div className="nav-inner">
-          <a href="#" className="nav-logo"><img src="/logo.png" alt="Propkads" /></a>
-          <nav className="nav-links">
-            <a href="#about">About Us</a>
-            <a href="#services">Services</a>
-            <a href="#how-it-works">How It Works</a>
-            <a href="#execution">Execution Support</a>
-            <a href="#model">Commercial Model</a>
-            <a href="#faq">FAQ</a>
-          </nav>
-          <a href={`tel:${c.contact_phone.replace(/\s/g, '')}`} className="nav-cta">{c.contact_phone}</a>
-        </div>
-      </header>
+    <main id="top">
+      <Header c={c} />
 
       {/* HERO */}
       <section className="hero container">
