@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import Header from '@/components/Header';
 import Hero from '@/components/Hero';
 import Services from '@/components/Services';
+import About from '@/components/About';
 
 const DEFAULT_CONTENT = {
   header_nav_1: 'About Us',
@@ -24,6 +25,12 @@ const DEFAULT_CONTENT = {
   hero_bullet_1: 'Performance Marketing (Buyer Acquisition)',
   hero_bullet_2: 'CRM Integration & Lead Control',
   hero_bullet_3: 'Sales Team Accountability & Closing Support',
+  about_eyebrow: 'About Propkads',
+  about_heading: 'We combine sales discipline with marketing precision.',
+  about_fact_1: 'Sales-first, not vanity marketing',
+  about_fact_2: 'CRM-led visibility and accountability',
+  about_fact_3: 'Practical execution aligned with revenue',
+  about_fact_4: 'Honest timelines and data-driven decisions',
   services_eyebrow: 'What We Do',
   services_heading: 'Driving a better way of doing marketing.',
   services_intro: 'We deliver revenue impact through a combination of performance marketing, CRM control, and sales accountability.',
@@ -149,57 +156,7 @@ export default function Home() {
       </section>
 
       {/* ABOUT */}
-      <section className="section container" id="about">
-        <div className="section-tag">About Propkads</div>
-        <h2>A sales-driven real estate growth partner.</h2>
-        <p className="about-lead">
-          Propkads is a sales-driven real estate growth partner created to help developers move inventory through
-          systems — not assumptions.
-        </p>
-        <p className="about-lead">
-          With deep industry understanding and hands-on experience in real estate marketing, documentation, and
-          sales operations, we bridge the gap between lead generation and actual bookings.
-        </p>
-        <p className="about-lead">
-          We do not operate as a traditional agency. Our role is to design, manage, and optimize the entire sales
-          pipeline — from buyer acquisition to CRM control and closing support.
-        </p>
-
-        <div className="about-grid">
-          <div className="about-card">
-            <span className="idx">01</span>
-            <h3>Our Approach</h3>
-            <ul>
-              <li>Sales-first, not vanity marketing</li>
-              <li>CRM-led visibility and accountability</li>
-              <li>Practical execution aligned with revenue</li>
-              <li>Honest timelines and data-driven decisions</li>
-            </ul>
-            <p className="note">Within 60–90 days, developers gain real clarity on what sells — and what doesn't.</p>
-          </div>
-          <div className="about-card">
-            <span className="idx">02</span>
-            <h3>Why Propkads Exists</h3>
-            <ul>
-              <li>Most projects fail to convert due to weak systems</li>
-              <li>Poor follow-up costs more sales than low demand</li>
-              <li>Lack of visibility keeps owners in the dark</li>
-            </ul>
-            <p className="note">We replace guesswork with structure, tracking, and control.</p>
-          </div>
-          <div className="about-card">
-            <span className="idx">03</span>
-            <h3>What Makes Us Different</h3>
-            <ul>
-              <li>We manage the system, not just ads</li>
-              <li>We track people, not just numbers</li>
-              <li>We focus on closings, not impressions</li>
-              <li>We scale only what performs</li>
-            </ul>
-            <p className="note">We help developers turn inquiries into bookings by building systems that sell.</p>
-          </div>
-        </div>
-      </section>
+      <About c={c} />
 
       {/* SERVICES */}
       <Services c={c} />

@@ -158,15 +158,31 @@ input, select, textarea{font-family:inherit;}
 @media(max-width:700px){.flow{flex-direction:column;} .flow-arrow{transform:rotate(90deg);}}
 
 /* ---------- ABOUT ---------- */
-.about-lead{max-width:720px; color:var(--ink-soft); font-size:15.5px; margin-top:16px; line-height:1.75;}
-.about-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:48px; margin-top:56px;}
-.about-card{border-top:2px solid var(--ink); padding-top:20px;}
-.about-card .idx{font-size:12px; font-weight:700; color:var(--green); letter-spacing:.08em; margin-bottom:14px; display:block;}
-.about-card h3{font-size:17px; margin-bottom:14px; font-weight:700;}
-.about-card ul li{font-size:14px; color:var(--ink-soft); padding:5px 0; display:flex; gap:8px;}
-.about-card ul li::before{content:"–"; color:var(--green); flex-shrink:0;}
-.about-card p.note{font-size:13.5px; color:var(--slate); margin-top:14px; font-style:italic;}
-@media(max-width:800px){.about-grid{grid-template-columns:1fr; gap:32px;}}
+.about-v2-top{display:grid; grid-template-columns:0.9fr 1.1fr; gap:56px; margin-top:36px; align-items:start;}
+.about-v2-top h2{font-size:clamp(26px,3.2vw,36px); font-weight:700; line-height:1.32;}
+.about-v2-copy p{font-size:15.5px; color:var(--ink-soft); line-height:1.75;}
+.about-v2-link{
+  display:inline-block; margin-top:18px; font-size:13.5px; font-weight:700; color:var(--green);
+  border-bottom:1px solid var(--green); padding-bottom:2px; transition:opacity .15s;
+}
+.about-v2-link:hover{opacity:0.7;}
+
+.about-v2-facts{
+  display:grid; grid-template-columns:repeat(4,1fr); gap:0;
+  margin-top:56px; border-top:1px solid var(--line); padding-top:36px;
+}
+.about-fact{padding:0 28px; border-right:1px solid var(--line); font-size:14px; color:var(--ink-soft); line-height:1.6;}
+.about-fact:first-child{padding-left:0;}
+.about-fact:last-child{border-right:none;}
+.about-fact .dot{width:8px; height:8px; background:var(--green); border-radius:50%; display:block; margin-bottom:14px;}
+
+@media(max-width:900px){
+  .about-v2-top{grid-template-columns:1fr; gap:24px;}
+  .about-v2-facts{grid-template-columns:repeat(2,1fr); row-gap:28px;}
+  .about-fact{border-right:none; padding:0 12px;}
+  .about-fact:first-child{padding-left:12px;}
+}
+@media(max-width:560px){.about-v2-facts{grid-template-columns:1fr;} .about-fact{padding-left:0 !important;}}
 
 /* ---------- SERVICES / WHAT WE DO ---------- */
 .whatwedo-wrap{display:grid; grid-template-columns:1.3fr 0.9fr 0.75fr; gap:20px; margin-top:52px; align-items:start;}
