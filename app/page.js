@@ -1,6 +1,7 @@
 'use client';
 import { useEffect, useState } from 'react';
 import Header from '@/components/Header';
+import Hero from '@/components/Hero';
 
 const DEFAULT_CONTENT = {
   header_nav_1: 'Services',
@@ -8,6 +9,8 @@ const DEFAULT_CONTENT = {
   header_nav_3: 'About',
   header_nav_4: 'Contact',
   header_cta_text: 'Get a Free Review',
+  stat_founded: '2020',
+  stat_clarity: '60–90 Days',
   hero_heading: 'Sell Your Real Estate Inventory With a Complete Revenue System — Not Just Ads',
   hero_subheading:
     'We help real estate developers generate high-intent buyers, control leads through CRM, monitor sales teams, and improve conversions — end to end.',
@@ -72,20 +75,13 @@ export default function Home() {
       <Header c={c} />
 
       {/* HERO */}
-      <section className="hero container">
-        <span className="hero-tag">A complete revenue system, not just ads</span>
-        <h1>{c.hero_heading}</h1>
-        <p className="sub">{c.hero_subheading}</p>
-        <ul className="hero-bullets">
-          <li>{c.hero_bullet_1}</li>
-          <li>{c.hero_bullet_2}</li>
-          <li>{c.hero_bullet_3}</li>
-        </ul>
-        <div className="hero-ctas">
-          <a href="#contact" className="btn btn-solid">Get a Free Project Review</a>
-          <a href={`tel:${c.contact_phone.replace(/\s/g, '')}`} className="btn btn-outline">Book a 20-Minute Call</a>
-        </div>
-      </section>
+      <Hero
+        c={c}
+        onQuickPhone={(phone) => {
+          setForm((f) => ({ ...f, phone }));
+          document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
+        }}
+      />
 
       {/* POSITIONING */}
       <section className="section container" id="positioning">
