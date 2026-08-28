@@ -1,21 +1,46 @@
 export default function About({ c }) {
+  const cards = [
+    {
+      title: c.about_card_1_title || 'Our Approach',
+      bullets: (c.about_card_1_bullets || '').split('\n').filter(Boolean),
+      note: c.about_card_1_note,
+    },
+    {
+      title: c.about_card_2_title || 'Why Propkads Exists',
+      bullets: (c.about_card_2_bullets || '').split('\n').filter(Boolean),
+      note: c.about_card_2_note,
+    },
+    {
+      title: c.about_card_3_title || 'What Makes Us Different',
+      bullets: (c.about_card_3_bullets || '').split('\n').filter(Boolean),
+      note: c.about_card_3_note,
+    },
+  ];
+
   return (
     <section className="section container" id="about">
       <div className="section-tag">{c.about_eyebrow || 'About Propkads'}</div>
+      <h2>{c.about_heading || 'A sales-driven real estate growth partner.'}</h2>
 
-      <div className="about-v2-top">
-        <h2>{c.about_heading || 'We combine sales discipline with marketing precision.'}</h2>
-        <div className="about-v2-copy">
-          <p>{c.about_lead_1}</p>
-          <a href="#services" className="about-v2-link">More About Our Approach →</a>
-        </div>
+      <div className="about-v2-intro">
+        <p>{c.about_lead_1}</p>
+        <p>{c.about_lead_2}</p>
+        <p>{c.about_lead_3}</p>
       </div>
 
-      <div className="about-v2-facts">
-        <div className="about-fact"><span className="dot"></span>{c.about_fact_1 || 'Sales-first, not vanity marketing'}</div>
-        <div className="about-fact"><span className="dot"></span>{c.about_fact_2 || 'CRM-led visibility and accountability'}</div>
-        <div className="about-fact"><span className="dot"></span>{c.about_fact_3 || 'Practical execution aligned with revenue'}</div>
-        <div className="about-fact"><span className="dot"></span>{c.about_fact_4 || 'Honest timelines and data-driven decisions'}</div>
+      <div className="about-cards-v3">
+        {cards.map((card, i) => (
+          <div className="about-card-v3" key={i}>
+            <div className="about-card-v3-badge">{String(i + 1).padStart(2, '0')}</div>
+            <h3>{card.title}</h3>
+            <ul>
+              {card.bullets.map((b, j) => (
+                <li key={j}>{b}</li>
+              ))}
+            </ul>
+            {card.note && <p className="about-card-v3-note">{card.note}</p>}
+          </div>
+        ))}
       </div>
     </section>
   );
