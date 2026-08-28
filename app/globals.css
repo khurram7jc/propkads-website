@@ -243,11 +243,23 @@ input, select, textarea{font-family:inherit;}
 @media(max-width:560px){.process-v2-steps{grid-template-columns:1fr;}}
 
 /* ---------- EXECUTION ---------- */
-.exec-wrap{display:grid; grid-template-columns:1fr 1fr; gap:56px; margin-top:52px;}
-.exec-list li{font-size:15px; color:var(--ink-soft); padding:14px 0; border-bottom:1px solid var(--line); font-weight:500;}
-.exec-list li:first-child{padding-top:0;}
-.exec-note{font-size:14.5px; color:var(--slate); line-height:1.7; align-self:center;}
-@media(max-width:760px){.exec-wrap{grid-template-columns:1fr; gap:28px;}}
+.exec-grid-v2{display:grid; grid-template-columns:repeat(2,1fr); gap:20px; margin-top:44px;}
+.exec-card-v2{
+  background:var(--paper-dim); border-radius:16px; padding:24px 22px;
+  display:flex; align-items:center; gap:16px; transition:background .2s;
+}
+.exec-card-v2:hover{background:var(--green-tint);}
+.exec-card-v2-icon{
+  font-size:22px; width:50px; height:50px; border-radius:50%; background:#fff;
+  display:flex; align-items:center; justify-content:center; flex-shrink:0;
+  box-shadow:0 6px 16px rgba(20,22,26,0.06);
+}
+.exec-card-v2 .label{font-size:14.5px; font-weight:600; color:var(--ink); line-height:1.4;}
+.exec-callout{
+  margin-top:36px; font-size:16px; font-weight:700; padding:20px 24px;
+  border-left:3px solid var(--green); background:var(--green-tint);
+}
+@media(max-width:700px){.exec-grid-v2{grid-template-columns:1fr;}}
 
 /* ---------- MODEL ---------- */
 .model-box{border:1px solid var(--ink); padding:44px; margin-top:52px;}

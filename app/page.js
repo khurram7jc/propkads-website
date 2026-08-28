@@ -5,6 +5,7 @@ import Hero from '@/components/Hero';
 import Services from '@/components/Services';
 import About from '@/components/About';
 import HowItWorks from '@/components/HowItWorks';
+import ExecutionSupport from '@/components/ExecutionSupport';
 
 const DEFAULT_CONTENT = {
   header_nav_1: 'About Us',
@@ -26,6 +27,14 @@ const DEFAULT_CONTENT = {
   hero_bullet_1: 'Performance Marketing (Buyer Acquisition)',
   hero_bullet_2: 'CRM Integration & Lead Control',
   hero_bullet_3: 'Sales Team Accountability & Closing Support',
+  exec_eyebrow: 'Execution Support',
+  exec_heading: 'Creative used only when it moves sales.',
+  exec_intro: 'Creative and digital execution is used only when it directly improves sales performance.',
+  exec_item_1: 'Project branding & sales creatives',
+  exec_item_2: '2D / 3D visuals & walkthroughs',
+  exec_item_3: 'Sales videos, reels & presentations',
+  exec_item_4: 'Landing pages & websites',
+  exec_note: 'All execution is aligned with revenue objectives — not vanity metrics.',
   howitworks_eyebrow: 'How It Works',
   howitworks_heading: 'Our working process.',
   about_eyebrow: 'About Propkads',
@@ -176,22 +185,7 @@ export default function Home() {
       <HowItWorks c={c} />
 
       {/* EXECUTION SUPPORT */}
-      <section className="section container" id="execution">
-        <div className="section-tag">Execution Support</div>
-        <h2>Creative used only when it moves sales.</h2>
-        <div className="exec-wrap">
-          <ul className="exec-list">
-            <li>Project branding &amp; sales creatives</li>
-            <li>2D / 3D visuals &amp; walkthroughs</li>
-            <li>Sales videos, reels &amp; presentations</li>
-            <li>Landing pages &amp; websites</li>
-          </ul>
-          <p className="exec-note">
-            Creative and digital execution is used only when it directly improves sales performance. All execution
-            is aligned with revenue objectives — not vanity metrics.
-          </p>
-        </div>
-      </section>
+      <ExecutionSupport c={c} />
 
       {/* COMMERCIAL MODEL */}
       <section className="section container" id="model">
