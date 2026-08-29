@@ -2,6 +2,7 @@
 import { useEffect, useState } from 'react';
 import Header from '@/components/Header';
 import Hero from '@/components/Hero';
+import Positioning from '@/components/Positioning';
 import Services from '@/components/Services';
 import About from '@/components/About';
 import HowItWorks from '@/components/HowItWorks';
@@ -12,6 +13,20 @@ import FAQ from '@/components/FAQ';
 import Footer from '@/components/Footer';
 
 const DEFAULT_CONTENT = {
+  pos_eyebrow: 'Positioning',
+  pos_heading: 'Built for Real Estate Developers — Designed for Closings',
+  pos_intro: 'Propkads is not a traditional marketing agency. We build and operate a sales-focused revenue system that connects buyer acquisition, CRM control, and sales team accountability.',
+  pos_problem_label: 'Why Most Projects Struggle to Sell',
+  pos_problem_1: 'Leads are generated, but conversions remain low',
+  pos_problem_2: 'Sales teams fail to follow up consistently',
+  pos_problem_3: 'No visibility into lead status or agent performance',
+  pos_problem_4: 'Owners receive excuses instead of real data',
+  pos_solution_label: 'What Propkads Changes',
+  pos_solution_1: 'Every lead tracked from first click to closing',
+  pos_solution_2: 'Sales follow-up monitored and enforced',
+  pos_solution_3: 'Full visibility into lead status and agent performance',
+  pos_solution_4: 'Real CRM data instead of excuses',
+  pos_callout: 'Marketing alone does not sell projects — systems do.',
   header_nav_1: 'About Us',
   header_nav_2: 'Services',
   header_nav_3: 'How It Works',
@@ -169,35 +184,7 @@ export default function Home() {
       />
 
       {/* POSITIONING */}
-      <section className="section container" id="positioning">
-        <div className="section-tag">Positioning</div>
-        <h2>Built for Real Estate Developers — Designed for Closings</h2>
-        <p className="section-intro">
-          Propkads is not a traditional marketing agency. We build and operate a sales-focused revenue system
-          that connects buyer acquisition, CRM control, and sales team accountability.
-        </p>
-        <div className="twocol">
-          <div className="no">
-            <h3>Why Most Projects Struggle to Sell</h3>
-            <ul>
-              <li>Leads are generated, but conversions remain low</li>
-              <li>Sales teams fail to follow up consistently</li>
-              <li>No visibility into lead status or agent performance</li>
-              <li>Owners receive excuses instead of real data</li>
-            </ul>
-          </div>
-          <div className="yes">
-            <h3>What Propkads Changes</h3>
-            <ul>
-              <li>Every lead tracked from first click to closing</li>
-              <li>Sales follow-up monitored and enforced</li>
-              <li>Full visibility into lead status and agent performance</li>
-              <li>Real CRM data instead of excuses</li>
-            </ul>
-          </div>
-        </div>
-        <p className="callout">Marketing alone does not sell projects — systems do.</p>
-      </section>
+      <Positioning c={c} />
 
       {/* SYSTEM FLOW */}
       <section className="section container" id="system-flow">
