@@ -9,6 +9,7 @@ import ExecutionSupport from '@/components/ExecutionSupport';
 import CommercialModel from '@/components/CommercialModel';
 import IdealFit from '@/components/IdealFit';
 import FAQ from '@/components/FAQ';
+import Footer from '@/components/Footer';
 
 const DEFAULT_CONTENT = {
   header_nav_1: 'About Us',
@@ -100,6 +101,16 @@ const DEFAULT_CONTENT = {
   service_4_title: 'Closing & Deal Support',
   service_4_desc: 'Objection handling, payment guidance, documentation clarity, and deal structure support.',
   commercial_model_tagline: 'We earn more only when you sell more.',
+  contact_eyebrow: 'Contact',
+  contact_heading: 'Get a Free Project Review',
+  contact_intro: 'Please provide the correct information below and our team will get back to you.',
+  footer_tagline: 'A complete revenue system for real estate developers — not just ads.',
+  social_facebook: 'https://www.facebook.com/Propkads/',
+  social_instagram: 'https://www.instagram.com/propkads/',
+  social_linkedin: 'https://www.linkedin.com/company/propkads/',
+  social_youtube: 'https://www.youtube.com/@Propkads',
+  social_x: 'https://x.com/propkads',
+  social_tiktok: 'https://www.tiktok.com/@propkads',
   contact_phone: '+92 333 2000649',
   contact_email: 'contact@propkads.com',
   contact_location: 'Karachi, Pakistan',
@@ -228,60 +239,67 @@ export default function Home() {
 
       {/* CONTACT */}
       <section className="section container" id="contact">
-        <div className="section-tag">Contact</div>
-        <h2>Get a Free Project Review</h2>
-        <p className="section-intro">Please provide the correct information below and our team will get back to you.</p>
-        <div className="contact-wrap">
-          <form className="contact-form" onSubmit={handleSubmit}>
-            <div className="field">
+        <div className="section-tag">{c.contact_eyebrow || 'Contact'}</div>
+        <h2>{c.contact_heading || 'Get a Free Project Review'}</h2>
+        <p className="section-intro">{c.contact_intro || 'Please provide the correct information below and our team will get back to you.'}</p>
+        <div className="contact-wrap-v2">
+          <form className="contact-form-v2" onSubmit={handleSubmit}>
+            <div className="field-v2">
               <input type="text" placeholder="Full Name *" required value={form.fullName}
                 onChange={(e) => setForm({ ...form, fullName: e.target.value })} />
             </div>
-            <div className="field">
+            <div className="field-v2">
               <input type="text" placeholder="Company / Project Name" value={form.companyName}
                 onChange={(e) => setForm({ ...form, companyName: e.target.value })} />
             </div>
-            <div className="field">
+            <div className="field-v2">
               <input type="tel" placeholder="Phone / WhatsApp *" required value={form.phone}
                 onChange={(e) => setForm({ ...form, phone: e.target.value })} />
             </div>
-            <div className="field">
+            <div className="field-v2">
               <input type="text" placeholder="City" value={form.city}
                 onChange={(e) => setForm({ ...form, city: e.target.value })} />
             </div>
-            <div className="field">
+            <div className="field-v2">
               <select value={form.inventoryType} onChange={(e) => setForm({ ...form, inventoryType: e.target.value })}>
                 <option>Apartments</option>
                 <option>Plots</option>
                 <option>Commercial</option>
               </select>
             </div>
-            <button type="submit" className="btn btn-solid" style={{ border: 'none', marginTop: 8 }}>Submit Enquiry</button>
+            <button type="submit" className="btn btn-solid" style={{ border: 'none', marginTop: 10 }}>Submit Enquiry</button>
             {status && <p style={{ fontSize: 13.5, color: 'var(--slate)', marginTop: 4 }}>{status}</p>}
           </form>
-          <div className="contact-info">
-            <div><span className="lbl">Phone</span><a className="val" href={`tel:${c.contact_phone.replace(/\s/g, '')}`}>{c.contact_phone}</a></div>
-            <div><span className="lbl">Email</span><a className="val" href={`mailto:${c.contact_email}`}>{c.contact_email}</a></div>
-            <div><span className="lbl">Location</span><span className="val">{c.contact_location}</span></div>
+
+          <div className="contact-info-v2">
+            <div className="contact-info-item">
+              <span className="contact-info-icon">📞</span>
+              <div><span className="lbl">Phone</span><a className="val" href={`tel:${c.contact_phone.replace(/\s/g, '')}`}>{c.contact_phone}</a></div>
+            </div>
+            <div className="contact-info-item">
+              <span className="contact-info-icon">✉️</span>
+              <div><span className="lbl">Email</span><a className="val" href={`mailto:${c.contact_email}`}>{c.contact_email}</a></div>
+            </div>
+            <div className="contact-info-item">
+              <span className="contact-info-icon">📍</span>
+              <div><span className="lbl">Location</span><span className="val">{c.contact_location}</span></div>
+            </div>
             <div>
-              <span className="lbl">Follow Us</span>
+              <span className="lbl" style={{ display: 'block', marginBottom: 10 }}>Follow Us</span>
               <div className="social-row">
-                <a href="https://www.facebook.com/Propkads/" target="_blank" rel="noopener noreferrer">Facebook</a>
-                <a href="https://www.instagram.com/propkads/" target="_blank" rel="noopener noreferrer">Instagram</a>
-                <a href="https://www.linkedin.com/company/propkads/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
-                <a href="https://www.youtube.com/@Propkads" target="_blank" rel="noopener noreferrer">YouTube</a>
-                <a href="https://x.com/propkads" target="_blank" rel="noopener noreferrer">X</a>
-                <a href="https://www.tiktok.com/@propkads" target="_blank" rel="noopener noreferrer">TikTok</a>
+                <a href={c.social_facebook || 'https://www.facebook.com/Propkads/'} target="_blank" rel="noopener noreferrer">Facebook</a>
+                <a href={c.social_instagram || 'https://www.instagram.com/propkads/'} target="_blank" rel="noopener noreferrer">Instagram</a>
+                <a href={c.social_linkedin || 'https://www.linkedin.com/company/propkads/'} target="_blank" rel="noopener noreferrer">LinkedIn</a>
+                <a href={c.social_youtube || 'https://www.youtube.com/@Propkads'} target="_blank" rel="noopener noreferrer">YouTube</a>
+                <a href={c.social_x || 'https://x.com/propkads'} target="_blank" rel="noopener noreferrer">X</a>
+                <a href={c.social_tiktok || 'https://www.tiktok.com/@propkads'} target="_blank" rel="noopener noreferrer">TikTok</a>
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      <footer className="footer container">
-        <span>2020 © PROPKADS. All Rights Reserved</span>
-        <span>PROPKADS.COM</span>
-      </footer>
+      <Footer c={c} />
     </main>
   );
 }
