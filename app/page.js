@@ -6,6 +6,7 @@ import Services from '@/components/Services';
 import About from '@/components/About';
 import HowItWorks from '@/components/HowItWorks';
 import ExecutionSupport from '@/components/ExecutionSupport';
+import CommercialModel from '@/components/CommercialModel';
 
 const DEFAULT_CONTENT = {
   header_nav_1: 'About Us',
@@ -27,6 +28,13 @@ const DEFAULT_CONTENT = {
   hero_bullet_1: 'Performance Marketing (Buyer Acquisition)',
   hero_bullet_2: 'CRM Integration & Lead Control',
   hero_bullet_3: 'Sales Team Accountability & Closing Support',
+  model_eyebrow: 'Commercial Model',
+  model_heading: 'Retainer + Performance Structure',
+  model_retainer_label: 'Retainer',
+  model_retainer_desc: 'Monthly retainer based on project scope',
+  model_performance_label: 'Performance',
+  model_performance_desc: 'Plus per-booking incentive or mutually agreed revenue share',
+  model_min_engagement: 'Minimum engagement period: 60–90 days',
   exec_eyebrow: 'Execution Support',
   exec_heading: 'Creative used only when it moves sales.',
   exec_intro: 'Creative and digital execution is used only when it directly improves sales performance.',
@@ -188,18 +196,7 @@ export default function Home() {
       <ExecutionSupport c={c} />
 
       {/* COMMERCIAL MODEL */}
-      <section className="section container" id="model">
-        <div className="section-tag">Commercial Model</div>
-        <h2>Retainer + Performance Structure</h2>
-        <div className="model-box">
-          <ul>
-            <li>Monthly retainer based on project scope</li>
-            <li>Plus per-booking incentive or mutually agreed revenue share</li>
-          </ul>
-          <p className="model-tagline">{c.commercial_model_tagline}</p>
-          <p className="model-min">Minimum engagement period: 60–90 days</p>
-        </div>
-      </section>
+      <CommercialModel c={c} />
 
       {/* IDEAL CLIENT FIT */}
       <section className="section container" id="fit">
