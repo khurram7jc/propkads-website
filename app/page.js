@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import Header from '@/components/Header';
 import Hero from '@/components/Hero';
 import Positioning from '@/components/Positioning';
+import SystemFlow from '@/components/SystemFlow';
 import Services from '@/components/Services';
 import About from '@/components/About';
 import HowItWorks from '@/components/HowItWorks';
@@ -13,6 +14,14 @@ import FAQ from '@/components/FAQ';
 import Footer from '@/components/Footer';
 
 const DEFAULT_CONTENT = {
+  system_eyebrow: 'System',
+  system_heading: 'A Complete Revenue & Sales System for Developers',
+  system_intro: 'Founded in 2020 — serving developers all over Pakistan.',
+  system_step_1: 'Buyers',
+  system_step_2: 'CRM',
+  system_step_3: 'Sales Team',
+  system_step_4: 'Closings',
+  system_note: 'Every lead is tracked, assigned, followed up, and pushed toward booking with full visibility.',
   pos_eyebrow: 'Positioning',
   pos_heading: 'Built for Real Estate Developers — Designed for Closings',
   pos_intro: 'Propkads is not a traditional marketing agency. We build and operate a sales-focused revenue system that connects buyer acquisition, CRM control, and sales team accountability.',
@@ -187,21 +196,7 @@ export default function Home() {
       <Positioning c={c} />
 
       {/* SYSTEM FLOW */}
-      <section className="section container" id="system-flow">
-        <div className="section-tag">System</div>
-        <h2>A Complete Revenue &amp; Sales System for Developers</h2>
-        <p className="section-intro">Founded in 2020 — serving developers all over Pakistan.</p>
-        <div className="flow">
-          <div className="flow-step"><span>S-01</span>Buyers</div>
-          <div className="flow-arrow">→</div>
-          <div className="flow-step"><span>S-02</span>CRM</div>
-          <div className="flow-arrow">→</div>
-          <div className="flow-step"><span>S-03</span>Sales Team</div>
-          <div className="flow-arrow">→</div>
-          <div className="flow-step" style={{ color: 'var(--green)' }}><span>S-04</span>Closings</div>
-        </div>
-        <p className="flow-note">Every lead is tracked, assigned, followed up, and pushed toward booking with full visibility.</p>
-      </section>
+      <SystemFlow c={c} />
 
       {/* ABOUT */}
       <About c={c} />
