@@ -8,6 +8,7 @@ import HowItWorks from '@/components/HowItWorks';
 import ExecutionSupport from '@/components/ExecutionSupport';
 import CommercialModel from '@/components/CommercialModel';
 import IdealFit from '@/components/IdealFit';
+import FAQ from '@/components/FAQ';
 
 const DEFAULT_CONTENT = {
   header_nav_1: 'About Us',
@@ -29,6 +30,16 @@ const DEFAULT_CONTENT = {
   hero_bullet_1: 'Performance Marketing (Buyer Acquisition)',
   hero_bullet_2: 'CRM Integration & Lead Control',
   hero_bullet_3: 'Sales Team Accountability & Closing Support',
+  faq_eyebrow: 'FAQ',
+  faq_heading: 'Frequently Asked Questions',
+  faq_q1: 'Do you guarantee sales?',
+  faq_a1: 'We do not offer false guarantees. We build a measurable system that shows real sales potential within 60–90 days using CRM-based data.',
+  faq_q2: 'Are you just running ads?',
+  faq_a2: 'No. Ads are only the starting point. CRM control, sales team accountability, and closing support drive conversions.',
+  faq_q3: 'Do you replace our sales team?',
+  faq_a3: 'No. We strengthen and enable your existing sales team through systems, tracking, and performance control.',
+  faq_q4: 'What type of projects do you work with?',
+  faq_a4: 'We work with developers who value structure, transparency, and long-term revenue control.',
   fit_eyebrow: 'Ideal Client Fit',
   fit_heading: 'Who we work best with.',
   fit_yes_label: 'Best Fit For',
@@ -213,28 +224,7 @@ export default function Home() {
       <IdealFit c={c} />
 
       {/* FAQ */}
-      <section className="section container" id="faq">
-        <div className="section-tag">FAQ</div>
-        <h2>Frequently Asked Questions</h2>
-        <div className="faq-list">
-          <details className="faq-item" open>
-            <summary>Do you guarantee sales?</summary>
-            <p>We do not offer false guarantees. We build a measurable system that shows real sales potential within 60–90 days using CRM-based data.</p>
-          </details>
-          <details className="faq-item">
-            <summary>Are you just running ads?</summary>
-            <p>No. Ads are only the starting point. CRM control, sales team accountability, and closing support drive conversions.</p>
-          </details>
-          <details className="faq-item">
-            <summary>Do you replace our sales team?</summary>
-            <p>No. We strengthen and enable your existing sales team through systems, tracking, and performance control.</p>
-          </details>
-          <details className="faq-item">
-            <summary>What type of projects do you work with?</summary>
-            <p>We work with developers who value structure, transparency, and long-term revenue control.</p>
-          </details>
-        </div>
-      </section>
+      <FAQ c={c} />
 
       {/* CONTACT */}
       <section className="section container" id="contact">
