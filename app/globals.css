@@ -271,6 +271,24 @@ input, select, textarea{font-family:inherit;}
 .model-panel-min{display:inline-block; font-size:12.5px; color:#B8BCC2; border:1px solid rgba(255,255,255,0.2); padding:7px 16px; border-radius:999px;}
 @media(max-width:700px){.model-panel-grid{grid-template-columns:1fr;} .model-panel{padding:36px 26px;}}
 
+/* ---------- IDEAL CLIENT FIT ---------- */
+.fit-grid-v2{display:grid; grid-template-columns:1fr 1fr; gap:24px; margin-top:52px;}
+.fit-card-v2{border-radius:20px; padding:34px 30px;}
+.fit-card-v2.yes{background:var(--green-tint);}
+.fit-card-v2.no{background:var(--paper-dim);}
+.fit-card-v2 h3{font-size:13.5px; text-transform:uppercase; letter-spacing:.06em; font-weight:700; margin-bottom:22px;}
+.fit-card-v2.yes h3{color:var(--green);}
+.fit-card-v2.no h3{color:var(--slate);}
+.fit-card-v2 ul{list-style:none;}
+.fit-card-v2 li{display:flex; gap:12px; align-items:flex-start; font-size:14.5px; color:var(--ink-soft); padding:10px 0; line-height:1.55;}
+.fit-card-v2-icon{
+  width:22px; height:22px; border-radius:50%; display:flex; align-items:center; justify-content:center;
+  font-size:11px; font-weight:800; flex-shrink:0; margin-top:2px;
+}
+.fit-card-v2.yes .fit-card-v2-icon{background:var(--green); color:#fff;}
+.fit-card-v2.no .fit-card-v2-icon{background:#D8DBDE; color:#5B6068;}
+@media(max-width:700px){.fit-grid-v2{grid-template-columns:1fr;}}
+
 /* ---------- FAQ ---------- */
 .faq-list{margin-top:52px; border-top:1px solid var(--line);}
 .faq-item{border-bottom:1px solid var(--line);}

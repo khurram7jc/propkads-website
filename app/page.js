@@ -7,6 +7,7 @@ import About from '@/components/About';
 import HowItWorks from '@/components/HowItWorks';
 import ExecutionSupport from '@/components/ExecutionSupport';
 import CommercialModel from '@/components/CommercialModel';
+import IdealFit from '@/components/IdealFit';
 
 const DEFAULT_CONTENT = {
   header_nav_1: 'About Us',
@@ -28,6 +29,16 @@ const DEFAULT_CONTENT = {
   hero_bullet_1: 'Performance Marketing (Buyer Acquisition)',
   hero_bullet_2: 'CRM Integration & Lead Control',
   hero_bullet_3: 'Sales Team Accountability & Closing Support',
+  fit_eyebrow: 'Ideal Client Fit',
+  fit_heading: 'Who we work best with.',
+  fit_yes_label: 'Best Fit For',
+  fit_yes_1: 'Developers with unsold or slow-moving inventory',
+  fit_yes_2: 'Projects generating leads but struggling with conversions',
+  fit_yes_3: 'Owners seeking transparency, control, and revenue visibility',
+  fit_no_label: 'Not a Fit For',
+  fit_no_1: 'Clients looking only for branding or impressions',
+  fit_no_2: 'Teams avoiding CRM and accountability',
+  fit_no_3: 'Short-term or experimental mindsets',
   model_eyebrow: 'Commercial Model',
   model_heading: 'Retainer + Performance Structure',
   model_retainer_label: 'Retainer',
@@ -199,28 +210,7 @@ export default function Home() {
       <CommercialModel c={c} />
 
       {/* IDEAL CLIENT FIT */}
-      <section className="section container" id="fit">
-        <div className="section-tag">Ideal Client Fit</div>
-        <h2>Who we work best with.</h2>
-        <div className="twocol">
-          <div className="yes">
-            <h3>Best Fit For</h3>
-            <ul>
-              <li>Developers with unsold or slow-moving inventory</li>
-              <li>Projects generating leads but struggling with conversions</li>
-              <li>Owners seeking transparency, control, and revenue visibility</li>
-            </ul>
-          </div>
-          <div className="no">
-            <h3>Not a Fit For</h3>
-            <ul>
-              <li>Clients looking only for branding or impressions</li>
-              <li>Teams avoiding CRM and accountability</li>
-              <li>Short-term or experimental mindsets</li>
-            </ul>
-          </div>
-        </div>
-      </section>
+      <IdealFit c={c} />
 
       {/* FAQ */}
       <section className="section container" id="faq">
