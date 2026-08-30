@@ -1,6 +1,7 @@
 'use client';
 import { useEffect, useState } from 'react';
 import Header from '@/components/Header';
+import { PhoneIcon, MailIcon, PinIcon, FacebookIcon, InstagramIcon, LinkedInIcon, YoutubeIcon, XIcon, TiktokIcon } from '@/components/Icons';
 import Hero from '@/components/Hero';
 import Positioning from '@/components/Positioning';
 import SystemFlow from '@/components/SystemFlow';
@@ -255,26 +256,26 @@ export default function Home() {
 
           <div className="contact-info-v2">
             <div className="contact-info-item">
-              <span className="contact-info-icon">📞</span>
+              <span className="contact-info-icon"><PhoneIcon /></span>
               <div><span className="lbl">Phone</span><a className="val" href={`tel:${c.contact_phone.replace(/\s/g, '')}`}>{c.contact_phone}</a></div>
             </div>
             <div className="contact-info-item">
-              <span className="contact-info-icon">✉️</span>
+              <span className="contact-info-icon"><MailIcon /></span>
               <div><span className="lbl">Email</span><a className="val" href={`mailto:${c.contact_email}`}>{c.contact_email}</a></div>
             </div>
             <div className="contact-info-item">
-              <span className="contact-info-icon">📍</span>
+              <span className="contact-info-icon"><PinIcon /></span>
               <div><span className="lbl">Location</span><span className="val">{c.contact_location}</span></div>
             </div>
             <div>
               <span className="lbl" style={{ display: 'block', marginBottom: 10 }}>Follow Us</span>
               <div className="social-row">
-                <a href={c.social_facebook || 'https://www.facebook.com/Propkads/'} target="_blank" rel="noopener noreferrer">Facebook</a>
-                <a href={c.social_instagram || 'https://www.instagram.com/propkads/'} target="_blank" rel="noopener noreferrer">Instagram</a>
-                <a href={c.social_linkedin || 'https://www.linkedin.com/company/propkads/'} target="_blank" rel="noopener noreferrer">LinkedIn</a>
-                <a href={c.social_youtube || 'https://www.youtube.com/@Propkads'} target="_blank" rel="noopener noreferrer">YouTube</a>
-                <a href={c.social_x || 'https://x.com/propkads'} target="_blank" rel="noopener noreferrer">X</a>
-                <a href={c.social_tiktok || 'https://www.tiktok.com/@propkads'} target="_blank" rel="noopener noreferrer">TikTok</a>
+                <a href={c.social_facebook || 'https://www.facebook.com/Propkads/'} target="_blank" rel="noopener noreferrer"><FacebookIcon />Facebook</a>
+                <a href={c.social_instagram || 'https://www.instagram.com/propkads/'} target="_blank" rel="noopener noreferrer"><InstagramIcon />Instagram</a>
+                <a href={c.social_linkedin || 'https://www.linkedin.com/company/propkads/'} target="_blank" rel="noopener noreferrer"><LinkedInIcon />LinkedIn</a>
+                <a href={c.social_youtube || 'https://www.youtube.com/@Propkads'} target="_blank" rel="noopener noreferrer"><YoutubeIcon />YouTube</a>
+                <a href={c.social_x || 'https://x.com/propkads'} target="_blank" rel="noopener noreferrer"><XIcon />X</a>
+                <a href={c.social_tiktok || 'https://www.tiktok.com/@propkads'} target="_blank" rel="noopener noreferrer"><TiktokIcon />TikTok</a>
               </div>
             </div>
           </div>

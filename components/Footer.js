@@ -1,3 +1,5 @@
+import { FacebookIcon, InstagramIcon, LinkedInIcon, YoutubeIcon, XIcon, TiktokIcon } from '@/components/Icons';
+
 export default function Footer({ c }) {
   return (
     <footer className="footer-v2">
@@ -25,12 +27,12 @@ export default function Footer({ c }) {
         <div className="footer-v2-col">
           <h4>Follow Us</h4>
           <div className="footer-v2-social">
-            <a href={c.social_facebook || 'https://www.facebook.com/Propkads/'} target="_blank" rel="noopener noreferrer">Facebook</a>
-            <a href={c.social_instagram || 'https://www.instagram.com/propkads/'} target="_blank" rel="noopener noreferrer">Instagram</a>
-            <a href={c.social_linkedin || 'https://www.linkedin.com/company/propkads/'} target="_blank" rel="noopener noreferrer">LinkedIn</a>
-            <a href={c.social_youtube || 'https://www.youtube.com/@Propkads'} target="_blank" rel="noopener noreferrer">YouTube</a>
-            <a href={c.social_x || 'https://x.com/propkads'} target="_blank" rel="noopener noreferrer">X</a>
-            <a href={c.social_tiktok || 'https://www.tiktok.com/@propkads'} target="_blank" rel="noopener noreferrer">TikTok</a>
+            <a href={c.social_facebook || 'https://www.facebook.com/Propkads/'} target="_blank" rel="noopener noreferrer"><FacebookIcon />Facebook</a>
+            <a href={c.social_instagram || 'https://www.instagram.com/propkads/'} target="_blank" rel="noopener noreferrer"><InstagramIcon />Instagram</a>
+            <a href={c.social_linkedin || 'https://www.linkedin.com/company/propkads/'} target="_blank" rel="noopener noreferrer"><LinkedInIcon />LinkedIn</a>
+            <a href={c.social_youtube || 'https://www.youtube.com/@Propkads'} target="_blank" rel="noopener noreferrer"><YoutubeIcon />YouTube</a>
+            <a href={c.social_x || 'https://x.com/propkads'} target="_blank" rel="noopener noreferrer"><XIcon />X</a>
+            <a href={c.social_tiktok || 'https://www.tiktok.com/@propkads'} target="_blank" rel="noopener noreferrer"><TiktokIcon />TikTok</a>
           </div>
         </div>
       </div>
