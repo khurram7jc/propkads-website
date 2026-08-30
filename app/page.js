@@ -273,12 +273,12 @@ export default function Home() {
             <div>
               <span className="lbl" style={{ display: 'block', marginBottom: 10 }}>Follow Us</span>
               <div className="social-row">
-                <a href={c.social_facebook || 'https://www.facebook.com/Propkads/'} target="_blank" rel="noopener noreferrer"><FacebookIcon />Facebook</a>
-                <a href={c.social_instagram || 'https://www.instagram.com/propkads/'} target="_blank" rel="noopener noreferrer"><InstagramIcon />Instagram</a>
-                <a href={c.social_linkedin || 'https://www.linkedin.com/company/propkads/'} target="_blank" rel="noopener noreferrer"><LinkedInIcon />LinkedIn</a>
-                <a href={c.social_youtube || 'https://www.youtube.com/@Propkads'} target="_blank" rel="noopener noreferrer"><YoutubeIcon />YouTube</a>
-                <a href={c.social_x || 'https://x.com/propkads'} target="_blank" rel="noopener noreferrer"><XIcon />X</a>
-                <a href={c.social_tiktok || 'https://www.tiktok.com/@propkads'} target="_blank" rel="noopener noreferrer"><TiktokIcon />TikTok</a>
+                <a href={c.social_facebook || 'https://www.facebook.com/Propkads/'} target="_blank" rel="noopener noreferrer" aria-label="Facebook"><FacebookIcon /></a>
+                <a href={c.social_instagram || 'https://www.instagram.com/propkads/'} target="_blank" rel="noopener noreferrer" aria-label="Instagram"><InstagramIcon /></a>
+                <a href={c.social_linkedin || 'https://www.linkedin.com/company/propkads/'} target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><LinkedInIcon /></a>
+                <a href={c.social_youtube || 'https://www.youtube.com/@Propkads'} target="_blank" rel="noopener noreferrer" aria-label="YouTube"><YoutubeIcon /></a>
+                <a href={c.social_x || 'https://x.com/propkads'} target="_blank" rel="noopener noreferrer" aria-label="X"><XIcon /></a>
+                <a href={c.social_tiktok || 'https://www.tiktok.com/@propkads'} target="_blank" rel="noopener noreferrer" aria-label="TikTok"><TiktokIcon /></a>
               </div>
             </div>
           </div>

@@ -321,9 +321,10 @@ input, select, textarea{font-family:inherit;}
 .contact-info-v2 .val{font-size:16px; font-weight:600;}
 .social-row{display:flex; flex-wrap:wrap; gap:10px; margin-top:6px;}
 .social-row a{
-  font-size:12px; font-weight:600; color:var(--green); border:1px solid var(--line); border-radius:999px;
-  padding:8px 16px; transition:all .15s; display:inline-flex; align-items:center; gap:7px;
+  width:40px; height:40px; border-radius:50%; color:var(--green); border:1px solid var(--line);
+  transition:all .15s; display:inline-flex; align-items:center; justify-content:center;
 }
+.social-row a svg{width:18px; height:18px;}
 .social-row a:hover{color:#fff; background:var(--green); border-color:var(--green);}
 @media(max-width:800px){.contact-wrap-v2{grid-template-columns:1fr; gap:36px;}}
 
