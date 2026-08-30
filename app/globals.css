@@ -302,16 +302,22 @@ input, select, textarea{font-family:inherit;}
 .faq-item p{padding:0 20px 26px; font-size:14.5px; color:var(--slate); max-width:680px; line-height:1.7;}
 
 /* ---------- CONTACT ---------- */
-.contact-wrap-v2{display:grid; grid-template-columns:1.1fr 1fr; gap:64px; margin-top:52px;}
+.contact-wrap-v2{display:grid; grid-template-columns:1.1fr 1fr; gap:40px; margin-top:52px; align-items:stretch;}
 
-.contact-form-v2{display:flex; flex-direction:column; gap:16px;}
+.contact-form-v2{
+  display:flex; flex-direction:column; gap:16px; background:#fff; border:1px solid var(--line);
+  border-radius:20px; padding:36px; box-shadow:0 10px 30px rgba(20,22,26,0.06);
+}
 .field-v2{background:var(--paper-dim); border-radius:12px; border:1px solid var(--line); padding:4px 4px;}
 .field-v2 input, .field-v2 select{
   width:100%; border:none; outline:none; font-size:14.5px; padding:12px 14px; background:transparent; color:var(--ink);
 }
 .field-v2:focus-within{border-color:var(--green); background:#fff;}
 
-.contact-info-v2{display:flex; flex-direction:column; gap:22px;}
+.contact-info-v2{
+  display:flex; flex-direction:column; gap:24px; background:var(--paper-dim); border-radius:20px;
+  padding:36px; justify-content:space-between;
+}
 .contact-info-item{display:flex; align-items:flex-start; gap:14px;}
 .contact-info-icon{
   width:42px; height:42px; border-radius:50%; background:var(--green-tint); flex-shrink:0;
