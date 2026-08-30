@@ -333,7 +333,7 @@ input, select, textarea{font-family:inherit;}
   max-width:1120px; margin:0 auto; padding:64px 32px 40px;
   display:grid; grid-template-columns:1.4fr 1fr 1fr 1fr; gap:40px;
 }
-.footer-v2-logo{height:26px; filter:brightness(0) invert(1); margin-bottom:16px;}
+.footer-v2-logo{height:56px; width:auto; align-self:flex-start; filter:brightness(0) invert(1); margin-bottom:16px; display:block;}
 .footer-v2-brand p{font-size:13.5px; color:#9DA1A8; line-height:1.6; max-width:280px;}
 .footer-v2-col h4{font-size:12.5px; text-transform:uppercase; letter-spacing:.08em; color:#fff; font-weight:700; margin-bottom:18px;}
 .footer-v2-col{display:flex; flex-direction:column; gap:12px;}
