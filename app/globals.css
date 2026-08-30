@@ -339,9 +339,19 @@ input, select, textarea{font-family:inherit;}
 .footer-v2-col{display:flex; flex-direction:column; gap:12px;}
 .footer-v2-col a, .footer-v2-col span{font-size:13.5px; color:#B8BCC2; transition:color .15s;}
 .footer-v2-col a:hover{color:var(--green);}
-.footer-v2-social{display:flex; flex-direction:column; gap:10px;}
-.footer-v2-social a{display:flex; align-items:center; gap:10px; color:var(--green);}
-.footer-v2-social a:hover{color:#3ED17A;}
+.footer-newsletter-form{display:flex; gap:8px; margin-top:6px;}
+.footer-newsletter-form input{
+  flex:1; min-width:0; padding:11px 14px; border-radius:8px; border:1px solid rgba(255,255,255,0.15);
+  background:rgba(255,255,255,0.06); color:#fff; font-size:13.5px; outline:none;
+}
+.footer-newsletter-form input::placeholder{color:#8A8E95;}
+.footer-newsletter-form input:focus{border-color:var(--green);}
+.footer-newsletter-form button{
+  background:var(--green); color:#fff; border:none; border-radius:8px; padding:11px 18px;
+  font-size:13px; font-weight:700; white-space:nowrap; cursor:pointer; transition:background .15s;
+}
+.footer-newsletter-form button:hover{background:#3ED17A;}
+.footer-newsletter-status{font-size:12px; color:#3ED17A; margin-top:8px;}
 .footer-v2-bottom{
   border-top:1px solid rgba(255,255,255,0.1); padding:22px 32px; max-width:1120px; margin:0 auto;
   display:flex; justify-content:space-between; flex-wrap:wrap; gap:12px;

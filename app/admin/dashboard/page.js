@@ -61,6 +61,9 @@ export default function Dashboard() {
   const [newUser, setNewUser] = useState({ name: '', email: '', password: '', role: 'team' });
   const [teamError, setTeamError] = useState('');
 
+  // Newsletter state
+  const [subscribers, setSubscribers] = useState([]);
+
   useEffect(() => {
     fetch('/api/auth/me')
       .then((r) => r.json())
@@ -75,6 +78,7 @@ export default function Dashboard() {
     if (tab === 'leads') loadLeads();
     if (tab === 'content') loadContent();
     if (tab === 'team' && me.role === 'admin') loadUsers();
+    if (tab === 'newsletter') loadSubscribers();
   }, [tab, me]);
 
   const loadLeads = async () => {
@@ -96,6 +100,12 @@ export default function Dashboard() {
     const res = await fetch('/api/admin/users');
     const d = await res.json();
     if (d.success) setUsers(d.users);
+  };
+
+  const loadSubscribers = async () => {
+    const res = await fetch('/api/admin/newsletter');
+    const d = await res.json();
+    if (d.success) setSubscribers(d.subscribers);
   };
 
   const openLead = async (lead) => {
@@ -188,6 +198,7 @@ export default function Dashboard() {
         <div>
           <button style={ui.tabBtn(tab === 'leads')} onClick={() => setTab('leads')}>Leads</button>
           <button style={ui.tabBtn(tab === 'content')} onClick={() => setTab('content')}>Content</button>
+          <button style={ui.tabBtn(tab === 'newsletter')} onClick={() => setTab('newsletter')}>Newsletter</button>
           {me.role === 'admin' && <button style={ui.tabBtn(tab === 'team')} onClick={() => setTab('team')}>Team</button>}
           <button style={ui.logoutBtn} onClick={logout}>Logout</button>
         </div>
@@ -266,6 +277,34 @@ export default function Dashboard() {
               </div>
             ))}
             <p style={{ fontSize: 12.5, color: '#94a3b8' }}>Click outside a field to save it automatically.</p>
+          </div>
+        )}
+
+        {tab === 'newsletter' && (
+          <div>
+            <div style={ui.toolbar}>
+              <span style={{ fontSize: 13.5, color: '#70757D' }}>{subscribers.length} subscriber{subscribers.length !== 1 ? 's' : ''}</span>
+              <a style={{ ...ui.btnGhost, marginLeft: 'auto' }} href="/api/admin/newsletter/export">Export CSV</a>
+            </div>
+            <table style={{ ...ui.table, maxWidth: 700 }}>
+              <thead>
+                <tr>
+                  <th style={ui.th}>Email</th>
+                  <th style={ui.th}>Subscribed</th>
+                </tr>
+              </thead>
+              <tbody>
+                {subscribers.map((s) => (
+                  <tr key={s.id}>
+                    <td style={ui.td}>{s.email}</td>
+                    <td style={ui.td}>{new Date(s.created_at).toLocaleDateString()}</td>
+                  </tr>
+                ))}
+                {subscribers.length === 0 && (
+                  <tr><td colSpan={2} style={{ ...ui.td, textAlign: 'center', color: '#94a3b8' }}>No subscribers yet.</td></tr>
+                )}
+              </tbody>
+            </table>
           </div>
         )}
 
