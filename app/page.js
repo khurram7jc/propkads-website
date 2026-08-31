@@ -147,7 +147,7 @@ const DEFAULT_CONTENT = {
 
 export default function Home() {
   const [c, setC] = useState(DEFAULT_CONTENT);
-  const [form, setForm] = useState({ fullName: '', companyName: '', phone: '', city: '', inventoryType: 'Apartments' });
+  const [form, setForm] = useState({ fullName: '', companyName: '', phone: '', city: '', inventoryType: '' });
   const [status, setStatus] = useState('');
 
   useEffect(() => {
@@ -192,7 +192,7 @@ export default function Home() {
       const data = await res.json();
       if (data.success) {
         setStatus('Thank you — we will get back to you shortly.');
-        setForm({ fullName: '', companyName: '', phone: '', city: '', inventoryType: 'Apartments' });
+        setForm({ fullName: '', companyName: '', phone: '', city: '', inventoryType: '' });
       } else {
         setStatus(data.error || 'Something went wrong. Please try again.');
       }
@@ -265,21 +265,24 @@ export default function Home() {
                 <input type="text" placeholder="City" value={form.city}
                   onChange={(e) => setForm({ ...form, city: e.target.value })} />
               </div>
-              <div>
-                <label className="field-label">Select Your Property Type</label>
-                <div className="field-v2">
-                  <select value={form.inventoryType} onChange={(e) => setForm({ ...form, inventoryType: e.target.value })}>
-                    <option>Apartments</option>
-                    <option>Houses / Villas</option>
-                    <option>Plots / Land</option>
-                    <option>Commercial</option>
-                    <option>Farmhouses</option>
-                  </select>
-                </div>
+              <div className="field-v2">
+                <select
+                  required
+                  className={form.inventoryType ? '' : 'is-placeholder'}
+                  value={form.inventoryType}
+                  onChange={(e) => setForm({ ...form, inventoryType: e.target.value })}
+                >
+                  <option value="" disabled hidden>Select Your Property Type</option>
+                  <option>Apartments</option>
+                  <option>Houses / Villas</option>
+                  <option>Plots / Land</option>
+                  <option>Shops / Commercial</option>
+                  <option>Farmhouses</option>
+                </select>
               </div>
             </div>
             <div className="contact-submit-wrap">
-              <button type="submit" className="btn btn-solid contact-submit-btn" style={{ border: 'none' }}>Submit Enquiry</button>
+              <button type="submit" className="btn btn-solid contact-submit-btn" style={{ border: 'none', width: '100%' }}>Submit Enquiry</button>
               {status && <p style={{ fontSize: 13.5, color: 'var(--slate)', marginTop: 10 }}>{status}</p>}
             </div>
           </form>

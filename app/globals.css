@@ -423,10 +423,12 @@ input, select, textarea{font-family:inherit;}
 .field-v2 input, .field-v2 select{
   width:100%; border:none; outline:none; font-size:14.5px; padding:12px 14px; background:transparent; color:var(--ink);
 }
+.field-v2 select.is-placeholder{color:var(--slate);}
+.field-v2 input::placeholder{color:var(--slate);}
 .field-v2:focus-within{border-color:var(--green); background:#fff;}
 
 .contact-submit-wrap{grid-column:1; grid-row:2;}
-.contact-submit-btn{transition:background .2s, transform .2s;}
+.contact-submit-btn{width:100%; text-align:center; transition:background .2s, transform .2s;}
 .contact-submit-btn:hover{transform:translateY(-1px);}
 
 .contact-info-v2{
