@@ -490,15 +490,50 @@ input, select, textarea{font-family:inherit;}
 @media(max-width:500px){.footer-v2-inner{grid-template-columns:1fr;}}
 
 /* ---------- GLOBAL SCROLL-REVEAL SYSTEM ---------- */
-.reveal{opacity:0; transform:translateY(24px); transition:opacity .6s cubic-bezier(.2,.7,.3,1), transform .6s cubic-bezier(.2,.7,.3,1);}
+.reveal{opacity:0; transform:translateY(28px); transition:opacity .85s cubic-bezier(.16,.84,.44,1), transform .85s cubic-bezier(.16,.84,.44,1); will-change:opacity, transform;}
 .reveal.in{opacity:1; transform:none;}
-.reveal-delay-1{transition-delay:.08s;}
-.reveal-delay-2{transition-delay:.16s;}
-.reveal-delay-3{transition-delay:.24s;}
-.reveal-delay-4{transition-delay:.32s;}
+.reveal-delay-1{transition-delay:.1s;}
+.reveal-delay-2{transition-delay:.2s;}
+.reveal-delay-3{transition-delay:.3s;}
+.reveal-delay-4{transition-delay:.4s;}
+
+/* Per-section staggered child reveal — cards animate in one after another, not all at once */
+.reveal .about-cards-v3 .about-card-v3,
+.reveal .fit-grid-v2 .fit-card-v2,
+.reveal .exec-grid-v2 .exec-card-v2,
+.reveal .process-v2-steps .process-v2-step,
+.reveal .svc-grid .svc{
+  opacity:0; transform:translateY(20px);
+  transition:opacity .7s cubic-bezier(.16,.84,.44,1), transform .7s cubic-bezier(.16,.84,.44,1);
+}
+.reveal.in .about-cards-v3 .about-card-v3,
+.reveal.in .fit-grid-v2 .fit-card-v2,
+.reveal.in .exec-grid-v2 .exec-card-v2,
+.reveal.in .process-v2-steps .process-v2-step,
+.reveal.in .svc-grid .svc{
+  opacity:1; transform:none;
+}
+.reveal.in .about-cards-v3 .about-card-v3:nth-child(1),
+.reveal.in .fit-grid-v2 .fit-card-v2:nth-child(1),
+.reveal.in .exec-grid-v2 .exec-card-v2:nth-child(1),
+.reveal.in .process-v2-steps .process-v2-step:nth-child(1),
+.reveal.in .svc-grid .svc:nth-child(1){transition-delay:.1s;}
+.reveal.in .about-cards-v3 .about-card-v3:nth-child(2),
+.reveal.in .fit-grid-v2 .fit-card-v2:nth-child(2),
+.reveal.in .exec-grid-v2 .exec-card-v2:nth-child(2),
+.reveal.in .process-v2-steps .process-v2-step:nth-child(2),
+.reveal.in .svc-grid .svc:nth-child(2){transition-delay:.22s;}
+.reveal.in .about-cards-v3 .about-card-v3:nth-child(3),
+.reveal.in .fit-grid-v2 .fit-card-v2:nth-child(3),
+.reveal.in .exec-grid-v2 .exec-card-v2:nth-child(3),
+.reveal.in .process-v2-steps .process-v2-step:nth-child(3),
+.reveal.in .svc-grid .svc:nth-child(3){transition-delay:.34s;}
+.reveal.in .exec-grid-v2 .exec-card-v2:nth-child(4),
+.reveal.in .process-v2-steps .process-v2-step:nth-child(4),
+.reveal.in .svc-grid .svc:nth-child(4){transition-delay:.46s;}
 
 /* ---------- REDUCED MOTION ---------- */
 @media (prefers-reduced-motion: reduce){
   *{animation-duration:0.001ms !important; animation-iteration-count:1 !important; transition-duration:0.001ms !important;}
-  .reveal{opacity:1; transform:none;}
+  .reveal, .reveal *{opacity:1 !important; transform:none !important;}
 }
