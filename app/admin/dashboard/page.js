@@ -5,13 +5,13 @@ import { useRouter } from 'next/navigation';
 const STATUSES = ['New', 'Contacted', 'Site Visit', 'Booked', 'Closed'];
 
 const ui = {
-  page: { fontFamily: 'Inter, system-ui, sans-serif', minHeight: '100vh', background: '#F7F8F9', color: '#14161A' },
+  page: { fontFamily: 'Inter, system-ui, sans-serif', minHeight: '100vh', background: '#F7F8F9', color: '#1A1B1B' },
   header: {
     display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 12,
-    padding: '16px 32px', background: '#14161A', color: '#fff',
+    padding: '16px 32px', background: '#000000', color: '#fff',
   },
   tabBtn: (active) => ({
-    background: active ? '#0F8A40' : 'transparent', color: '#fff', border: '1px solid #0F8A40',
+    background: active ? '#14A750' : 'transparent', color: '#fff', border: '1px solid #14A750',
     padding: '8px 16px', fontSize: 13, fontWeight: 600, marginRight: 10,
   }),
   logoutBtn: { background: 'transparent', color: '#F3A3A3', border: '1px solid #F3A3A3', padding: '8px 16px', fontSize: 13 },
@@ -29,13 +29,13 @@ const ui = {
   statusPill: (s) => ({
     fontSize: 11.5, fontWeight: 700, padding: '4px 10px', display: 'inline-block',
     background: s === 'Closed' ? '#E9F7EE' : s === 'Booked' ? '#E9F7EE' : s === 'New' ? '#F1F2F3' : '#FFF6E5',
-    color: s === 'Closed' || s === 'Booked' ? '#0F8A40' : s === 'New' ? '#3F434A' : '#946200',
+    color: s === 'Closed' || s === 'Booked' ? '#14A750' : s === 'New' ? '#3F434A' : '#946200',
   }),
   overlay: { position: 'fixed', inset: 0, background: 'rgba(20,22,26,0.5)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 100, padding: 20 },
   modal: { background: '#fff', width: '560px', maxWidth: '100%', maxHeight: '88vh', overflowY: 'auto', padding: 32 },
   label: { fontSize: 11.5, fontWeight: 600, color: '#70757D', textTransform: 'uppercase', display: 'block', marginBottom: 6, marginTop: 14 },
   fieldInput: { width: '100%', padding: '10px 12px', border: '1px solid #E7E8EA', fontSize: 14, boxSizing: 'border-box' },
-  btnGreen: { background: '#0F8A40', color: '#fff', border: 'none', padding: '11px 18px', fontSize: 13.5, fontWeight: 600 },
+  btnGreen: { background: '#14A750', color: '#fff', border: 'none', padding: '11px 18px', fontSize: 13.5, fontWeight: 600 },
   btnGhost: { background: 'transparent', color: '#3F434A', border: '1px solid #E7E8EA', padding: '11px 18px', fontSize: 13.5 },
   btnDanger: { background: 'transparent', color: '#B3261E', border: '1px solid #B3261E', padding: '11px 18px', fontSize: 13.5 },
 };

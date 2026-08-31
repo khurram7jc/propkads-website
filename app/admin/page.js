@@ -52,7 +52,7 @@ export default function AdminLogin() {
         }}
       >
         <img src="/logo.png" alt="Propkads" style={{ height: 26, marginBottom: 28 }} />
-        <h2 style={{ margin: '0 0 6px', fontSize: 19, color: '#14161A' }}>Admin Sign In</h2>
+        <h2 style={{ margin: '0 0 6px', fontSize: 19, color: '#1A1B1B' }}>Admin Sign In</h2>
         <p style={{ margin: '0 0 24px', fontSize: 13.5, color: '#70757D' }}>Team access to leads &amp; content.</p>
 
         <label style={{ fontSize: 12, fontWeight: 600, color: '#3F434A', display: 'block', marginBottom: 6 }}>Email</label>
@@ -85,7 +85,7 @@ export default function AdminLogin() {
           type="submit"
           disabled={loading}
           style={{
-            width: '100%', padding: '13px', background: '#0F8A40', color: '#fff', border: 'none',
+            width: '100%', padding: '13px', background: '#14A750', color: '#fff', border: 'none',
             fontWeight: 600, fontSize: 14, cursor: 'pointer', opacity: loading ? 0.7 : 1,
           }}
         >
