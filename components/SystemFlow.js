@@ -38,8 +38,13 @@ export default function SystemFlow({ c }) {
 
       <div className={`zigzag-wrap ${inView ? 'in-view' : ''}`} ref={wrapRef}>
         <svg className="zigzag-svg" viewBox="0 0 1000 300" preserveAspectRatio="none">
+          <defs>
+            <clipPath id="zigzagReveal" clipPathUnits="userSpaceOnUse">
+              <rect className="zigzag-reveal-rect" x="0" y="0" width="0" height="300" />
+            </clipPath>
+          </defs>
           <path className="zigzag-path-base" d="M60,220 L360,80 L660,220 L940,80" vectorEffect="non-scaling-stroke" />
-          <path className="zigzag-path-progress" d="M60,220 L360,80 L660,220 L940,80" vectorEffect="non-scaling-stroke" />
+          <path className="zigzag-path-progress" d="M60,220 L360,80 L660,220 L940,80" vectorEffect="non-scaling-stroke" clipPath="url(#zigzagReveal)" />
         </svg>
         {steps.map((step, i) => (
           <div className={`zigzag-step zigzag-step-${i + 1}`} key={i}>

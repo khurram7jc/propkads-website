@@ -175,13 +175,10 @@ input, select, textarea{font-family:inherit;}
 /* ---------- SYSTEM ZIGZAG TIMELINE ---------- */
 .zigzag-wrap{position:relative; height:260px; margin-top:56px;}
 .zigzag-svg{position:absolute; inset:0; width:100%; height:100%;}
-.zigzag-path-base{fill:none; stroke:var(--line); stroke-width:3;}
-.zigzag-path-progress{
-  fill:none; stroke:var(--green); stroke-width:3; stroke-linecap:round;
-  stroke-dasharray:1700; stroke-dashoffset:1700;
-  transition:stroke-dashoffset 1.6s cubic-bezier(.4,.1,.2,1);
-}
-.zigzag-wrap.in-view .zigzag-path-progress{stroke-dashoffset:0;}
+.zigzag-path-base{fill:none; stroke:var(--line); stroke-width:3; stroke-linecap:round; stroke-dasharray:1 13;}
+.zigzag-path-progress{fill:none; stroke:var(--green); stroke-width:3; stroke-linecap:round; stroke-dasharray:1 13;}
+.zigzag-reveal-rect{width:0; transition:width 3.2s cubic-bezier(.35,.1,.2,1);}
+.zigzag-wrap.in-view .zigzag-reveal-rect{width:1000px;}
 
 .zigzag-step{
   position:absolute; display:flex; flex-direction:column; align-items:center;
@@ -200,14 +197,14 @@ input, select, textarea{font-family:inherit;}
 .zigzag-label{margin-top:10px; font-size:14px; font-weight:700; color:var(--slate); white-space:nowrap; transition:color .3s ease;}
 .zigzag-step:hover .zigzag-dot{transform:scale(1.1); box-shadow:0 10px 22px rgba(15,138,64,0.2);}
 
-.zigzag-wrap.in-view .zigzag-step-1 .zigzag-dot{border-color:var(--green); color:var(--green); transition-delay:.1s;}
-.zigzag-wrap.in-view .zigzag-step-1 .zigzag-label{color:var(--ink); transition-delay:.1s;}
-.zigzag-wrap.in-view .zigzag-step-2 .zigzag-dot{border-color:var(--green); color:var(--green); transition-delay:.6s;}
-.zigzag-wrap.in-view .zigzag-step-2 .zigzag-label{color:var(--ink); transition-delay:.6s;}
-.zigzag-wrap.in-view .zigzag-step-3 .zigzag-dot{border-color:var(--green); color:var(--green); transition-delay:1.1s;}
-.zigzag-wrap.in-view .zigzag-step-3 .zigzag-label{color:var(--ink); transition-delay:1.1s;}
-.zigzag-wrap.in-view .zigzag-step-4 .zigzag-dot{background:var(--green); border-color:var(--green); color:#fff; transition-delay:1.6s;}
-.zigzag-wrap.in-view .zigzag-step-4 .zigzag-label{color:var(--ink); transition-delay:1.6s;}
+.zigzag-wrap.in-view .zigzag-step-1 .zigzag-dot{border-color:var(--green); color:var(--green); transition-delay:.15s;}
+.zigzag-wrap.in-view .zigzag-step-1 .zigzag-label{color:var(--ink); transition-delay:.15s;}
+.zigzag-wrap.in-view .zigzag-step-2 .zigzag-dot{border-color:var(--green); color:var(--green); transition-delay:1.15s;}
+.zigzag-wrap.in-view .zigzag-step-2 .zigzag-label{color:var(--ink); transition-delay:1.15s;}
+.zigzag-wrap.in-view .zigzag-step-3 .zigzag-dot{border-color:var(--green); color:var(--green); transition-delay:2.15s;}
+.zigzag-wrap.in-view .zigzag-step-3 .zigzag-label{color:var(--ink); transition-delay:2.15s;}
+.zigzag-wrap.in-view .zigzag-step-4 .zigzag-dot{background:var(--green); border-color:var(--green); color:#fff; transition-delay:3.15s;}
+.zigzag-wrap.in-view .zigzag-step-4 .zigzag-label{color:var(--ink); transition-delay:3.15s;}
 
 .zigzag-mobile{display:none;}
 @media(max-width:760px){
