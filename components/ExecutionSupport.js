@@ -7,7 +7,7 @@ export default function ExecutionSupport({ c }) {
   ];
 
   return (
-    <section className="section container" id="execution">
+    <section className="section container reveal" id="execution">
       <div className="section-tag">{c.exec_eyebrow || 'Execution Support'}</div>
       <h2>{c.exec_heading || 'Creative used only when it moves sales.'}</h2>
       <p className="section-intro">{c.exec_intro || 'Creative and digital execution is used only when it directly improves sales performance.'}</p>

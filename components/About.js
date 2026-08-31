@@ -18,7 +18,7 @@ export default function About({ c }) {
   ];
 
   return (
-    <section className="section container" id="about">
+    <section className="section container reveal" id="about">
       <div className="section-tag">{c.about_eyebrow || 'About Propkads'}</div>
       <h2>{c.about_heading || 'A sales-driven real estate growth partner.'}</h2>
 

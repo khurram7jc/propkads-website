@@ -7,7 +7,7 @@ export default function HowItWorks({ c }) {
   ];
 
   return (
-    <section className="section container" id="how-it-works">
+    <section className="section container reveal" id="how-it-works">
       <div className="section-tag">{c.howitworks_eyebrow || 'How It Works'}</div>
       <h2>{c.howitworks_heading || 'Our working process.'}</h2>
 

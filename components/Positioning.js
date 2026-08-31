@@ -3,7 +3,7 @@ export default function Positioning({ c }) {
   const solutions = [c.pos_solution_1, c.pos_solution_2, c.pos_solution_3, c.pos_solution_4].filter(Boolean);
 
   return (
-    <section className="section container" id="positioning">
+    <section className="section container reveal" id="positioning">
       <div className="section-tag">{c.pos_eyebrow || 'Positioning'}</div>
       <h2>{c.pos_heading || 'Built for Real Estate Developers — Designed for Closings'}</h2>
       <p className="section-intro">{c.pos_intro || 'Propkads is not a traditional marketing agency. We build and operate a sales-focused revenue system that connects buyer acquisition, CRM control, and sales team accountability.'}</p>

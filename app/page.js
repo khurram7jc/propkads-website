@@ -57,6 +57,7 @@ const DEFAULT_CONTENT = {
   hero_bullet_2: 'CRM Integration & Lead Control',
   hero_bullet_3: 'Sales Team Accountability & Closing Support',
   faq_eyebrow: 'FAQ',
+  faq_intro: 'Common questions about our services, lead generation, CRM control, and how we work with real estate developers.',
   faq_heading: 'Frequently Asked Questions',
   faq_q1: 'Do you guarantee sales?',
   faq_a1: 'We do not offer false guarantees. We build a measurable system that shows real sales potential within 60–90 days using CRM-based data.',
@@ -158,6 +159,23 @@ export default function Home() {
       .catch(() => {});
   }, []);
 
+  useEffect(() => {
+    const els = document.querySelectorAll('.reveal');
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('in');
+            io.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.12, rootMargin: '0px 0px -40px 0px' }
+    );
+    els.forEach((el) => io.observe(el));
+    return () => io.disconnect();
+  }, []);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!form.fullName || !form.phone) {
@@ -224,37 +242,46 @@ export default function Home() {
       <FAQ c={c} />
 
       {/* CONTACT */}
-      <section className="section container" id="contact">
+      <section className="section container reveal" id="contact">
         <div className="section-tag">{c.contact_eyebrow || 'Contact'}</div>
         <h2>{c.contact_heading || 'Get a Free Project Review'}</h2>
         <p className="section-intro">{c.contact_intro || 'Please provide the correct information below and our team will get back to you.'}</p>
         <div className="contact-wrap-v2">
           <form className="contact-form-v2" onSubmit={handleSubmit}>
-            <div className="field-v2">
-              <input type="text" placeholder="Full Name *" required value={form.fullName}
-                onChange={(e) => setForm({ ...form, fullName: e.target.value })} />
+            <div className="contact-fields-card">
+              <div className="field-v2">
+                <input type="text" placeholder="Full Name *" required value={form.fullName}
+                  onChange={(e) => setForm({ ...form, fullName: e.target.value })} />
+              </div>
+              <div className="field-v2">
+                <input type="text" placeholder="Company / Project Name" value={form.companyName}
+                  onChange={(e) => setForm({ ...form, companyName: e.target.value })} />
+              </div>
+              <div className="field-v2">
+                <input type="tel" placeholder="Phone / WhatsApp *" required value={form.phone}
+                  onChange={(e) => setForm({ ...form, phone: e.target.value })} />
+              </div>
+              <div className="field-v2">
+                <input type="text" placeholder="City" value={form.city}
+                  onChange={(e) => setForm({ ...form, city: e.target.value })} />
+              </div>
+              <div>
+                <label className="field-label">Select Your Property Type</label>
+                <div className="field-v2">
+                  <select value={form.inventoryType} onChange={(e) => setForm({ ...form, inventoryType: e.target.value })}>
+                    <option>Apartments</option>
+                    <option>Houses / Villas</option>
+                    <option>Plots / Land</option>
+                    <option>Commercial</option>
+                    <option>Farmhouses</option>
+                  </select>
+                </div>
+              </div>
             </div>
-            <div className="field-v2">
-              <input type="text" placeholder="Company / Project Name" value={form.companyName}
-                onChange={(e) => setForm({ ...form, companyName: e.target.value })} />
+            <div className="contact-submit-wrap">
+              <button type="submit" className="btn btn-solid contact-submit-btn" style={{ border: 'none' }}>Submit Enquiry</button>
+              {status && <p style={{ fontSize: 13.5, color: 'var(--slate)', marginTop: 10 }}>{status}</p>}
             </div>
-            <div className="field-v2">
-              <input type="tel" placeholder="Phone / WhatsApp *" required value={form.phone}
-                onChange={(e) => setForm({ ...form, phone: e.target.value })} />
-            </div>
-            <div className="field-v2">
-              <input type="text" placeholder="City" value={form.city}
-                onChange={(e) => setForm({ ...form, city: e.target.value })} />
-            </div>
-            <div className="field-v2">
-              <select value={form.inventoryType} onChange={(e) => setForm({ ...form, inventoryType: e.target.value })}>
-                <option>Apartments</option>
-                <option>Plots</option>
-                <option>Commercial</option>
-              </select>
-            </div>
-            <button type="submit" className="btn btn-solid" style={{ border: 'none', marginTop: 10 }}>Submit Enquiry</button>
-            {status && <p style={{ fontSize: 13.5, color: 'var(--slate)', marginTop: 4 }}>{status}</p>}
           </form>
 
           <div className="contact-info-v2">

@@ -3,7 +3,7 @@ export default function IdealFit({ c }) {
   const noItems = [c.fit_no_1, c.fit_no_2, c.fit_no_3].filter(Boolean);
 
   return (
-    <section className="section container" id="fit">
+    <section className="section container reveal" id="fit">
       <div className="section-tag">{c.fit_eyebrow || 'Ideal Client Fit'}</div>
       <h2>{c.fit_heading || 'Who we work best with.'}</h2>
 

@@ -1,6 +1,6 @@
 export default function CommercialModel({ c }) {
   return (
-    <section className="section container" id="model">
+    <section className="section container reveal" id="model">
       <div className="section-tag">{c.model_eyebrow || 'Commercial Model'}</div>
       <h2>{c.model_heading || 'Retainer + Performance Structure'}</h2>
 

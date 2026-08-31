@@ -7,7 +7,7 @@ export default function SystemFlow({ c }) {
   ];
 
   return (
-    <section className="section container" id="system-flow">
+    <section className="section container reveal" id="system-flow">
       <div className="section-tag">{c.system_eyebrow || 'System'}</div>
       <h2>{c.system_heading || 'A Complete Revenue & Sales System for Developers'}</h2>
       <p className="section-intro">{c.system_intro || 'Founded in 2020 — serving developers all over Pakistan.'}</p>

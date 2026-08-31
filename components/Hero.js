@@ -10,18 +10,18 @@ export default function Hero({ c, onQuickPhone }) {
     <section className="hero-v2">
       <div className="hero-v2-inner">
         <div className="hero-v2-left">
-          <span className="hero-tag">A complete revenue system, not just ads</span>
-          <h1>{c.hero_heading}</h1>
-          <p className="sub">{c.hero_subheading}</p>
+          <span className="hero-tag reveal">A complete revenue system, not just ads</span>
+          <h1 className="reveal reveal-delay-1">{c.hero_heading}</h1>
+          <p className="sub reveal reveal-delay-2">{c.hero_subheading}</p>
 
-          <form className="hero-quickform" onSubmit={handleQuickSubmit}>
+          <form className="hero-quickform reveal reveal-delay-3" onSubmit={handleQuickSubmit}>
             <input type="tel" name="quickPhone" placeholder="Your phone / WhatsApp number" required />
             <button type="submit">Next</button>
           </form>
-          <p className="hero-quicknote">Or call us directly: <a href={`tel:${(c.contact_phone || '').replace(/\s/g, '')}`}>{c.contact_phone}</a></p>
+          <p className="hero-quicknote reveal reveal-delay-3">Or call us directly: <a href={`tel:${(c.contact_phone || '').replace(/\s/g, '')}`}>{c.contact_phone}</a></p>
         </div>
 
-        <div className="hero-v2-right">
+        <div className="hero-v2-right reveal reveal-delay-4">
           <div className="hero-cards-grid">
             <div className="floating-card">
               <div className="floating-card-num">STEP 01</div>

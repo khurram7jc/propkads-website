@@ -12,7 +12,7 @@ export default function Services({ c }) {
   ];
 
   return (
-    <section className="section container" id="services">
+    <section className="section container reveal" id="services">
       <div className="section-tag">{c.services_eyebrow || 'What We Do'}</div>
       <h2>{c.services_heading || 'Driving a better way of doing marketing.'}</h2>
       <p className="section-intro">{c.services_intro || 'We deliver revenue impact through a combination of performance marketing, CRM control, and sales accountability.'}</p>

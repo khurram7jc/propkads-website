@@ -1,20 +1,19 @@
+'use client';
+import { useEffect, useState } from 'react';
+
 export default function Header({ c }) {
-  const phoneHref = `tel:${(c.contact_phone || '').replace(/\s/g, '')}`;
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 12);
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
 
   return (
     <header className="site-header">
-      <div className="topbar">
-        <div className="topbar-inner">
-          <a href={phoneHref} className="topbar-item">
-            <span className="topbar-icon">☎</span> {c.contact_phone}
-          </a>
-          <a href={`mailto:${c.contact_email}`} className="topbar-item">
-            <span className="topbar-icon">✉</span> {c.contact_email}
-          </a>
-        </div>
-      </div>
-
-      <nav className="mainnav">
+      <nav className={`mainnav ${scrolled ? 'is-scrolled' : ''}`}>
         <div className="mainnav-inner">
           <a href="#top" className="mainnav-logo">
             <img src="/logo.png" alt="Propkads" />
