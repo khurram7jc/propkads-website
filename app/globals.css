@@ -26,10 +26,13 @@ input, select, textarea{font-family:inherit;}
 .container{max-width:1120px; margin:0 auto; padding:0 32px;}
 
 /* ---------- HEADER (sticky main nav) ---------- */
-.site-header{background:#fff;}
+.site-header{
+  background:#fff;
+  position: relative;
+}
 
 .mainnav{
-  position:sticky; top:0; z-index:50;
+  position: fixed; top:0; left:0; right:0; z-index:50;
   background:rgba(255,255,255,0.97);
   backdrop-filter:blur(6px);
   border-bottom:1px solid var(--line);
@@ -68,7 +71,7 @@ input, select, textarea{font-family:inherit;}
   font-weight:600; margin-bottom:24px; display:block;
 }
 
-.hero-v2{background:var(--green-tint); padding:90px 0 110px; overflow:hidden;}
+.hero-v2{background:var(--green-tint); padding-top:160px; padding-bottom:110px; overflow:hidden;}
 .hero-v2-inner{
   max-width:1120px; margin:0 auto; padding:0 32px;
   display:grid; grid-template-columns:1.15fr 0.85fr; gap:56px; align-items:center;
