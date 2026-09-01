@@ -193,18 +193,18 @@ input, select, textarea{font-family:inherit;}
 .zigzag-dot{
   width:52px; height:52px; border-radius:50%; background:#fff; border:3px solid var(--line); color:var(--ink-soft);
   display:flex; align-items:center; justify-content:center; font-weight:800; font-size:16px; z-index:2;
-  transition:border-color .3s ease, color .3s ease, background .3s ease, box-shadow .25s ease, transform .25s ease;
+  transition:border-color .3s ease, color .3s ease, background .3s ease, box-shadow .18s ease, transform .18s ease;
 }
 .zigzag-label{margin-top:10px; font-size:14px; font-weight:700; color:var(--slate); white-space:nowrap; transition:color .3s ease;}
-.zigzag-step:hover .zigzag-dot{transform:scale(1.1); box-shadow:0 10px 22px rgba(15,138,64,0.2);}
+.zigzag-step:hover .zigzag-dot{transform:scale(1.1); box-shadow:0 10px 22px rgba(15,138,64,0.2); transition-delay:0s !important;}
 
-.zigzag-wrap.in-view .zigzag-step-1 .zigzag-dot{border-color:var(--green); color:var(--green); transition-delay:.15s;}
+.zigzag-wrap.in-view .zigzag-step-1 .zigzag-dot{border-color:var(--green); color:var(--green); transition-delay:.15s, .15s, .15s, 0s, 0s;}
 .zigzag-wrap.in-view .zigzag-step-1 .zigzag-label{color:var(--ink); transition-delay:.15s;}
-.zigzag-wrap.in-view .zigzag-step-2 .zigzag-dot{border-color:var(--green); color:var(--green); transition-delay:1.15s;}
+.zigzag-wrap.in-view .zigzag-step-2 .zigzag-dot{border-color:var(--green); color:var(--green); transition-delay:1.15s, 1.15s, 1.15s, 0s, 0s;}
 .zigzag-wrap.in-view .zigzag-step-2 .zigzag-label{color:var(--ink); transition-delay:1.15s;}
-.zigzag-wrap.in-view .zigzag-step-3 .zigzag-dot{border-color:var(--green); color:var(--green); transition-delay:2.15s;}
+.zigzag-wrap.in-view .zigzag-step-3 .zigzag-dot{border-color:var(--green); color:var(--green); transition-delay:2.15s, 2.15s, 2.15s, 0s, 0s;}
 .zigzag-wrap.in-view .zigzag-step-3 .zigzag-label{color:var(--ink); transition-delay:2.15s;}
-.zigzag-wrap.in-view .zigzag-step-4 .zigzag-dot{background:var(--green); border-color:var(--green); color:#fff; transition-delay:3.15s;}
+.zigzag-wrap.in-view .zigzag-step-4 .zigzag-dot{background:var(--green); border-color:var(--green); color:#fff; transition-delay:3.15s, 3.15s, 3.15s, 0s, 0s;}
 .zigzag-wrap.in-view .zigzag-step-4 .zigzag-label{color:var(--ink); transition-delay:3.15s;}
 
 .zigzag-mobile{display:none;}
