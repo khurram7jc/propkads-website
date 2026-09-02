@@ -25,25 +25,28 @@ input, select, textarea{font-family:inherit;}
 
 .container{max-width:1120px; margin:0 auto; padding:0 32px;}
 
-/* ---------- HEADER (sticky main nav) ---------- */
-.site-header{background:#fff;}
+/* ---------- HEADER (fixed main nav, robust across browsers) ---------- */
+.site-header{
+  background:#fff; height:93px; position:relative; transition:height .25s ease;
+}
+.site-header.is-scrolled{height:71px;}
 
 .mainnav{
-  position:sticky; top:0; z-index:50;
+  position:fixed; top:0; left:0; right:0; z-index:50;
   background:rgba(255,255,255,0.97);
   backdrop-filter:blur(6px);
   border-bottom:1px solid var(--line);
-  transition:box-shadow .25s ease, padding .25s ease;
+  transition:box-shadow .25s ease;
 }
-.mainnav.is-scrolled{box-shadow:0 4px 18px rgba(20,22,26,0.06);}
+.site-header.is-scrolled .mainnav{box-shadow:0 4px 18px rgba(20,22,26,0.06);}
 .mainnav-inner{
   max-width:1120px; margin:0 auto; padding:18px 32px;
   display:flex; align-items:center; justify-content:space-between; gap:24px;
   transition:padding .25s ease;
 }
-.mainnav.is-scrolled .mainnav-inner{padding-top:12px; padding-bottom:12px;}
+.site-header.is-scrolled .mainnav-inner{padding-top:12px; padding-bottom:12px;}
 .mainnav-logo img{height:56px; width:auto; display:block; transition:height .25s ease;}
-.mainnav.is-scrolled .mainnav-logo img{height:46px;}
+.site-header.is-scrolled .mainnav-logo img{height:46px;}
 .mainnav-links{display:flex; gap:36px;}
 .mainnav-links a{
   position:relative; font-size:13px; font-weight:600; text-transform:uppercase; letter-spacing:.08em;

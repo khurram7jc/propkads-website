@@ -12,8 +12,8 @@ export default function Header({ c }) {
   }, []);
 
   return (
-    <header className="site-header">
-      <nav className={`mainnav ${scrolled ? 'is-scrolled' : ''}`}>
+    <header className={`site-header ${scrolled ? 'is-scrolled' : ''}`}>
+      <nav className="mainnav">
         <div className="mainnav-inner">
           <a href="#top" className="mainnav-logo">
             <img src="/logo.png" alt="Propkads" />
