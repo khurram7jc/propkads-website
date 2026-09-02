@@ -36,9 +36,13 @@ input, select, textarea{font-family:inherit;}
   background:rgba(255,255,255,0.97);
   backdrop-filter:blur(6px);
   border-bottom:1px solid var(--line);
-  transition:box-shadow .25s ease;
+  transition:box-shadow .25s ease, background-color .3s ease, backdrop-filter .3s ease;
 }
-.site-header.is-scrolled .mainnav{box-shadow:0 4px 18px rgba(20,22,26,0.06);}
+.site-header.is-scrolled .mainnav{
+  background:rgba(255,255,255,0.86);
+  backdrop-filter:blur(12px);
+  box-shadow:0 4px 18px rgba(20,22,26,0.06);
+}
 .mainnav-inner{
   max-width:1120px; margin:0 auto; padding:18px 32px;
   display:flex; align-items:center; justify-content:space-between; gap:24px;
