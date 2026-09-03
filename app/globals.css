@@ -215,18 +215,16 @@ input, select, textarea{font-family:inherit;}
 .zigzag-wrap.in-view .zigzag-step-4 .zigzag-label{color:var(--ink); transition-delay:3.15s;}
 
 .zigzag-mobile{display:none;}
-@media(max-width:760px){
-  .zigzag-wrap{display:none;}
-  .zigzag-mobile{
-    display:flex; flex-direction:column; margin-top:52px; position:relative; padding-left:34px;
-  }
-  .zigzag-mobile::before{content:""; position:absolute; left:14px; top:14px; bottom:14px; width:2px; background:var(--line);}
-  .zigzag-mobile-step{position:relative; display:flex; align-items:center; gap:16px; padding:14px 0;}
-  .zigzag-mobile-dot{
-    width:30px; height:30px; border-radius:50%; background:#fff; border:3px solid var(--green); color:var(--green);
-    display:flex; align-items:center; justify-content:center; font-weight:800; font-size:13px; flex-shrink:0; z-index:1; margin-left:-34px;
-  }
-  .zigzag-mobile-label{font-weight:700; font-size:15px; color:var(--ink);}
+
+@media(max-width:600px){
+  .zigzag-wrap{height:220px;}
+  .zigzag-dot{width:40px; height:40px; font-size:14px;}
+  .zigzag-label{font-size:12px; margin-top:6px;}
+}
+@media(max-width:400px){
+  .zigzag-wrap{height:190px;}
+  .zigzag-dot{width:34px; height:34px; font-size:12px; border-width:2px;}
+  .zigzag-label{font-size:10.5px;}
 }
 
 
