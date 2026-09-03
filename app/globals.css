@@ -498,7 +498,19 @@ input, select, textarea{font-family:inherit;}
 }
 .footer-v2-bottom span{font-size:12px; color:#8A8E95;}
 @media(max-width:800px){.footer-v2-inner{grid-template-columns:1fr 1fr; gap:32px;}}
-@media(max-width:500px){.footer-v2-inner{grid-template-columns:1fr;}}
+@media(max-width:560px){
+  .footer-v2-inner{
+    grid-template-columns:1fr 1fr; gap:24px 20px;
+    grid-template-areas:
+      "brand brand"
+      "links contact"
+      "newsletter newsletter";
+  }
+  .footer-v2-brand{grid-area:brand;}
+  .footer-v2-links{grid-area:links;}
+  .footer-v2-contact{grid-area:contact;}
+  .footer-v2-newsletter{grid-area:newsletter;}
+}
 
 /* ---------- GLOBAL SCROLL-REVEAL SYSTEM ---------- */
 .reveal{opacity:0; transform:translateY(28px); transition:opacity .85s cubic-bezier(.16,.84,.44,1), transform .85s cubic-bezier(.16,.84,.44,1); will-change:opacity, transform;}

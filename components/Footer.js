@@ -34,7 +34,7 @@ export default function Footer({ c }) {
           <p>{c.footer_tagline || 'A complete revenue system for real estate developers — not just ads.'}</p>
         </div>
 
-        <div className="footer-v2-col">
+        <div className="footer-v2-col footer-v2-links">
           <h4>Quick Links</h4>
           <a href="#about">{c.header_nav_1 || 'About Us'}</a>
           <a href="#services">{c.header_nav_2 || 'Services'}</a>
@@ -42,14 +42,14 @@ export default function Footer({ c }) {
           <a href="#contact">{c.header_nav_4 || 'Contact'}</a>
         </div>
 
-        <div className="footer-v2-col">
+        <div className="footer-v2-col footer-v2-contact">
           <h4>Contact</h4>
           <a href={`tel:${(c.contact_phone || '').replace(/\s/g, '')}`}>{c.contact_phone}</a>
           <a href={`mailto:${c.contact_email}`}>{c.contact_email}</a>
           <span>{c.contact_location}</span>
         </div>
 
-        <div className="footer-v2-col">
+        <div className="footer-v2-col footer-v2-newsletter">
           <h4>{c.newsletter_heading || 'Subscribe to Our Newsletter'}</h4>
           <p style={{ fontSize: 13, color: '#9DA1A8', marginBottom: 4 }}>
             {c.newsletter_intro || 'Get updates on real estate marketing insights.'}
