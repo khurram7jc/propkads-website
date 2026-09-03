@@ -142,8 +142,8 @@ input, select, textarea{font-family:inherit;}
   .hero-v2-inner{grid-template-columns:1fr;}
   .hero-v2-right{margin-top:10px;}
 }
-@media(max-width:560px){
-  .hero-cards-grid{grid-template-columns:1fr;}
+@media(max-width:760px){
+  .hero-v2-right{display:none;}
 }
 
 .btn{
