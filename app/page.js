@@ -1,7 +1,7 @@
 'use client';
 import { useEffect, useState } from 'react';
 import Header from '@/components/Header';
-import { PhoneIcon, MailIcon, PinIcon, FacebookIcon, InstagramIcon, LinkedInIcon, YoutubeIcon, XIcon, TiktokIcon } from '@/components/Icons';
+import { PhoneIcon, MailIcon, PinIcon, FacebookIcon, InstagramIcon, LinkedInIcon } from '@/components/Icons';
 import Hero from '@/components/Hero';
 import Positioning from '@/components/Positioning';
 import SystemFlow from '@/components/SystemFlow';
@@ -306,9 +306,6 @@ export default function Home() {
                 <a href={c.social_facebook || 'https://www.facebook.com/Propkads/'} target="_blank" rel="noopener noreferrer" aria-label="Facebook"><FacebookIcon /></a>
                 <a href={c.social_instagram || 'https://www.instagram.com/propkads/'} target="_blank" rel="noopener noreferrer" aria-label="Instagram"><InstagramIcon /></a>
                 <a href={c.social_linkedin || 'https://www.linkedin.com/company/propkads/'} target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><LinkedInIcon /></a>
-                <a href={c.social_youtube || 'https://www.youtube.com/@Propkads'} target="_blank" rel="noopener noreferrer" aria-label="YouTube"><YoutubeIcon /></a>
-                <a href={c.social_x || 'https://x.com/propkads'} target="_blank" rel="noopener noreferrer" aria-label="X"><XIcon /></a>
-                <a href={c.social_tiktok || 'https://www.tiktok.com/@propkads'} target="_blank" rel="noopener noreferrer" aria-label="TikTok"><TiktokIcon /></a>
               </div>
             </div>
           </div>
