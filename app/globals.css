@@ -75,7 +75,23 @@ input, select, textarea{font-family:inherit;}
   font-weight:600; margin-bottom:24px; display:block;
 }
 
-.hero-v2{background:var(--green-tint); padding:90px 0 110px; overflow:hidden;}
+.hero-v2{background:var(--green-tint); padding:90px 0 110px; overflow:hidden; position:relative;}
+
+.hero-skyline{
+  position:absolute; left:0; bottom:0; width:100%; height:150px;
+  pointer-events:none; z-index:0;
+}
+.hero-skyline rect{fill:var(--ink); opacity:0.055;}
+.hero-skyline-window{fill:var(--green); opacity:0.22; animation:heroTwinkle 4s ease-in-out infinite;}
+.hero-skyline-window:nth-child(19){animation-delay:.6s;}
+.hero-skyline-window:nth-child(20){animation-delay:1.4s;}
+.hero-skyline-window:nth-child(21){animation-delay:2.1s;}
+.hero-skyline-window:nth-child(22){animation-delay:.2s;}
+@keyframes heroTwinkle{
+  0%, 100%{opacity:0.15;}
+  50%{opacity:0.5;}
+}
+.hero-v2-inner{position:relative; z-index:1;}
 .hero-v2-inner{
   max-width:1120px; margin:0 auto; padding:0 32px;
   display:grid; grid-template-columns:1.15fr 0.85fr; gap:56px; align-items:center;
