@@ -8,30 +8,32 @@ export default function Hero({ c, onQuickPhone }) {
 
   return (
     <section className="hero-v2">
-      <svg className="hero-skyline" viewBox="0 0 1200 180" preserveAspectRatio="none" aria-hidden="true">
-        <rect x="20" y="90" width="70" height="90" />
-        <rect x="100" y="60" width="55" height="120" />
-        <rect x="165" y="110" width="60" height="70" />
-        <rect x="235" y="40" width="50" height="140" />
-        <rect x="295" y="85" width="65" height="95" />
-        <rect x="370" y="65" width="45" height="115" />
-        <rect x="425" y="100" width="70" height="80" />
-        <rect x="505" y="30" width="55" height="150" />
-        <rect x="570" y="75" width="60" height="105" />
-        <rect x="640" y="95" width="50" height="85" />
-        <rect x="700" y="50" width="65" height="130" />
-        <rect x="775" y="88" width="55" height="92" />
-        <rect x="840" y="65" width="60" height="115" />
-        <rect x="910" y="105" width="45" height="75" />
-        <rect x="965" y="35" width="55" height="145" />
-        <rect x="1030" y="80" width="65" height="100" />
-        <rect x="1105" y="60" width="50" height="120" />
-        <circle className="hero-skyline-window" cx="130" cy="90" r="3" />
-        <circle className="hero-skyline-window" cx="255" cy="70" r="3" />
-        <circle className="hero-skyline-window" cx="530" cy="60" r="3" />
-        <circle className="hero-skyline-window" cx="725" cy="80" r="3" />
-        <circle className="hero-skyline-window" cx="990" cy="65" r="3" />
-      </svg>
+      <div className="hero-float-icons" aria-hidden="true">
+        <svg className="hero-float-icon icon-house" viewBox="0 0 48 48" style={{ '--dur': '6.5s', '--delay': '0s' }}>
+          <path d="M6 22 L24 8 L42 22 V40 H6 Z" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinejoin="round" />
+          <rect x="19" y="28" width="10" height="12" fill="none" stroke="currentColor" strokeWidth="2.5" />
+        </svg>
+        <svg className="hero-float-icon icon-pin" viewBox="0 0 48 48" style={{ '--dur': '5.5s', '--delay': '.8s' }}>
+          <path d="M24 4C15 4 8 11 8 20C8 32 24 44 24 44C24 44 40 32 40 20C40 11 33 4 24 4Z" fill="none" strokeWidth="2.5" stroke="currentColor" strokeLinejoin="round" />
+          <circle cx="24" cy="20" r="6" fill="none" stroke="currentColor" strokeWidth="2.5" />
+        </svg>
+        <svg className="hero-float-icon icon-key" viewBox="0 0 48 48" style={{ '--dur': '7s', '--delay': '1.6s' }}>
+          <circle cx="16" cy="16" r="9" fill="none" stroke="currentColor" strokeWidth="2.5" />
+          <path d="M22 22 L40 40 M34 34 L40 28 M28 40 L34 34" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" />
+        </svg>
+        <svg className="hero-float-icon icon-building" viewBox="0 0 48 48" style={{ '--dur': '6s', '--delay': '2.2s' }}>
+          <rect x="10" y="6" width="28" height="38" fill="none" stroke="currentColor" strokeWidth="2.5" />
+          <line x1="17" y1="14" x2="17" y2="14" stroke="currentColor" strokeWidth="3" strokeLinecap="round" />
+          <line x1="24" y1="14" x2="24" y2="14" stroke="currentColor" strokeWidth="3" strokeLinecap="round" />
+          <line x1="31" y1="14" x2="31" y2="14" stroke="currentColor" strokeWidth="3" strokeLinecap="round" />
+          <line x1="17" y1="22" x2="17" y2="22" stroke="currentColor" strokeWidth="3" strokeLinecap="round" />
+          <line x1="24" y1="22" x2="24" y2="22" stroke="currentColor" strokeWidth="3" strokeLinecap="round" />
+          <line x1="31" y1="22" x2="31" y2="22" stroke="currentColor" strokeWidth="3" strokeLinecap="round" />
+          <line x1="17" y1="30" x2="17" y2="30" stroke="currentColor" strokeWidth="3" strokeLinecap="round" />
+          <line x1="24" y1="30" x2="24" y2="30" stroke="currentColor" strokeWidth="3" strokeLinecap="round" />
+          <line x1="31" y1="30" x2="31" y2="30" stroke="currentColor" strokeWidth="3" strokeLinecap="round" />
+        </svg>
+      </div>
 
       <div className="hero-v2-inner">
         <div className="hero-v2-left">
