@@ -1,8 +1,9 @@
 'use client';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 export default function FAQ({ c }) {
   const listRef = useRef(null);
+  const [activeIndex, setActiveIndex] = useState(0);
 
   useEffect(() => {
     const el = listRef.current;
@@ -29,6 +30,11 @@ export default function FAQ({ c }) {
     { q: c.faq_q4, a: c.faq_a4 },
   ].filter((f) => f.q);
 
+  const handleToggle = (i) => (e) => {
+    e.preventDefault();
+    setActiveIndex((prev) => (prev === i ? -1 : i));
+  };
+
   return (
     <section className="section container reveal" id="faq">
       <div className="faq-v2-wrap">
@@ -43,8 +49,8 @@ export default function FAQ({ c }) {
 
         <div className="faq-v2-list" ref={listRef}>
           {faqs.map((f, i) => (
-            <details className={`faq-v2-item faq-stagger-${i + 1}`} key={i} open={i === 0}>
-              <summary>
+            <details className={`faq-v2-item faq-stagger-${i + 1}`} key={i} open={activeIndex === i}>
+              <summary onClick={handleToggle(i)}>
                 <span className="faq-v2-num">{String(i + 1).padStart(2, '0')}</span>
                 <span className="faq-v2-q">{f.q}</span>
                 <span className="faq-v2-icon">
