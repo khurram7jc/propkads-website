@@ -4,6 +4,8 @@ export default function PlatformsStrip({ c }) {
     c.platforms_2 || 'Google Ads',
     c.platforms_3 || 'TikTok Ads',
     c.platforms_4 || 'YouTube Ads',
+    c.platforms_5 || 'LinkedIn Ads',
+    c.platforms_6 || 'Snapchat Ads',
   ];
 
   return (

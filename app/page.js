@@ -64,6 +64,8 @@ const DEFAULT_CONTENT = {
   platforms_2: 'Google Ads',
   platforms_3: 'TikTok Ads',
   platforms_4: 'YouTube Ads',
+  platforms_5: 'LinkedIn Ads',
+  platforms_6: 'Snapchat Ads',
   hero_heading: 'Sell Your Real Estate Inventory With a Complete Revenue System — Not Just Ads',
   hero_subheading:
     'We help real estate developers generate high-intent buyers, control leads through CRM, monitor sales teams, and improve conversions — end to end.',
