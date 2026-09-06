@@ -30,6 +30,10 @@ export default function Hero({ c, onQuickPhone }) {
         <svg className="hero-float-icon icon-building" viewBox="0 0 48 48" style={{ '--dur': '6s', '--delay': '2.2s' }}>
           <rect x="10" y="6" width="28" height="38" fill="none" stroke="currentColor" strokeWidth="2.5" />
         </svg>
+        <svg className="hero-float-icon icon-mappin" viewBox="0 0 48 48" style={{ '--dur': '5.8s', '--delay': '1.1s' }}>
+          <path d="M24 2C13.5 2 5 10.5 5 21C5 35 24 46 24 46C24 46 43 35 43 21C43 10.5 34.5 2 24 2Z" fill="currentColor" />
+          <circle cx="24" cy="20" r="7" fill="#fff" />
+        </svg>
       </div>
 
       <div className="hero-v2-inner">
