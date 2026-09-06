@@ -6,16 +6,22 @@ export default function Hero({ c, onQuickPhone }) {
     onQuickPhone(phone);
   };
 
+  const goalValue = parseInt(c.hero_dash_campaign_value || '690', 10);
+  const goalTarget = parseInt(c.hero_dash_campaign_goal || '1000', 10);
+  const pct = Math.min(1, goalValue / goalTarget);
+  const circumference = 2 * Math.PI * 40;
+  const dashOffset = circumference * (1 - pct);
+
   return (
     <section className="hero-v2">
       <div className="hero-float-icons" aria-hidden="true">
-        <svg className="hero-float-icon icon-house" viewBox="0 0 48 48" style={{ '--dur': '6.5s', '--delay': '0s' }}>
-          <path d="M6 22 L24 8 L42 22 V40 H6 Z" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinejoin="round" />
-          <rect x="19" y="28" width="10" height="12" fill="none" stroke="currentColor" strokeWidth="2.5" />
-        </svg>
         <svg className="hero-float-icon icon-pin" viewBox="0 0 48 48" style={{ '--dur': '5.5s', '--delay': '.8s' }}>
           <path d="M24 4C15 4 8 11 8 20C8 32 24 44 24 44C24 44 40 32 40 20C40 11 33 4 24 4Z" fill="none" strokeWidth="2.5" stroke="currentColor" strokeLinejoin="round" />
           <circle cx="24" cy="20" r="6" fill="none" stroke="currentColor" strokeWidth="2.5" />
+        </svg>
+        <svg className="hero-float-icon icon-house" viewBox="0 0 48 48" style={{ '--dur': '6.5s', '--delay': '0s' }}>
+          <path d="M6 22 L24 8 L42 22 V40 H6 Z" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinejoin="round" />
+          <rect x="19" y="28" width="10" height="12" fill="none" stroke="currentColor" strokeWidth="2.5" />
         </svg>
         <svg className="hero-float-icon icon-key" viewBox="0 0 48 48" style={{ '--dur': '7s', '--delay': '1.6s' }}>
           <circle cx="16" cy="16" r="9" fill="none" stroke="currentColor" strokeWidth="2.5" />
@@ -23,15 +29,6 @@ export default function Hero({ c, onQuickPhone }) {
         </svg>
         <svg className="hero-float-icon icon-building" viewBox="0 0 48 48" style={{ '--dur': '6s', '--delay': '2.2s' }}>
           <rect x="10" y="6" width="28" height="38" fill="none" stroke="currentColor" strokeWidth="2.5" />
-          <line x1="17" y1="14" x2="17" y2="14" stroke="currentColor" strokeWidth="3" strokeLinecap="round" />
-          <line x1="24" y1="14" x2="24" y2="14" stroke="currentColor" strokeWidth="3" strokeLinecap="round" />
-          <line x1="31" y1="14" x2="31" y2="14" stroke="currentColor" strokeWidth="3" strokeLinecap="round" />
-          <line x1="17" y1="22" x2="17" y2="22" stroke="currentColor" strokeWidth="3" strokeLinecap="round" />
-          <line x1="24" y1="22" x2="24" y2="22" stroke="currentColor" strokeWidth="3" strokeLinecap="round" />
-          <line x1="31" y1="22" x2="31" y2="22" stroke="currentColor" strokeWidth="3" strokeLinecap="round" />
-          <line x1="17" y1="30" x2="17" y2="30" stroke="currentColor" strokeWidth="3" strokeLinecap="round" />
-          <line x1="24" y1="30" x2="24" y2="30" stroke="currentColor" strokeWidth="3" strokeLinecap="round" />
-          <line x1="31" y1="30" x2="31" y2="30" stroke="currentColor" strokeWidth="3" strokeLinecap="round" />
         </svg>
       </div>
 
@@ -49,26 +46,47 @@ export default function Hero({ c, onQuickPhone }) {
         </div>
 
         <div className="hero-v2-right reveal reveal-delay-4">
-          <div className="hero-cards-grid">
-            <div className="floating-card">
-              <div className="floating-card-num">STEP 01</div>
-              <div className="floating-card-title">{c.hero_step_1 || 'Project Audit'}</div>
-              <div className="floating-card-desc">{c.hero_step_1_desc || 'Inventory review, pricing analysis, buyer profiling, and competitor assessment.'}</div>
+          <div className="hero-dash-cards">
+            <div className="hero-dash-card hero-dash-budget">
+              <div className="hero-dash-budget-value">{c.hero_dash_budget_current || 'PKR 4,250,000'}</div>
+              <div className="hero-dash-budget-total">Budget: {c.hero_dash_budget_total || 'PKR 5,500,000'}</div>
+              <svg className="hero-dash-line" viewBox="0 0 200 60" preserveAspectRatio="none">
+                <polyline points="0,40 20,45 40,30 60,38 80,20 100,32 120,15 140,25 160,10 180,18 200,5" fill="none" stroke="var(--green)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+              <div className="hero-dash-line-labels"><span>Jan 2026</span><span>Feb 2026</span></div>
             </div>
-            <div className="floating-card">
-              <div className="floating-card-num">STEP 02</div>
-              <div className="floating-card-title">{c.hero_step_2 || 'Launch & CRM Setup'}</div>
-              <div className="floating-card-desc">{c.hero_step_2_desc || 'Campaign launch, CRM pipeline configuration, and sales team assignment rules.'}</div>
-            </div>
-            <div className="floating-card">
-              <div className="floating-card-num">STEP 03</div>
-              <div className="floating-card-title">{c.hero_step_3 || 'Weekly Optimization'}</div>
-              <div className="floating-card-desc">{c.hero_step_3_desc || 'Lead quality improvement, follow-up correction, and sales activity monitoring.'}</div>
-            </div>
-            <div className="floating-card">
-              <div className="floating-card-num">STEP 04</div>
-              <div className="floating-card-title">{c.hero_step_4 || 'Conversion & Scaling'}</div>
-              <div className="floating-card-desc">{c.hero_step_4_desc || 'Booking-focused optimization and revenue scaling based on real performance data.'}</div>
+
+            <div className="hero-dash-row">
+              <div className="hero-dash-card hero-dash-goal">
+                <div className="hero-dash-card-title">{c.hero_dash_campaign_title || 'Facebook Marketing Campaign'}</div>
+                <div className="hero-dash-ring-wrap">
+                  <svg viewBox="0 0 100 100" className="hero-dash-ring">
+                    <circle cx="50" cy="50" r="40" fill="none" stroke="var(--line)" strokeWidth="9" />
+                    <circle
+                      cx="50" cy="50" r="40" fill="none" stroke="var(--green)" strokeWidth="9"
+                      strokeDasharray={circumference} strokeDashoffset={dashOffset} strokeLinecap="round"
+                      transform="rotate(-90 50 50)"
+                    />
+                    <text x="50" y="47" textAnchor="middle" fontSize="20" fontWeight="800" fill="var(--ink)">{goalValue}</text>
+                    <text x="50" y="63" textAnchor="middle" fontSize="8" fill="var(--slate)">Goal: {goalTarget}</text>
+                  </svg>
+                </div>
+              </div>
+
+              <div className="hero-dash-card hero-dash-traffic">
+                <div className="hero-dash-card-title">{c.hero_dash_traffic_title || 'Generated Traffic & Leads'}</div>
+                <svg className="hero-dash-bars" viewBox="0 0 160 60" preserveAspectRatio="none">
+                  <rect x="0" y="30" width="16" height="30" fill="var(--green)" opacity="0.45" />
+                  <rect x="24" y="20" width="16" height="40" fill="var(--green)" opacity="0.6" />
+                  <rect x="48" y="35" width="16" height="25" fill="var(--green)" opacity="0.45" />
+                  <rect x="72" y="10" width="16" height="50" fill="var(--green)" />
+                  <rect x="96" y="25" width="16" height="35" fill="var(--green)" opacity="0.6" />
+                  <rect x="120" y="15" width="16" height="45" fill="var(--green)" opacity="0.75" />
+                  <rect x="144" y="5" width="16" height="55" fill="var(--green)" />
+                </svg>
+                <div className="hero-dash-traffic-pct">{c.hero_dash_traffic_percent || '61%'}</div>
+                <div className="hero-dash-traffic-label">{c.hero_dash_traffic_label || 'Average monthly growth rate'}</div>
+              </div>
             </div>
           </div>
         </div>

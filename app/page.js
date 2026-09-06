@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import Header from '@/components/Header';
 import { PhoneIcon, MailIcon, PinIcon, FacebookIcon, InstagramIcon, LinkedInIcon } from '@/components/Icons';
 import Hero from '@/components/Hero';
+import PlatformsStrip from '@/components/PlatformsStrip';
 import Positioning from '@/components/Positioning';
 import SystemFlow from '@/components/SystemFlow';
 import Services from '@/components/Services';
@@ -50,6 +51,19 @@ const DEFAULT_CONTENT = {
   hero_step_3_desc: 'Lead quality improvement, follow-up correction, and sales activity monitoring.',
   hero_step_4: 'Conversion & Scaling',
   hero_step_4_desc: 'Booking-focused optimization and revenue scaling based on real performance data.',
+  hero_dash_budget_current: 'PKR 4,250,000',
+  hero_dash_budget_total: 'PKR 5,500,000',
+  hero_dash_campaign_title: 'Facebook Marketing Campaign',
+  hero_dash_campaign_value: '690',
+  hero_dash_campaign_goal: '1000',
+  hero_dash_traffic_title: 'Generated Traffic & Leads',
+  hero_dash_traffic_percent: '61%',
+  hero_dash_traffic_label: 'Average monthly growth rate',
+  platforms_label: 'Platforms We Advertise On',
+  platforms_1: 'Meta Ads',
+  platforms_2: 'Google Ads',
+  platforms_3: 'TikTok Ads',
+  platforms_4: 'YouTube Ads',
   hero_heading: 'Sell Your Real Estate Inventory With a Complete Revenue System — Not Just Ads',
   hero_subheading:
     'We help real estate developers generate high-intent buyers, control leads through CRM, monitor sales teams, and improve conversions — end to end.',
@@ -213,6 +227,9 @@ export default function Home() {
           document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
         }}
       />
+
+      {/* PLATFORMS */}
+      <PlatformsStrip c={c} />
 
       {/* POSITIONING */}
       <Positioning c={c} />
