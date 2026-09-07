@@ -71,3 +71,20 @@ export function TiktokIcon(props) {
     </svg>
   );
 }
+
+export function GoogleIcon(props) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" width="16" height="16" {...props}>
+      <circle cx="12" cy="12" r="9" />
+      <text x="12" y="16" textAnchor="middle" fontSize="10.5" fontWeight="800" fill="currentColor" stroke="none">G</text>
+    </svg>
+  );
+}
+
+export function SnapchatIcon(props) {
+  return (
+    <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16" {...props}>
+      <path d="M12 3c-3 0-5 2.3-5 5.2v2.1c0 .5-.3.9-.7 1.2l-1.6 1c-.4.3-.3.9.2 1l1.7.5c.3.1.5.4.4.7-.1.5-.4.9-.8 1.2-.4.3-.2.9.3 1l1.6.3c.2.6.6 1.1 1.2 1.3.6.2 1.2 0 1.7-.4.5.4 1.1.6 1.7.4.6-.2 1-.7 1.2-1.3l1.6-.3c.5-.1.7-.7.3-1-.4-.3-.7-.7-.8-1.2-.1-.3.1-.6.4-.7l1.7-.5c.5-.1.6-.7.2-1l-1.6-1c-.4-.3-.7-.7-.7-1.2V8.2C17 5.3 15 3 12 3z" />
+    </svg>
+  );
+}

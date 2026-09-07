@@ -87,7 +87,6 @@ input, select, textarea{font-family:inherit;}
 .icon-pin{top:4%; left:78%; width:36px; height:36px; color:var(--green); opacity:0.16;}
 .icon-key{top:93%; left:12%; width:38px; height:38px;}
 .icon-building{top:93%; left:82%; width:50px; height:50px; color:var(--green); opacity:0.13;}
-.icon-mappin{top:2%; left:90%; width:34px; height:34px; color:var(--green); opacity:0.15;}
 @keyframes heroFloat{
   0%, 100%{transform:translateY(0) rotate(0deg);}
   50%{transform:translateY(-14px) rotate(3deg);}
@@ -576,7 +575,13 @@ input, select, textarea{font-family:inherit;}
 }
 .platforms-strip-label{font-size:12.5px; font-weight:700; color:var(--slate); text-transform:uppercase; letter-spacing:.06em;}
 .platforms-strip-list{display:flex; gap:36px; flex-wrap:wrap;}
-.platforms-strip-item{font-size:15px; font-weight:700; color:var(--ink-soft);}
+.platforms-strip-item{
+  font-size:15px; font-weight:700; color:var(--ink-soft);
+  display:inline-flex; align-items:center; gap:8px;
+}
+.platforms-strip-icon{
+  color:var(--green); display:flex; align-items:center; justify-content:center;
+}
 @media(max-width:600px){
   .platforms-strip-inner{flex-direction:column; align-items:flex-start; gap:14px;}
   .platforms-strip-list{gap:22px;}
