@@ -4,9 +4,9 @@ export default function PlatformsStrip({ c }) {
   const platforms = [
     { icon: <FacebookIcon />, label: c.platforms_1 || 'Meta Ads' },
     { icon: <GoogleIcon />, label: c.platforms_2 || 'Google Ads' },
-    { icon: <TiktokIcon />, label: c.platforms_3 || 'TikTok Ads' },
     { icon: <YoutubeIcon />, label: c.platforms_4 || 'YouTube Ads' },
     { icon: <LinkedInIcon />, label: c.platforms_5 || 'LinkedIn Ads' },
+    { icon: <TiktokIcon />, label: c.platforms_3 || 'TikTok Ads' },
     { icon: <SnapchatIcon />, label: c.platforms_6 || 'Snapchat Ads' },
   ];
 
