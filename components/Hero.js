@@ -6,12 +6,6 @@ export default function Hero({ c, onQuickPhone }) {
     onQuickPhone(phone);
   };
 
-  const goalValue = parseInt(c.hero_dash_campaign_value || '690', 10);
-  const goalTarget = parseInt(c.hero_dash_campaign_goal || '1000', 10);
-  const pct = Math.min(1, goalValue / goalTarget);
-  const circumference = 2 * Math.PI * 40;
-  const dashOffset = circumference * (1 - pct);
-
   return (
     <section className="hero-v2">
       <div className="hero-float-icons" aria-hidden="true">
@@ -48,44 +42,29 @@ export default function Hero({ c, onQuickPhone }) {
         <div className="hero-v2-right reveal reveal-delay-4">
           <div className="hero-dash-cards">
             <div className="hero-dash-card hero-dash-budget">
-              <div className="hero-dash-budget-value">{c.hero_dash_budget_current || 'PKR 4,250,000'}</div>
-              <div className="hero-dash-budget-total">Budget: {c.hero_dash_budget_total || 'PKR 5,500,000'}</div>
-              <svg className="hero-dash-line" viewBox="0 0 200 60" preserveAspectRatio="none">
-                <polyline points="0,40 20,45 40,30 60,38 80,20 100,32 120,15 140,25 160,10 180,18 200,5" fill="none" stroke="var(--green)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
-              </svg>
-              <div className="hero-dash-line-labels"><span>Jan 2026</span><span>Feb 2026</span></div>
+              <span className="hero-dash-eyebrow">{c.hero_stat1_eyebrow || 'Scale'}</span>
+              <div className="hero-dash-number">{c.hero_stat1_number || 'PKR 27 Crore+'}</div>
+              <div className="hero-dash-title">{c.hero_stat1_title || 'Ad Spend Managed'}</div>
+              <div className="hero-dash-divider"></div>
+              <div className="hero-dash-sub">
+                <span className="hero-dash-sub-number">{c.hero_stat1_sub_number || '50+'}</span>
+                <span className="hero-dash-sub-text">{c.hero_stat1_sub_text || 'Real Estate Campaigns'}</span>
+              </div>
             </div>
 
             <div className="hero-dash-row">
               <div className="hero-dash-card hero-dash-goal">
-                <div className="hero-dash-card-title">{c.hero_dash_campaign_title || 'Facebook Marketing Campaign'}</div>
-                <div className="hero-dash-ring-wrap">
-                  <svg viewBox="0 0 100 100" className="hero-dash-ring">
-                    <circle cx="50" cy="50" r="40" fill="none" stroke="var(--line)" strokeWidth="9" />
-                    <circle
-                      cx="50" cy="50" r="40" fill="none" stroke="var(--green)" strokeWidth="9"
-                      strokeDasharray={circumference} strokeDashoffset={dashOffset} strokeLinecap="round"
-                      transform="rotate(-90 50 50)"
-                    />
-                    <text x="50" y="47" textAnchor="middle" fontSize="20" fontWeight="800" fill="var(--ink)">{goalValue}</text>
-                    <text x="50" y="63" textAnchor="middle" fontSize="8" fill="var(--slate)">Goal: {goalTarget}</text>
-                  </svg>
-                </div>
+                <span className="hero-dash-eyebrow">{c.hero_stat2_eyebrow || 'Lead Generation'}</span>
+                <div className="hero-dash-number hero-dash-number-sm">{c.hero_stat2_number || 'PKR 250–500'}</div>
+                <div className="hero-dash-title">{c.hero_stat2_title || 'Typical Cost Per Lead'}</div>
+                <div className="hero-dash-sub-text-only">{c.hero_stat2_sub_text || 'Average CPL: PKR 250–300'}</div>
               </div>
 
               <div className="hero-dash-card hero-dash-traffic">
-                <div className="hero-dash-card-title">{c.hero_dash_traffic_title || 'Generated Traffic & Leads'}</div>
-                <svg className="hero-dash-bars" viewBox="0 0 160 60" preserveAspectRatio="none">
-                  <rect x="0" y="30" width="16" height="30" fill="var(--green)" opacity="0.45" />
-                  <rect x="24" y="20" width="16" height="40" fill="var(--green)" opacity="0.6" />
-                  <rect x="48" y="35" width="16" height="25" fill="var(--green)" opacity="0.45" />
-                  <rect x="72" y="10" width="16" height="50" fill="var(--green)" />
-                  <rect x="96" y="25" width="16" height="35" fill="var(--green)" opacity="0.6" />
-                  <rect x="120" y="15" width="16" height="45" fill="var(--green)" opacity="0.75" />
-                  <rect x="144" y="5" width="16" height="55" fill="var(--green)" />
-                </svg>
-                <div className="hero-dash-traffic-pct">{c.hero_dash_traffic_percent || '61%'}</div>
-                <div className="hero-dash-traffic-label">{c.hero_dash_traffic_label || 'Average monthly growth rate'}</div>
+                <span className="hero-dash-eyebrow">{c.hero_stat3_eyebrow || 'Lead Quality'}</span>
+                <div className="hero-dash-number hero-dash-number-sm">{c.hero_stat3_number || '60–70%'}</div>
+                <div className="hero-dash-title">{c.hero_stat3_title || 'Qualified Lead Rate'}</div>
+                <div className="hero-dash-sub-text-only">{c.hero_stat3_sub_text || 'High-Quality Leads Generated for Real Estate'}</div>
               </div>
             </div>
           </div>

@@ -125,18 +125,20 @@ input, select, textarea{font-family:inherit;}
   background:#fff; border-radius:20px; padding:26px 24px;
   box-shadow:0 16px 40px rgba(20,22,26,0.08);
 }
-.hero-dash-budget-value{font-size:27px; font-weight:800; color:var(--ink);}
-.hero-dash-budget-total{font-size:13px; color:var(--slate); margin-top:4px; margin-bottom:18px;}
-.hero-dash-line{width:100%; height:60px; display:block;}
-.hero-dash-line-labels{display:flex; justify-content:space-between; font-size:11px; color:var(--slate); margin-top:8px;}
+.hero-dash-eyebrow{
+  font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.08em;
+  color:var(--green); display:block; margin-bottom:10px;
+}
+.hero-dash-number{font-size:30px; font-weight:800; color:var(--ink); line-height:1.15; letter-spacing:-0.01em;}
+.hero-dash-number-sm{font-size:22px;}
+.hero-dash-title{font-size:13.5px; font-weight:600; color:var(--ink-soft); margin-top:6px;}
+.hero-dash-divider{border-top:1px dashed var(--line); margin:18px 0 14px;}
+.hero-dash-sub{display:flex; align-items:baseline; gap:8px; flex-wrap:wrap;}
+.hero-dash-sub-number{font-size:18px; font-weight:800; color:var(--green);}
+.hero-dash-sub-text{font-size:12.5px; color:var(--slate);}
+.hero-dash-sub-text-only{font-size:12.5px; color:var(--slate); margin-top:12px; line-height:1.5;}
 
 .hero-dash-row{display:grid; grid-template-columns:1fr 1fr; gap:20px;}
-.hero-dash-card-title{font-size:13px; font-weight:700; color:var(--ink); margin-bottom:16px; line-height:1.35;}
-.hero-dash-ring-wrap{display:flex; justify-content:center;}
-.hero-dash-ring{width:100px; height:100px;}
-.hero-dash-bars{width:100%; height:56px; display:block; margin-bottom:14px;}
-.hero-dash-traffic-pct{font-size:24px; font-weight:800; color:var(--ink);}
-.hero-dash-traffic-label{font-size:11.5px; color:var(--slate); margin-top:2px; line-height:1.4;}
 
 @media(max-width:900px){
   .hero-v2-inner{grid-template-columns:1fr;}
