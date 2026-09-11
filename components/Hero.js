@@ -1,3 +1,5 @@
+import { CoinsIcon, TargetIcon, UsersIcon, LayersIcon, TrendingUpIcon, ShieldIcon } from '@/components/Icons';
+
 export default function Hero({ c, onQuickPhone }) {
   const handleQuickSubmit = (e) => {
     e.preventDefault();
@@ -42,29 +44,40 @@ export default function Hero({ c, onQuickPhone }) {
         <div className="hero-v2-right reveal reveal-delay-4">
           <div className="hero-dash-cards">
             <div className="hero-dash-card hero-dash-budget">
+              <div className="hero-dash-icon-badge"><CoinsIcon /></div>
               <span className="hero-dash-eyebrow">{c.hero_stat1_eyebrow || 'Scale'}</span>
               <div className="hero-dash-number">{c.hero_stat1_number || 'PKR 27 Crore+'}</div>
               <div className="hero-dash-title">{c.hero_stat1_title || 'Ad Spend Managed'}</div>
               <div className="hero-dash-divider"></div>
-              <div className="hero-dash-sub">
-                <span className="hero-dash-sub-number">{c.hero_stat1_sub_number || '50+'}</span>
-                <span className="hero-dash-sub-text">{c.hero_stat1_sub_text || 'Real Estate Campaigns'}</span>
+              <div className="hero-dash-sub-row">
+                <span className="hero-dash-sub-icon"><LayersIcon /></span>
+                <span className="hero-dash-sub-text-only">{c.hero_stat1_sub_text || 'Across Real Estate Projects & Campaigns'}</span>
               </div>
             </div>
 
             <div className="hero-dash-row">
               <div className="hero-dash-card hero-dash-goal">
-                <span className="hero-dash-eyebrow">{c.hero_stat2_eyebrow || 'Lead Generation'}</span>
+                <div className="hero-dash-icon-badge"><TargetIcon /></div>
+                <span className="hero-dash-eyebrow">{c.hero_stat2_eyebrow || 'Efficiency'}</span>
                 <div className="hero-dash-number hero-dash-number-sm">{c.hero_stat2_number || 'PKR 250–500'}</div>
                 <div className="hero-dash-title">{c.hero_stat2_title || 'Typical Cost Per Lead'}</div>
-                <div className="hero-dash-sub-text-only">{c.hero_stat2_sub_text || 'Average CPL: PKR 250–300'}</div>
+                <div className="hero-dash-divider"></div>
+                <div className="hero-dash-sub-row">
+                  <span className="hero-dash-sub-icon"><TrendingUpIcon /></span>
+                  <span className="hero-dash-sub-text-only">{c.hero_stat2_sub_text || 'Average CPL: PKR 250–300'}</span>
+                </div>
               </div>
 
               <div className="hero-dash-card hero-dash-traffic">
-                <span className="hero-dash-eyebrow">{c.hero_stat3_eyebrow || 'Lead Quality'}</span>
+                <div className="hero-dash-icon-badge"><UsersIcon /></div>
+                <span className="hero-dash-eyebrow">{c.hero_stat3_eyebrow || 'Quality'}</span>
                 <div className="hero-dash-number hero-dash-number-sm">{c.hero_stat3_number || '60–70%'}</div>
                 <div className="hero-dash-title">{c.hero_stat3_title || 'Qualified Lead Rate'}</div>
-                <div className="hero-dash-sub-text-only">{c.hero_stat3_sub_text || 'High-Quality Leads Generated for Real Estate'}</div>
+                <div className="hero-dash-divider"></div>
+                <div className="hero-dash-sub-row">
+                  <span className="hero-dash-sub-icon"><ShieldIcon /></span>
+                  <span className="hero-dash-sub-text-only">{c.hero_stat3_sub_text || 'High-Quality Leads Generated for Real Estate'}</span>
+                </div>
               </div>
             </div>
           </div>

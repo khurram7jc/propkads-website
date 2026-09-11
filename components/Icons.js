@@ -88,3 +88,125 @@ export function SnapchatIcon(props) {
     </svg>
   );
 }
+
+/* ---------- Metric card icons (line style, currentColor) ---------- */
+export function CoinsIcon(props) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" width="20" height="20" {...props}>
+      <ellipse cx="9" cy="7" rx="6" ry="3" />
+      <path d="M3 7v4c0 1.66 2.69 3 6 3s6-1.34 6-3V7" />
+      <path d="M3 11v4c0 1.66 2.69 3 6 3s6-1.34 6-3v-4" />
+      <path d="M15 9.5c3 .3 6 1.5 6 3.5s-3 3.2-6 3.5" />
+      <path d="M15 15c3 .3 6 1.4 6 3.3 0 1.9-3 3.2-6 3.2" />
+    </svg>
+  );
+}
+
+export function TargetIcon(props) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" width="20" height="20" {...props}>
+      <circle cx="12" cy="12" r="9" />
+      <circle cx="12" cy="12" r="5" />
+      <circle cx="12" cy="12" r="1.2" fill="currentColor" stroke="none" />
+    </svg>
+  );
+}
+
+export function UsersIcon(props) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" width="20" height="20" {...props}>
+      <circle cx="9" cy="8" r="3.2" />
+      <path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6" />
+      <circle cx="17" cy="9" r="2.6" />
+      <path d="M15.5 14.2c2.5.4 4.5 2.6 4.5 5.3" />
+    </svg>
+  );
+}
+
+export function LayersIcon(props) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinejoin="round" width="15" height="15" {...props}>
+      <path d="M12 3 2 8l10 5 10-5-10-5z" />
+      <path d="M2 13l10 5 10-5" />
+    </svg>
+  );
+}
+
+export function TrendingUpIcon(props) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" width="15" height="15" {...props}>
+      <polyline points="3 17 9 11 13 15 21 6" />
+      <polyline points="14 6 21 6 21 13" />
+    </svg>
+  );
+}
+
+export function ShieldIcon(props) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinejoin="round" width="15" height="15" {...props}>
+      <path d="M12 2 4 5v6c0 5 3.4 8.7 8 11 4.6-2.3 8-6 8-11V5l-8-3z" />
+      <path d="M9 12l2 2 4-4" />
+    </svg>
+  );
+}
+
+/* ---------- Colored platform badge icons (for Platforms panel) ---------- */
+export function MetaColorIcon(props) {
+  return (
+    <svg viewBox="0 0 32 32" width="24" height="24" {...props}>
+      <circle cx="16" cy="16" r="16" fill="#0668E1" />
+      <path d="M9 20.5c0-4.8 2.2-9 5.1-9 1.6 0 2.7 1.3 3.9 3.6 1.2-2.3 2.3-3.6 3.9-3.6 2.9 0 5.1 4.2 5.1 9 0 1.7-.7 2.7-1.9 2.7-1.5 0-2.2-1.4-3.5-4l-1.4-2.6c-.7 1.3-1.4 2.9-2.2 4.6-1.1 2.3-1.9 2-2.9 2C10.7 23.2 9 22.2 9 20.5z" fill="#fff" />
+    </svg>
+  );
+}
+
+export function GoogleColorIcon(props) {
+  return (
+    <svg viewBox="0 0 32 32" width="24" height="24" {...props}>
+      <circle cx="16" cy="16" r="16" fill="#fff" stroke="#E7E8EA" />
+      <path d="M23.6 16.2c0-.6-.1-1.1-.2-1.6h-7.4v3.1h4.2c-.2 1-.8 1.9-1.7 2.5v2.1h2.8c1.6-1.5 2.3-3.6 2.3-6.1z" fill="#4285F4" />
+      <path d="M16 24c2.2 0 4.1-.7 5.4-2l-2.8-2.1c-.8.5-1.7.8-2.6.8-2 0-3.7-1.3-4.3-3.2H8.8v2.1C10.1 22.2 12.8 24 16 24z" fill="#34A853" />
+      <path d="M11.7 17.5c-.2-.5-.3-1-.3-1.5s.1-1 .3-1.5v-2.1H8.8c-.5 1.1-.8 2.3-.8 3.6s.3 2.5.8 3.6l2.9-2.1z" fill="#FBBC05" />
+      <path d="M16 11.8c1.2 0 2.3.4 3.1 1.2l2.3-2.3C20 9.4 18.2 8.6 16 8.6c-3.2 0-5.9 1.8-7.2 4.4l2.9 2.1c.6-1.9 2.3-3.3 4.3-3.3z" fill="#EA4335" />
+    </svg>
+  );
+}
+
+export function YoutubeColorIcon(props) {
+  return (
+    <svg viewBox="0 0 32 32" width="24" height="24" {...props}>
+      <rect x="1" y="7" width="30" height="18" rx="6" fill="#FF0000" />
+      <path d="M13 12.5l8 3.5-8 3.5v-7z" fill="#fff" />
+    </svg>
+  );
+}
+
+export function LinkedInColorIcon(props) {
+  return (
+    <svg viewBox="0 0 32 32" width="24" height="24" {...props}>
+      <rect x="0" y="0" width="32" height="32" rx="7" fill="#0A66C2" />
+      <rect x="7" y="13" width="3.5" height="12" fill="#fff" />
+      <circle cx="8.7" cy="8.7" r="2.1" fill="#fff" />
+      <path d="M14 13h3.4v1.6h.05c.5-.9 1.6-1.85 3.3-1.85 3.5 0 4.15 2.3 4.15 5.3V25h-3.5v-6.2c0-1.5-.03-3.4-2.08-3.4-2.08 0-2.4 1.6-2.4 3.3V25H14V13z" fill="#fff" />
+    </svg>
+  );
+}
+
+export function TiktokColorIcon(props) {
+  return (
+    <svg viewBox="0 0 32 32" width="24" height="24" {...props}>
+      <rect x="0" y="0" width="32" height="32" rx="7" fill="#000" />
+      <path d="M21.5 10.2c-.9-.6-1.5-1.6-1.6-2.7h-2.7v11.4c0 1.4-1.1 2.5-2.5 2.5s-2.5-1.1-2.5-2.5 1.1-2.5 2.5-2.5c.3 0 .5 0 .8.1v-2.8c-.3 0-.5-.1-.8-.1-3 0-5.4 2.4-5.4 5.4s2.4 5.4 5.4 5.4 5.4-2.4 5.4-5.4v-5.7c1 .7 2.3 1.2 3.6 1.2v-2.8c-.8 0-1.6-.2-2.2-.5z" fill="#25F4EE" />
+      <path d="M20.9 9.6c-.9-.6-1.5-1.6-1.6-2.7h-2.1v11.4c0 1.4-1.1 2.5-2.5 2.5-.8 0-1.5-.4-2-.9-.7.4-1.2 1.1-1.2 1.9 0 1.4 1.1 2.5 2.5 2.5.3 0 .5 0 .7-.1.9-2.4 2.1-2.4 2.1-2.4V13c1 .7 2.3 1.2 3.6 1.2V11.4c-.8 0-1.6-.2-2.2-.5" fill="#FE2C55" opacity="0" />
+    </svg>
+  );
+}
+
+export function SnapchatColorIcon(props) {
+  return (
+    <svg viewBox="0 0 32 32" width="24" height="24" {...props}>
+      <rect x="0" y="0" width="32" height="32" rx="7" fill="#FFFC00" />
+      <path d="M16 8c-3.3 0-5.7 2.6-5.7 5.9v2.2c0 .5-.3.9-.7 1.2l-1.6 1c-.4.3-.3.9.2 1l1.7.5c.3.1.5.4.4.7-.1.5-.4.9-.8 1.2-.4.3-.2.9.3 1l1.6.3c.3 1.4 1.6 2 2.9 2 .6 0 1.2-.2 1.7-.6.5.4 1.1.6 1.7.6 1.3 0 2.6-.6 2.9-2l1.6-.3c.5-.1.7-.7.3-1-.4-.3-.7-.7-.8-1.2-.1-.3.1-.6.4-.7l1.7-.5c.5-.1.6-.7.2-1l-1.6-1c-.4-.3-.7-.7-.7-1.2v-2.2C21.7 10.6 19.3 8 16 8z" fill="#000" />
+    </svg>
+  );
+}
