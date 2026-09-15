@@ -210,3 +210,47 @@ export function SnapchatColorIcon(props) {
     </svg>
   );
 }
+
+/* ---------- Process section icons ---------- */
+export function CrmDocIcon(props) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" width="24" height="24" {...props}>
+      <path d="M7 3h7l4 4v14H7z" />
+      <path d="M14 3v4h4" />
+      <circle cx="12" cy="13" r="1.8" />
+      <path d="M9 18.5c.6-1.8 2-2.8 3-2.8s2.4 1 3 2.8" />
+    </svg>
+  );
+}
+
+export function TeamStarIcon(props) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" width="24" height="24" {...props}>
+      <circle cx="9" cy="8" r="3" />
+      <path d="M3 19c0-3.3 2.7-6 6-6s6 2.7 6 6" />
+      <path d="M18.5 8.5l.9 1.9 2.1.3-1.5 1.5.35 2.1-1.85-1-1.85 1 .35-2.1-1.5-1.5 2.1-.3z" />
+    </svg>
+  );
+}
+
+export function GrowthBarsIcon(props) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" width="24" height="24" {...props}>
+      <rect x="3" y="14" width="3.4" height="7" />
+      <rect x="9" y="10" width="3.4" height="11" />
+      <rect x="15" y="6" width="3.4" height="15" />
+      <path d="M14 4h6v6" />
+      <path d="M20 4l-7 7-3-3-5 5" />
+    </svg>
+  );
+}
+
+export function CurvedArrowIcon(props) {
+  return (
+    <svg viewBox="0 0 90 40" fill="none" {...props}>
+      <circle cx="6" cy="8" r="3" fill="var(--green)" />
+      <path d="M6 8 C 40 8, 40 32, 82 32" stroke="var(--green)" strokeWidth="1.6" strokeDasharray="1 6" strokeLinecap="round" />
+      <path d="M76 26 L84 32 L75 35" stroke="var(--green)" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" fill="none" />
+    </svg>
+  );
+}
