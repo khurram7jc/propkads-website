@@ -1,7 +1,7 @@
 'use client';
 import { useState } from 'react';
 
-export default function Footer({ c }) {
+export default function Footer({ c = {} }) {
   const [email, setEmail] = useState('');
   const [status, setStatus] = useState('');
 
@@ -31,7 +31,7 @@ export default function Footer({ c }) {
       <div className="footer-v2-inner">
         <div className="footer-v2-col footer-v2-brand">
           <img src="/logo.png" alt="Propkads" className="footer-v2-logo" />
-          <p>{c.footer_tagline || 'A complete revenue system for real estate developers — not just ads.'}</p>
+          <p>{c?.footer_tagline || 'A complete revenue system for real estate developers — not just ads.'}</p>
         </div>
 
         <div className="footer-v2-col footer-v2-links">
@@ -45,13 +45,13 @@ export default function Footer({ c }) {
 
         <div className="footer-v2-col footer-v2-contact">
           <h4>Contact</h4>
-          <a href={`tel:${(c.contact_phone || '').replace(/\s/g, '')}`}>{c.contact_phone}</a>
-          <a href={`mailto:${c.contact_email}`}>{c.contact_email}</a>
-          <span>{c.contact_location}</span>
+          <a href={`tel:${(c?.contact_phone || '+92 333 2000649').replace(/\s/g, '')}`}>{c?.contact_phone || '+92 333 2000649'}</a>
+          <a href={`mailto:${c?.contact_email || 'contact@propkads.com'}`}>{c?.contact_email || 'contact@propkads.com'}</a>
+          <span>{c?.contact_location || 'Lahore, Pakistan'}</span>
         </div>
 
         <div className="footer-v2-col footer-v2-newsletter">
-          <h4>{c.newsletter_heading || 'Subscribe to Our Newsletter'}</h4>
+          <h4>{c?.newsletter_heading || 'Subscribe to Our Newsletter'}</h4>
           <p style={{ fontSize: 13, color: '#9DA1A8', marginBottom: 4 }}>
             {c.newsletter_intro || 'Get updates on real estate marketing insights.'}
           </p>
