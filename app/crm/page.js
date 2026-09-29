@@ -8,6 +8,7 @@ import './crm.css';
 
 export default function CRMProductPage() {
   const [activeTab, setActiveTab] = useState('dashboard');
+  const [dashboardSubTab, setDashboardSubTab] = useState('overview');
   const [billingPeriod, setBillingPeriod] = useState('monthly');
   const [openFaq, setOpenFaq] = useState(0);
 
@@ -34,7 +35,7 @@ export default function CRMProductPage() {
             </h1>
 
             <p className="crm-hero-sub">
-              Capture leads from Facebook Ads, TikTok, and Web with automated duplicate phone detection, audit sales team call productivity in real time, lock project inventory, and issue official legal allotment letters — all purpose-built for Pakistani real estate developers and agencies.
+              Capture leads from Facebook Ads, TikTok, and Web with automated duplicate phone detection, audit sales team call productivity in real time, lock property inventory, and manage deal pipeline — all purpose-built for Pakistani real estate developers and agencies.
             </p>
 
             <div className="crm-hero-actions">
@@ -62,7 +63,7 @@ export default function CRMProductPage() {
               </div>
               <div className="crm-badge-item">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-                <span>Admin-Only Allotment Letters</span>
+                <span>Admin-Restricted Property Bookings</span>
               </div>
               <div className="crm-badge-item">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="20 6 9 17 4 12"/></svg>
@@ -73,14 +74,14 @@ export default function CRMProductPage() {
         </div>
       </section>
 
-      {/* 4. Interactive Showcase Stage - Authentic Light Theme CRM Mockup */}
+      {/* 3. Interactive Showcase Stage - Authentic Light Theme CRM Mockup */}
       <section className="crm-preview-section" id="preview">
         <div className="crm-container">
           <div className="crm-section-header">
             <span className="crm-section-badge">Live System Showcase</span>
             <h2 className="crm-section-title">Experience the Real Propkads CRM Light Theme</h2>
             <p className="crm-section-desc">
-              Explore the exact light-theme dashboard, call audit metrics, plot inventory locks, and legal allotment letters our real estate clients use daily.
+              Explore the exact light-theme dashboard, call audit metrics, property inventory locks, and sales pipeline our real estate clients use daily.
             </p>
           </div>
 
@@ -90,7 +91,7 @@ export default function CRMProductPage() {
               className={`crm-tab-btn ${activeTab === 'dashboard' ? 'active' : ''}`}
               onClick={() => setActiveTab('dashboard')}
             >
-              <span>📊 Dashboard &amp; Pipeline</span>
+              <span>📊 Dashboard &amp; Analytics</span>
             </button>
             <button
               className={`crm-tab-btn ${activeTab === 'productivity' ? 'active' : ''}`}
@@ -108,13 +109,13 @@ export default function CRMProductPage() {
               className={`crm-tab-btn ${activeTab === 'inventory' ? 'active' : ''}`}
               onClick={() => setActiveTab('inventory')}
             >
-              <span>🏢 Plot &amp; Unit Inventory</span>
+              <span>🏢 Property Inventory</span>
             </button>
             <button
-              className={`crm-tab-btn ${activeTab === 'allotment' ? 'active' : ''}`}
-              onClick={() => setActiveTab('allotment')}
+              className={`crm-tab-btn ${activeTab === 'bookings' ? 'active' : ''}`}
+              onClick={() => setActiveTab('bookings')}
             >
-              <span>📜 Bookings &amp; Allotment Letter</span>
+              <span>📋 Bookings &amp; Sales (Admin Only)</span>
             </button>
             <button
               className={`crm-tab-btn ${activeTab === 'dealers' ? 'active' : ''}`}
@@ -138,7 +139,7 @@ export default function CRMProductPage() {
                   <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
                   <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
                 </svg>
-                <span>https://crm.propkads.com/{activeTab === 'dashboard' ? 'dashboard' : activeTab === 'productivity' ? 'dashboard?tab=productivity' : activeTab}</span>
+                <span>https://crm.propkads.com{activeTab === 'dashboard' ? '' : `/${activeTab}`}</span>
               </div>
               <div className="crm-window-status">
                 <span className="crm-pulse-dot"></span>
@@ -174,7 +175,7 @@ export default function CRMProductPage() {
                     </div>
                   </div>
 
-                  {/* Sidebar Navigation */}
+                  {/* Sidebar Navigation matching exact real CRM */}
                   <nav className="crm-side-nav">
                     <div
                       className={`crm-side-nav-item ${activeTab === 'dashboard' || activeTab === 'productivity' ? 'active' : ''}`}
@@ -218,8 +219,8 @@ export default function CRMProductPage() {
                     </div>
 
                     <div
-                      className={`crm-side-nav-item ${activeTab === 'allotment' ? 'active' : ''}`}
-                      onClick={() => setActiveTab('allotment')}
+                      className={`crm-side-nav-item ${activeTab === 'bookings' ? 'active' : ''}`}
+                      onClick={() => setActiveTab('bookings')}
                       style={{ cursor: 'pointer' }}
                     >
                       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -266,7 +267,7 @@ export default function CRMProductPage() {
                   </nav>
                 </div>
 
-                {/* Logged in User Meta */}
+                {/* Logged in User Profile */}
                 <div className="crm-sidebar-user">
                   <div className="crm-user-avatar">KM</div>
                   <div className="crm-user-meta">
@@ -278,14 +279,13 @@ export default function CRMProductPage() {
 
               {/* Main Content Workspace */}
               <main className="crm-app-main">
-                {/* TAB 1: OVERVIEW & PIPELINE DASHBOARD */}
+                {/* TAB 1: DASHBOARD (OVERVIEW & PIPELINE) */}
                 {activeTab === 'dashboard' && (
                   <div>
-                    {/* Top Dashboard Header with exact yellow underline */}
+                    {/* Top Dashboard Title Header */}
                     <div className="crm-main-topbar">
                       <h2 className="crm-dashboard-heading">
                         Dashboard
-                        <span className="crm-heading-underline"></span>
                       </h2>
                       <div className="crm-top-actions">
                         <span className="crm-action-link">
@@ -307,348 +307,26 @@ export default function CRMProductPage() {
                       </div>
                     </div>
 
-                    {/* Subnav Tabs & Filter Bar */}
+                    {/* Exact Subnav Tabs Bar matching real CRM */}
                     <div className="crm-subnav-strip">
                       <div className="crm-subnav-left">
-                        <span className="crm-subnav-item active">MY PIPELINE</span>
-                        <span className="crm-subnav-item" onClick={() => setActiveTab('productivity')}>MY PRODUCTIVITY</span>
-                        <span className="crm-subnav-item">
-                          META <span className="crm-beta-badge">Beta</span>
+                        <span
+                          className={`crm-subnav-item ${dashboardSubTab === 'overview' ? 'active' : ''}`}
+                          onClick={() => setDashboardSubTab('overview')}
+                        >
+                          OVERVIEW
                         </span>
-                      </div>
-                      <div className="crm-subnav-filters">
-                        <span>Filter by:</span>
-                        <span className="crm-filter-pill">Campaign ▾</span>
-                        <span className="crm-filter-pill">Agent ▾</span>
-                        <span className="crm-filter-pill">📅 2026-09-22 - 2026-09-28 ✕</span>
-                      </div>
-                    </div>
-
-                    {/* 5 KPI Metric Cards */}
-                    <div className="crm-metrics-grid-5">
-                      <div className="crm-metric-card">
-                        <div className="crm-metric-label">TOTAL LEADS</div>
-                        <div className="crm-metric-number">131</div>
-                        <div className="crm-metric-unit">LEADS</div>
-                      </div>
-                      <div className="crm-metric-card">
-                        <div className="crm-metric-label">CONTACTED</div>
-                        <div className="crm-metric-number">131</div>
-                        <div className="crm-metric-unit">LEADS</div>
-                      </div>
-                      <div className="crm-metric-card">
-                        <div className="crm-metric-label">PENDING</div>
-                        <div className="crm-metric-number">0</div>
-                        <div className="crm-metric-unit">LEADS</div>
-                      </div>
-                      <div className="crm-metric-card">
-                        <div className="crm-metric-label">CLOSED</div>
-                        <div className="crm-metric-number">0</div>
-                        <div className="crm-metric-unit">LEADS</div>
-                      </div>
-                      <div className="crm-metric-card">
-                        <div className="crm-metric-label">VALUE OF CLOSED DEALS</div>
-                        <div className="crm-metric-number">0</div>
-                        <div className="crm-metric-unit">PKR</div>
-                      </div>
-                    </div>
-
-                    {/* Row 2: Status Breakdown Donut & Lead Sources */}
-                    <div className="crm-dashboard-row-2">
-                      {/* Status Donut */}
-                      <div className="crm-dashboard-card">
-                        <div className="crm-card-title">Lead Status Breakdown</div>
-                        <div className="crm-donut-row">
-                          <div className="crm-donut-container">
-                            <svg viewBox="0 0 36 36" style={{ width: '100%', height: '100%', transform: 'rotate(-90deg)' }}>
-                              <circle cx="18" cy="18" r="14" fill="none" stroke="#E2E8F0" strokeWidth="4"></circle>
-                              <circle cx="18" cy="18" r="14" fill="none" stroke="#22C55E" strokeWidth="4" strokeDasharray="13 87" strokeDashoffset="0"></circle>
-                              <circle cx="18" cy="18" r="14" fill="none" stroke="#3B82F6" strokeWidth="4" strokeDasharray="17 83" strokeDashoffset="-13"></circle>
-                              <circle cx="18" cy="18" r="14" fill="none" stroke="#EF4444" strokeWidth="4" strokeDasharray="39 61" strokeDashoffset="-30"></circle>
-                              <circle cx="18" cy="18" r="14" fill="none" stroke="#EAB308" strokeWidth="4" strokeDasharray="9 91" strokeDashoffset="-69"></circle>
-                            </svg>
-                            <div className="crm-donut-center">
-                              <div className="crm-donut-center-num">8,511</div>
-                              <div className="crm-donut-center-lbl">Contacted Leads</div>
-                            </div>
-                          </div>
-                          <div className="crm-donut-legend">
-                            <div className="crm-legend-item">
-                              <span><span className="crm-legend-bullet" style={{ background: '#22C55E' }}></span>Qualified Leads</span>
-                              <b>1,112 (13.1%)</b>
-                            </div>
-                            <div className="crm-legend-item">
-                              <span><span className="crm-legend-bullet" style={{ background: '#3B82F6' }}></span>Details Shared</span>
-                              <b>1,447 (17.0%)</b>
-                            </div>
-                            <div className="crm-legend-item">
-                              <span><span className="crm-legend-bullet" style={{ background: '#EF4444' }}></span>Unqualified</span>
-                              <b>3,348 (39.3%)</b>
-                            </div>
-                            <div className="crm-legend-item">
-                              <span><span className="crm-legend-bullet" style={{ background: '#EAB308' }}></span>Did Not Respond</span>
-                              <b>749 (8.8%)</b>
-                            </div>
-                            <div className="crm-legend-item">
-                              <span><span className="crm-legend-bullet" style={{ background: '#64748B' }}></span>Lost Deals</span>
-                              <b>691 (8.1%)</b>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-
-                      {/* Lead Sources Bar */}
-                      <div className="crm-dashboard-card">
-                        <div className="crm-card-title">Lead Acquisition Sources</div>
-                        <div style={{ display: 'flex', flexDirection: 'column', gap: '14px', marginTop: '10px' }}>
-                          <div>
-                            <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '12px', marginBottom: '4px' }}>
-                              <span style={{ fontWeight: '700', color: '#1877F2' }}>📘 Facebook Ads</span>
-                              <b>6,900 leads</b>
-                            </div>
-                            <div style={{ width: '100%', height: '8px', background: '#F1F5F9', borderRadius: '4px', overflow: 'hidden' }}>
-                              <div style={{ width: '80%', height: '100%', background: '#1877F2', borderRadius: '4px' }}></div>
-                            </div>
-                          </div>
-
-                          <div>
-                            <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '12px', marginBottom: '4px' }}>
-                              <span style={{ fontWeight: '700', color: '#D97706' }}>📄 CSV / Manual Import</span>
-                              <b>1,441 leads</b>
-                            </div>
-                            <div style={{ width: '100%', height: '8px', background: '#F1F5F9', borderRadius: '4px', overflow: 'hidden' }}>
-                              <div style={{ width: '17%', height: '100%', background: '#D97706', borderRadius: '4px' }}></div>
-                            </div>
-                          </div>
-
-                          <div>
-                            <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '12px', marginBottom: '4px' }}>
-                              <span style={{ fontWeight: '700', color: '#059669' }}>🌐 Website Inquiries</span>
-                              <b>88 leads</b>
-                            </div>
-                            <div style={{ width: '100%', height: '8px', background: '#F1F5F9', borderRadius: '4px', overflow: 'hidden' }}>
-                              <div style={{ width: '4%', height: '100%', background: '#059669', borderRadius: '4px' }}></div>
-                            </div>
-                          </div>
-
-                          <div>
-                            <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '12px', marginBottom: '4px' }}>
-                              <span style={{ fontWeight: '700', color: '#0284C7' }}>🎵 TikTok Ads</span>
-                              <b>82 leads</b>
-                            </div>
-                            <div style={{ width: '100%', height: '8px', background: '#F1F5F9', borderRadius: '4px', overflow: 'hidden' }}>
-                              <div style={{ width: '3.5%', height: '100%', background: '#0284C7', borderRadius: '4px' }}></div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Top Performing Agents Cards */}
-                    <div style={{ marginBottom: '10px', fontSize: '14px', fontWeight: '700', color: '#0F172A' }}>
-                      Top Performing Agents
-                    </div>
-                    <div className="crm-top-agents-grid">
-                      <div className="crm-agent-card crm-agent-card-yellow">
-                        <div className="crm-agent-header">
-                          <div className="crm-agent-avatar">👤</div>
-                          <div className="crm-agent-name">Admin</div>
-                        </div>
-                        <div className="crm-agent-stats-row">
-                          <span>Leads contacted:</span>
-                          <span className="crm-agent-stats-val">2564</span>
-                        </div>
-                        <div className="crm-agent-stats-row">
-                          <span>Qualified leads:</span>
-                          <span className="crm-agent-stats-val">0</span>
-                        </div>
-                        <div className="crm-agent-stats-row">
-                          <span>Deals closed:</span>
-                          <span className="crm-agent-stats-val">0</span>
-                        </div>
-                      </div>
-
-                      <div className="crm-agent-card crm-agent-card-gray">
-                        <div className="crm-agent-header">
-                          <div className="crm-agent-avatar">👤</div>
-                          <div className="crm-agent-name">Ayesha Khadim</div>
-                        </div>
-                        <div className="crm-agent-stats-row">
-                          <span>Leads contacted:</span>
-                          <span className="crm-agent-stats-val">2030</span>
-                        </div>
-                        <div className="crm-agent-stats-row">
-                          <span>Qualified leads:</span>
-                          <span className="crm-agent-stats-val">226</span>
-                        </div>
-                        <div className="crm-agent-stats-row">
-                          <span>Deals closed:</span>
-                          <span className="crm-agent-stats-val">14</span>
-                        </div>
-                      </div>
-
-                      <div className="crm-agent-card crm-agent-card-beige">
-                        <div className="crm-agent-header">
-                          <div className="crm-agent-avatar">👤</div>
-                          <div className="crm-agent-name">Farrukh Abbas</div>
-                        </div>
-                        <div className="crm-agent-stats-row">
-                          <span>Leads contacted:</span>
-                          <span className="crm-agent-stats-val">1663</span>
-                        </div>
-                        <div className="crm-agent-stats-row">
-                          <span>Qualified leads:</span>
-                          <span className="crm-agent-stats-val">344</span>
-                        </div>
-                        <div className="crm-agent-stats-row">
-                          <span>Deals closed:</span>
-                          <span className="crm-agent-stats-val">3</span>
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Agent Leaderboard Table */}
-                    <div className="crm-table-card">
-                      <div className="crm-card-title">Agent Leaderboard</div>
-                      <div style={{ overflowX: 'auto' }}>
-                        <table className="crm-data-table">
-                          <thead>
-                            <tr>
-                              <th>Agent ↕</th>
-                              <th>Total ↕</th>
-                              <th>Contacted ↕</th>
-                              <th>Pending ↕</th>
-                              <th>Qualified ↕</th>
-                              <th>Working Deals ↕</th>
-                              <th>Closed Deals ↕</th>
-                              <th>Future Prospects ↕</th>
-                              <th>Lost Deals ↕</th>
-                              <th>Did Not Respond ↕</th>
-                              <th>Unqualified ↕</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            <tr>
-                              <td><b>Admin</b></td>
-                              <td>2564</td>
-                              <td>2564</td>
-                              <td>0</td>
-                              <td>0</td>
-                              <td>0</td>
-                              <td>0</td>
-                              <td>50</td>
-                              <td>345</td>
-                              <td>0</td>
-                              <td>2167</td>
-                            </tr>
-                            <tr>
-                              <td><b>Ayesha Khadim</b></td>
-                              <td>2030</td>
-                              <td>2030</td>
-                              <td>0</td>
-                              <td>226</td>
-                              <td>55</td>
-                              <td><b style={{ color: '#16A34A' }}>14</b></td>
-                              <td>122</td>
-                              <td>36</td>
-                              <td>0</td>
-                              <td>400</td>
-                            </tr>
-                            <tr>
-                              <td><b>Farrukh Abbas</b></td>
-                              <td>1663</td>
-                              <td>1663</td>
-                              <td>0</td>
-                              <td>344</td>
-                              <td>3</td>
-                              <td><b style={{ color: '#16A34A' }}>3</b></td>
-                              <td>122</td>
-                              <td>191</td>
-                              <td>314</td>
-                              <td>553</td>
-                            </tr>
-                            <tr>
-                              <td><b>Sidra Ikhlaq</b></td>
-                              <td>1495</td>
-                              <td>1495</td>
-                              <td>0</td>
-                              <td>330</td>
-                              <td>103</td>
-                              <td><b style={{ color: '#16A34A' }}>4</b></td>
-                              <td>28</td>
-                              <td>59</td>
-                              <td>264</td>
-                              <td>192</td>
-                            </tr>
-                            <tr>
-                              <td><b>Umair Ahmed</b></td>
-                              <td>504</td>
-                              <td>504</td>
-                              <td>0</td>
-                              <td>154</td>
-                              <td>160</td>
-                              <td>0</td>
-                              <td>51</td>
-                              <td>2</td>
-                              <td>132</td>
-                              <td>5</td>
-                            </tr>
-                            <tr>
-                              <td><b>Faisal Ali Khan</b></td>
-                              <td>157</td>
-                              <td>157</td>
-                              <td>0</td>
-                              <td>36</td>
-                              <td>2</td>
-                              <td>1</td>
-                              <td>1</td>
-                              <td>53</td>
-                              <td>13</td>
-                              <td>20</td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
-                    </div>
-                  </div>
-                )}
-
-                {/* TAB 2: SALES TEAM PRODUCTIVITY & CALL AUDIT */}
-                {activeTab === 'productivity' && (
-                  <div>
-                    {/* Top Dashboard Header with exact yellow underline */}
-                    <div className="crm-main-topbar">
-                      <h2 className="crm-dashboard-heading">
-                        Dashboard
-                        <span className="crm-heading-underline"></span>
-                      </h2>
-                      <div className="crm-top-actions">
-                        <span className="crm-action-link">
-                          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-                            <polyline points="7 10 12 15 17 10"></polyline>
-                            <line x1="12" y1="15" x2="12" y2="3"></line>
-                          </svg>
-                          <span>Export</span>
+                        <span
+                          className={`crm-subnav-item ${dashboardSubTab === 'pipeline' ? 'active' : ''}`}
+                          onClick={() => setDashboardSubTab('pipeline')}
+                        >
+                          PIPELINE
                         </span>
-                        <span className="crm-action-link">
-                          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                            <circle cx="12" cy="12" r="10"></circle>
-                            <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
-                            <line x1="12" y1="17" x2="12.01" y2="17"></line>
-                          </svg>
-                          <span>Need help?</span>
-                        </span>
-                      </div>
-                    </div>
-
-                    {/* Subnav Tabs & Filter Bar */}
-                    <div className="crm-subnav-strip">
-                      <div className="crm-subnav-left">
-                        <span className="crm-subnav-item" onClick={() => setActiveTab('dashboard')}>MY PIPELINE</span>
-                        <span className="crm-subnav-item active">MY PRODUCTIVITY</span>
-                        <span className="crm-subnav-item">
-                          META <span className="crm-beta-badge">Beta</span>
+                        <span
+                          className="crm-subnav-item"
+                          onClick={() => setActiveTab('productivity')}
+                        >
+                          PRODUCTIVITY
                         </span>
                       </div>
                       <div className="crm-subnav-filters">
@@ -659,7 +337,421 @@ export default function CRMProductPage() {
                       </div>
                     </div>
 
-                    {/* Row 1: Call Outcomes Donut + 4 KPI Boxes (From Screenshot media_1790631968769.png) */}
+                    {/* SUBTAB 1A: OVERVIEW */}
+                    {dashboardSubTab === 'overview' && (
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+                        {/* 4 Executive KPI Cards */}
+                        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '14px' }}>
+                          <div className="crm-metric-card">
+                            <div className="crm-metric-label">TOTAL BOOKINGS VALUE</div>
+                            <div className="crm-metric-number" style={{ color: '#047857' }}>PKR 45.2M</div>
+                            <div className="crm-metric-unit" style={{ color: '#059669', fontWeight: '700' }}>✓ Active sales agreements</div>
+                          </div>
+                          <div className="crm-metric-card">
+                            <div className="crm-metric-label">TOTAL CASH COLLECTED</div>
+                            <div className="crm-metric-number" style={{ color: '#1D4ED8' }}>PKR 12.8M</div>
+                            <div className="crm-metric-unit" style={{ color: '#2563EB', fontWeight: '700' }}>✓ Realized cash inflows</div>
+                          </div>
+                          <div className="crm-metric-card">
+                            <div className="crm-metric-label">ACTIVE CRM LEADS</div>
+                            <div className="crm-metric-number">148</div>
+                            <div className="crm-metric-unit">MULTI-CHANNEL BUYERS</div>
+                          </div>
+                          <div className="crm-metric-card">
+                            <div className="crm-metric-label">AVAILABLE INVENTORY</div>
+                            <div className="crm-metric-number">62</div>
+                            <div className="crm-metric-unit">UNITS READY FOR BOOKING</div>
+                          </div>
+                        </div>
+
+                        {/* Recent Confirmed Bookings Table */}
+                        <div className="crm-table-card">
+                          <div className="crm-card-title">Recent Property Bookings &amp; Sales</div>
+                          <div style={{ overflowX: 'auto' }}>
+                            <table className="crm-data-table">
+                              <thead>
+                                <tr>
+                                  <th>Booking #</th>
+                                  <th>Customer Name</th>
+                                  <th>Property Unit</th>
+                                  <th>Total Amount</th>
+                                  <th>Token Advance</th>
+                                  <th>Assigned Agent / Dealer</th>
+                                  <th>Booking Status</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <tr>
+                                  <td><b>BKG-2026-089</b></td>
+                                  <td>Muhammad Tariq Sheikh</td>
+                                  <td>Unit # 44 (10 Marla Boulevard)</td>
+                                  <td>PKR 7,500,000</td>
+                                  <td><b style={{ color: '#16A34A' }}>PKR 1,500,000</b></td>
+                                  <td>Al-Haram Real Estate</td>
+                                  <td><span className="crm-status-available">Confirmed</span></td>
+                                </tr>
+                                <tr>
+                                  <td><b>BKG-2026-090</b></td>
+                                  <td>Bilal Hassan</td>
+                                  <td>Unit # 102 (5 Marla Regular)</td>
+                                  <td>PKR 3,500,000</td>
+                                  <td><b style={{ color: '#16A34A' }}>PKR 700,000</b></td>
+                                  <td>Ayesha Khadim (In-House)</td>
+                                  <td><span className="crm-status-available">Confirmed</span></td>
+                                </tr>
+                                <tr>
+                                  <td><b>BKG-2026-091</b></td>
+                                  <td>Chaudhry Kamran</td>
+                                  <td>Unit # 105 (1 Kanal Executive)</td>
+                                  <td>PKR 14,000,000</td>
+                                  <td><b style={{ color: '#16A34A' }}>PKR 2,800,000</b></td>
+                                  <td>Farrukh Abbas (In-House)</td>
+                                  <td><span className="crm-status-available">Confirmed</span></td>
+                                </tr>
+                              </tbody>
+                            </table>
+                          </div>
+                        </div>
+                      </div>
+                    )}
+
+                    {/* SUBTAB 1B: PIPELINE */}
+                    {dashboardSubTab === 'pipeline' && (
+                      <div>
+                        {/* 5 KPI Metric Cards */}
+                        <div className="crm-metrics-grid-5">
+                          <div className="crm-metric-card">
+                            <div className="crm-metric-label">TOTAL LEADS</div>
+                            <div className="crm-metric-number">131</div>
+                            <div className="crm-metric-unit">LEADS</div>
+                          </div>
+                          <div className="crm-metric-card">
+                            <div className="crm-metric-label">CONTACTED</div>
+                            <div className="crm-metric-number">131</div>
+                            <div className="crm-metric-unit">LEADS</div>
+                          </div>
+                          <div className="crm-metric-card">
+                            <div className="crm-metric-label">PENDING</div>
+                            <div className="crm-metric-number">0</div>
+                            <div className="crm-metric-unit">LEADS</div>
+                          </div>
+                          <div className="crm-metric-card">
+                            <div className="crm-metric-label">CLOSED</div>
+                            <div className="crm-metric-number">0</div>
+                            <div className="crm-metric-unit">LEADS</div>
+                          </div>
+                          <div className="crm-metric-card">
+                            <div className="crm-metric-label">VALUE OF CLOSED DEALS</div>
+                            <div className="crm-metric-number">0</div>
+                            <div className="crm-metric-unit">PKR</div>
+                          </div>
+                        </div>
+
+                        {/* Status Breakdown Donut & Lead Sources */}
+                        <div className="crm-dashboard-row-2">
+                          {/* Status Donut */}
+                          <div className="crm-dashboard-card">
+                            <div className="crm-card-title">Lead Status Breakdown</div>
+                            <div className="crm-donut-row">
+                              <div className="crm-donut-container">
+                                <svg viewBox="0 0 36 36" style={{ width: '100%', height: '100%', transform: 'rotate(-90deg)' }}>
+                                  <circle cx="18" cy="18" r="14" fill="none" stroke="#E2E8F0" strokeWidth="4"></circle>
+                                  <circle cx="18" cy="18" r="14" fill="none" stroke="#22C55E" strokeWidth="4" strokeDasharray="13 87" strokeDashoffset="0"></circle>
+                                  <circle cx="18" cy="18" r="14" fill="none" stroke="#3B82F6" strokeWidth="4" strokeDasharray="17 83" strokeDashoffset="-13"></circle>
+                                  <circle cx="18" cy="18" r="14" fill="none" stroke="#EF4444" strokeWidth="4" strokeDasharray="39 61" strokeDashoffset="-30"></circle>
+                                  <circle cx="18" cy="18" r="14" fill="none" stroke="#EAB308" strokeWidth="4" strokeDasharray="9 91" strokeDashoffset="-69"></circle>
+                                </svg>
+                                <div className="crm-donut-center">
+                                  <div className="crm-donut-center-num">8,511</div>
+                                  <div className="crm-donut-center-lbl">Contacted Leads</div>
+                                </div>
+                              </div>
+                              <div className="crm-donut-legend">
+                                <div className="crm-legend-item">
+                                  <span><span className="crm-legend-bullet" style={{ background: '#22C55E' }}></span>Qualified Leads</span>
+                                  <b>1,112 (13.1%)</b>
+                                </div>
+                                <div className="crm-legend-item">
+                                  <span><span className="crm-legend-bullet" style={{ background: '#3B82F6' }}></span>Details Shared</span>
+                                  <b>1,447 (17.0%)</b>
+                                </div>
+                                <div className="crm-legend-item">
+                                  <span><span className="crm-legend-bullet" style={{ background: '#EF4444' }}></span>Unqualified</span>
+                                  <b>3,348 (39.3%)</b>
+                                </div>
+                                <div className="crm-legend-item">
+                                  <span><span className="crm-legend-bullet" style={{ background: '#EAB308' }}></span>Did Not Respond</span>
+                                  <b>749 (8.8%)</b>
+                                </div>
+                                <div className="crm-legend-item">
+                                  <span><span className="crm-legend-bullet" style={{ background: '#64748B' }}></span>Lost Deals</span>
+                                  <b>691 (8.1%)</b>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+
+                          {/* Lead Sources Bar */}
+                          <div className="crm-dashboard-card">
+                            <div className="crm-card-title">Lead Acquisition Sources</div>
+                            <div style={{ display: 'flex', flexDirection: 'column', gap: '14px', marginTop: '10px' }}>
+                              <div>
+                                <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '12px', marginBottom: '4px' }}>
+                                  <span style={{ fontWeight: '700', color: '#1877F2' }}>📘 Facebook Ads</span>
+                                  <b>6,900 leads</b>
+                                </div>
+                                <div style={{ width: '100%', height: '8px', background: '#F1F5F9', borderRadius: '4px', overflow: 'hidden' }}>
+                                  <div style={{ width: '80%', height: '100%', background: '#1877F2', borderRadius: '4px' }}></div>
+                                </div>
+                              </div>
+
+                              <div>
+                                <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '12px', marginBottom: '4px' }}>
+                                  <span style={{ fontWeight: '700', color: '#D97706' }}>📄 CSV / Manual Import</span>
+                                  <b>1,441 leads</b>
+                                </div>
+                                <div style={{ width: '100%', height: '8px', background: '#F1F5F9', borderRadius: '4px', overflow: 'hidden' }}>
+                                  <div style={{ width: '17%', height: '100%', background: '#D97706', borderRadius: '4px' }}></div>
+                                </div>
+                              </div>
+
+                              <div>
+                                <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '12px', marginBottom: '4px' }}>
+                                  <span style={{ fontWeight: '700', color: '#059669' }}>🌐 Website Inquiries</span>
+                                  <b>88 leads</b>
+                                </div>
+                                <div style={{ width: '100%', height: '8px', background: '#F1F5F9', borderRadius: '4px', overflow: 'hidden' }}>
+                                  <div style={{ width: '4%', height: '100%', background: '#059669', borderRadius: '4px' }}></div>
+                                </div>
+                              </div>
+
+                              <div>
+                                <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '12px', marginBottom: '4px' }}>
+                                  <span style={{ fontWeight: '700', color: '#0284C7' }}>🎵 TikTok Ads</span>
+                                  <b>82 leads</b>
+                                </div>
+                                <div style={{ width: '100%', height: '8px', background: '#F1F5F9', borderRadius: '4px', overflow: 'hidden' }}>
+                                  <div style={{ width: '3.5%', height: '100%', background: '#0284C7', borderRadius: '4px' }}></div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        {/* Top Performing Agents Cards */}
+                        <div style={{ marginBottom: '10px', fontSize: '14px', fontWeight: '700', color: '#0F172A' }}>
+                          Top Performing Agents
+                        </div>
+                        <div className="crm-top-agents-grid">
+                          <div className="crm-agent-card crm-agent-card-yellow">
+                            <div className="crm-agent-header">
+                              <div className="crm-agent-avatar">👤</div>
+                              <div className="crm-agent-name">Admin</div>
+                            </div>
+                            <div className="crm-agent-stats-row">
+                              <span>Leads contacted:</span>
+                              <span className="crm-agent-stats-val">2564</span>
+                            </div>
+                            <div className="crm-agent-stats-row">
+                              <span>Qualified leads:</span>
+                              <span className="crm-agent-stats-val">0</span>
+                            </div>
+                            <div className="crm-agent-stats-row">
+                              <span>Deals closed:</span>
+                              <span className="crm-agent-stats-val">0</span>
+                            </div>
+                          </div>
+
+                          <div className="crm-agent-card crm-agent-card-gray">
+                            <div className="crm-agent-header">
+                              <div className="crm-agent-avatar">👤</div>
+                              <div className="crm-agent-name">Ayesha Khadim</div>
+                            </div>
+                            <div className="crm-agent-stats-row">
+                              <span>Leads contacted:</span>
+                              <span className="crm-agent-stats-val">2030</span>
+                            </div>
+                            <div className="crm-agent-stats-row">
+                              <span>Qualified leads:</span>
+                              <span className="crm-agent-stats-val">226</span>
+                            </div>
+                            <div className="crm-agent-stats-row">
+                              <span>Deals closed:</span>
+                              <span className="crm-agent-stats-val">14</span>
+                            </div>
+                          </div>
+
+                          <div className="crm-agent-card crm-agent-card-beige">
+                            <div className="crm-agent-header">
+                              <div className="crm-agent-avatar">👤</div>
+                              <div className="crm-agent-name">Farrukh Abbas</div>
+                            </div>
+                            <div className="crm-agent-stats-row">
+                              <span>Leads contacted:</span>
+                              <span className="crm-agent-stats-val">1663</span>
+                            </div>
+                            <div className="crm-agent-stats-row">
+                              <span>Qualified leads:</span>
+                              <span className="crm-agent-stats-val">344</span>
+                            </div>
+                            <div className="crm-agent-stats-row">
+                              <span>Deals closed:</span>
+                              <span className="crm-agent-stats-val">3</span>
+                            </div>
+                          </div>
+                        </div>
+
+                        {/* Agent Leaderboard Table */}
+                        <div className="crm-table-card">
+                          <div className="crm-card-title">Agent Leaderboard</div>
+                          <div style={{ overflowX: 'auto' }}>
+                            <table className="crm-data-table">
+                              <thead>
+                                <tr>
+                                  <th>Agent ↕</th>
+                                  <th>Total ↕</th>
+                                  <th>Contacted ↕</th>
+                                  <th>Pending ↕</th>
+                                  <th>Qualified ↕</th>
+                                  <th>Working Deals ↕</th>
+                                  <th>Closed Deals ↕</th>
+                                  <th>Future Prospects ↕</th>
+                                  <th>Lost Deals ↕</th>
+                                  <th>Did Not Respond ↕</th>
+                                  <th>Unqualified ↕</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <tr>
+                                  <td><b>Admin</b></td>
+                                  <td>2564</td>
+                                  <td>2564</td>
+                                  <td>0</td>
+                                  <td>0</td>
+                                  <td>0</td>
+                                  <td>0</td>
+                                  <td>50</td>
+                                  <td>345</td>
+                                  <td>0</td>
+                                  <td>2167</td>
+                                </tr>
+                                <tr>
+                                  <td><b>Ayesha Khadim</b></td>
+                                  <td>2030</td>
+                                  <td>2030</td>
+                                  <td>0</td>
+                                  <td>226</td>
+                                  <td>55</td>
+                                  <td><b style={{ color: '#16A34A' }}>14</b></td>
+                                  <td>122</td>
+                                  <td>36</td>
+                                  <td>0</td>
+                                  <td>400</td>
+                                </tr>
+                                <tr>
+                                  <td><b>Farrukh Abbas</b></td>
+                                  <td>1663</td>
+                                  <td>1663</td>
+                                  <td>0</td>
+                                  <td>344</td>
+                                  <td>3</td>
+                                  <td><b style={{ color: '#16A34A' }}>3</b></td>
+                                  <td>122</td>
+                                  <td>191</td>
+                                  <td>314</td>
+                                  <td>553</td>
+                                </tr>
+                                <tr>
+                                  <td><b>Sidra Ikhlaq</b></td>
+                                  <td>1495</td>
+                                  <td>1495</td>
+                                  <td>0</td>
+                                  <td>330</td>
+                                  <td>103</td>
+                                  <td><b style={{ color: '#16A34A' }}>4</b></td>
+                                  <td>28</td>
+                                  <td>59</td>
+                                  <td>264</td>
+                                  <td>192</td>
+                                </tr>
+                                <tr>
+                                  <td><b>Umair Ahmed</b></td>
+                                  <td>504</td>
+                                  <td>504</td>
+                                  <td>0</td>
+                                  <td>154</td>
+                                  <td>160</td>
+                                  <td>0</td>
+                                  <td>51</td>
+                                  <td>2</td>
+                                  <td>132</td>
+                                  <td>5</td>
+                                </tr>
+                                <tr>
+                                  <td><b>Faisal Ali Khan</b></td>
+                                  <td>157</td>
+                                  <td>157</td>
+                                  <td>0</td>
+                                  <td>36</td>
+                                  <td>2</td>
+                                  <td>1</td>
+                                  <td>1</td>
+                                  <td>53</td>
+                                  <td>13</td>
+                                  <td>20</td>
+                                </tr>
+                              </tbody>
+                            </table>
+                          </div>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                )}
+
+                {/* TAB 2: SALES TEAM PRODUCTIVITY & CALL AUDIT */}
+                {activeTab === 'productivity' && (
+                  <div>
+                    <div className="crm-main-topbar">
+                      <h2 className="crm-dashboard-heading">
+                        Dashboard
+                      </h2>
+                      <div className="crm-top-actions">
+                        <span className="crm-action-link">
+                          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                            <polyline points="7 10 12 15 17 10"></polyline>
+                            <line x1="12" y1="15" x2="12" y2="3"></line>
+                          </svg>
+                          <span>Export</span>
+                        </span>
+                        <span className="crm-action-link">
+                          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
+                            <line x1="12" y1="17" x2="12.01" y2="17"></line>
+                          </svg>
+                          <span>Need help?</span>
+                        </span>
+                      </div>
+                    </div>
+
+                    {/* Subnav Tabs & Filter Bar */}
+                    <div className="crm-subnav-strip">
+                      <div className="crm-subnav-left">
+                        <span className="crm-subnav-item" onClick={() => { setActiveTab('dashboard'); setDashboardSubTab('overview'); }}>OVERVIEW</span>
+                        <span className="crm-subnav-item" onClick={() => { setActiveTab('dashboard'); setDashboardSubTab('pipeline'); }}>PIPELINE</span>
+                        <span className="crm-subnav-item active">PRODUCTIVITY</span>
+                      </div>
+                      <div className="crm-subnav-filters">
+                        <span>Filter by:</span>
+                        <span className="crm-filter-pill">All Channels ▾</span>
+                        <span className="crm-filter-pill">All Sales Persons ▾</span>
+                        <span className="crm-filter-pill">📅 All Dates ▾</span>
+                      </div>
+                    </div>
+
+                    {/* Row 1: Call Outcomes Donut + 4 KPI Boxes */}
                     <div className="crm-dashboard-row-2">
                       {/* Call Outcomes Donut */}
                       <div className="crm-dashboard-card">
@@ -782,7 +874,7 @@ export default function CRMProductPage() {
                       </div>
                     </div>
 
-                    {/* Agent Productivity Leaderboard Table (From Screenshot media_1790633168879.png) */}
+                    {/* Agent Productivity Leaderboard Table */}
                     <div className="crm-table-card">
                       <div className="crm-card-title">Agent Productivity Leaderboard</div>
                       <div style={{ overflowX: 'auto' }}>
@@ -881,7 +973,6 @@ export default function CRMProductPage() {
                       <div>
                         <h2 className="crm-dashboard-heading">
                           All Leads Pipeline
-                          <span className="crm-heading-underline"></span>
                         </h2>
                         <p style={{ fontSize: '13px', color: '#64748B', margin: '4px 0 0 0' }}>
                           Real-time multi-channel lead ingestion with automated phone deduplication.
@@ -917,7 +1008,7 @@ export default function CRMProductPage() {
                             ⚠️ Already assigned to <b>Agent Farrukh</b>. Reps cannot steal or double-call this lead.
                           </div>
                           <div className="crm-kanban-actions">
-                            <span style={{ fontSize: '10.5px', color: '#64748B' }}>Interest: 1 Kanal Plot</span>
+                            <span style={{ fontSize: '10.5px', color: '#64748B' }}>Interest: 1 Kanal Property</span>
                             <span className="crm-whatsapp-btn">💬 Chat</span>
                           </div>
                         </div>
@@ -942,7 +1033,7 @@ export default function CRMProductPage() {
                           <div className="crm-kanban-card-title">Mian Zafar Iqbal</div>
                           <div className="crm-kanban-card-sub">Assigned: Ayesha Khadim • 3 Calls Logged</div>
                           <div style={{ fontSize: '11.5px', color: '#334155', background: '#F8FAFC', padding: '6px', borderRadius: '4px', marginBottom: '8px' }}>
-                            💬 "Client requested brochure and payment schedule on WhatsApp."
+                            💬 &ldquo;Client requested property brochure and project layout on WhatsApp.&rdquo;
                           </div>
                           <div className="crm-kanban-actions">
                             <span style={{ fontSize: '10.5px', color: '#64748B' }}>Last Call: Today 11:30 AM</span>
@@ -978,9 +1069,9 @@ export default function CRMProductPage() {
                         </div>
                         <div className="crm-kanban-card" style={{ borderLeft: '3px solid #16A34A' }}>
                           <div className="crm-kanban-card-title">Malik Waqas</div>
-                          <div className="crm-kanban-card-sub">10 Marla Main Boulevard • Plot #44</div>
+                          <div className="crm-kanban-card-sub">10 Marla Main Boulevard • Unit #44</div>
                           <div style={{ fontSize: '11px', color: '#16A34A', fontWeight: '700', marginBottom: '6px' }}>
-                            ✓ Booking Confirmed (Allotment Issued)
+                            ✓ Property Booking Confirmed
                           </div>
                           <div className="crm-kanban-actions">
                             <span style={{ fontSize: '10.5px', color: '#64748B' }}>Dealer: Al-Haram Estate</span>
@@ -998,11 +1089,10 @@ export default function CRMProductPage() {
                     <div className="crm-main-topbar">
                       <div>
                         <h2 className="crm-dashboard-heading">
-                          Property &amp; Plot Inventory
-                          <span className="crm-heading-underline"></span>
+                          Property Inventory Management
                         </h2>
                         <p style={{ fontSize: '13px', color: '#64748B', margin: '4px 0 0 0' }}>
-                          Al-Raziq Garden — Phase 1 Executive Block (Live Unit Availability)
+                          Al-Raziq Garden — Phase 1 Executive Block (Live Property Availability)
                         </p>
                       </div>
                       <div className="crm-top-actions">
@@ -1014,46 +1104,46 @@ export default function CRMProductPage() {
                     <div className="crm-inventory-grid">
                       <div className="crm-unit-card">
                         <div className="crm-unit-header">
-                          <span className="crm-unit-num">Plot # 102</span>
+                          <span className="crm-unit-num">Unit # 102</span>
                           <span className="crm-status-available">Available</span>
                         </div>
-                        <div className="crm-unit-specs">5 Marla Residential • Sector A (Regular)</div>
+                        <div className="crm-unit-specs">5 Marla Residential Property • Sector A (Regular)</div>
                         <div className="crm-unit-price">PKR 3,500,000</div>
                       </div>
 
                       <div className="crm-unit-card">
                         <div className="crm-unit-header">
-                          <span className="crm-unit-num">Plot # 103</span>
+                          <span className="crm-unit-num">Unit # 103</span>
                           <span className="crm-status-booked">Booked</span>
                         </div>
-                        <div className="crm-unit-specs">5 Marla Residential • Corner (+10% Premium)</div>
+                        <div className="crm-unit-specs">5 Marla Residential Property • Corner (+10% Premium)</div>
                         <div className="crm-unit-price">PKR 3,850,000</div>
                       </div>
 
                       <div className="crm-unit-card">
                         <div className="crm-unit-header">
-                          <span className="crm-unit-num">Plot # 104</span>
+                          <span className="crm-unit-num">Unit # 104</span>
                           <span className="crm-status-sold">Sold Out</span>
                         </div>
-                        <div className="crm-unit-specs">10 Marla Main Boulevard • 60ft Road</div>
+                        <div className="crm-unit-specs">10 Marla Main Boulevard Property • 60ft Road</div>
                         <div className="crm-unit-price">PKR 7,500,000</div>
                       </div>
 
                       <div className="crm-unit-card">
                         <div className="crm-unit-header">
-                          <span className="crm-unit-num">Plot # 105</span>
+                          <span className="crm-unit-num">Unit # 105</span>
                           <span className="crm-status-available">Available</span>
                         </div>
-                        <div className="crm-unit-specs">1 Kanal Executive • Park Facing</div>
+                        <div className="crm-unit-specs">1 Kanal Executive Villa Property • Park Facing</div>
                         <div className="crm-unit-price">PKR 14,000,000</div>
                       </div>
 
                       <div className="crm-unit-card">
                         <div className="crm-unit-header">
-                          <span className="crm-unit-num">Plot # 106</span>
+                          <span className="crm-unit-num">Unit # 106</span>
                           <span className="crm-status-available">Available</span>
                         </div>
-                        <div className="crm-unit-specs">10 Marla Residential • West Open</div>
+                        <div className="crm-unit-specs">10 Marla Residential Property • West Open</div>
                         <div className="crm-unit-price">PKR 6,800,000</div>
                       </div>
 
@@ -1062,42 +1152,41 @@ export default function CRMProductPage() {
                           <span className="crm-unit-num">Comm # 12</span>
                           <span className="crm-status-booked">Booked</span>
                         </div>
-                        <div className="crm-unit-specs">4 Marla Commercial Plaza • Main Square</div>
+                        <div className="crm-unit-specs">4 Marla Commercial Plaza Shop • Main Square</div>
                         <div className="crm-unit-price">PKR 18,500,000</div>
                       </div>
 
                       <div className="crm-unit-card">
                         <div className="crm-unit-header">
-                          <span className="crm-unit-num">Plot # 108</span>
+                          <span className="crm-unit-num">Unit # 108</span>
                           <span className="crm-status-available">Available</span>
                         </div>
-                        <div className="crm-unit-specs">5 Marla Residential • Regular</div>
+                        <div className="crm-unit-specs">5 Marla Residential Property • Regular</div>
                         <div className="crm-unit-price">PKR 3,500,000</div>
                       </div>
 
                       <div className="crm-unit-card">
                         <div className="crm-unit-header">
-                          <span className="crm-unit-num">Plot # 109</span>
+                          <span className="crm-unit-num">Unit # 109</span>
                           <span className="crm-status-sold">Sold Out</span>
                         </div>
-                        <div className="crm-unit-specs">1 Kanal Executive • Boulevard Corner</div>
+                        <div className="crm-unit-specs">1 Kanal Executive Property • Boulevard Corner</div>
                         <div className="crm-unit-price">PKR 15,200,000</div>
                       </div>
                     </div>
                   </div>
                 )}
 
-                {/* TAB 5: BOOKINGS & OFFICIAL ALLOTMENT LETTER */}
-                {activeTab === 'allotment' && (
+                {/* TAB 5: BOOKINGS & SALES (ADMIN ONLY) */}
+                {activeTab === 'bookings' && (
                   <div>
                     <div className="crm-main-topbar">
                       <div>
                         <h2 className="crm-dashboard-heading">
-                          Bookings &amp; Official Allotment Letters
-                          <span className="crm-heading-underline"></span>
+                          Bookings &amp; Sales Management
                         </h2>
                         <p style={{ fontSize: '13px', color: '#64748B', margin: '4px 0 0 0' }}>
-                          Official company documents with verifiable legal protection.
+                          Verified property booking records with executive security restrictions.
                         </p>
                       </div>
                       <div className="crm-admin-lock-pill">
@@ -1105,62 +1194,57 @@ export default function CRMProductPage() {
                           <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
                           <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
                         </svg>
-                        <span>Admin Only: Document Issuance Locked</span>
+                        <span>Admin Only: Booking Creation &amp; Editing Restricted</span>
                       </div>
                     </div>
 
-                    <div className="crm-allotment-preview">
-                      <div className="crm-letter-header">
-                        <div>
-                          <div className="crm-letterhead-title">AL-RAZIQ DEVELOPERS (PVT) LTD</div>
-                          <div className="crm-letterhead-ntn">NTN: 8291041-7 • Corporate License # LC-2024-991</div>
-                          <div style={{ fontSize: '11px', color: '#475569', marginTop: '2px' }}>Plot 48, Main Boulevard, Executive Block, Lahore</div>
-                        </div>
-                        <div style={{ textAlign: 'right' }}>
-                          <span style={{ background: '#DCFCE7', color: '#16A34A', fontSize: '11px', fontWeight: '800', padding: '3px 8px', borderRadius: '4px' }}>
-                            OFFICIAL PROVISIONAL ALLOTMENT
-                          </span>
-                          <div style={{ fontSize: '11px', color: '#64748B', marginTop: '4px' }}>Ref: ALR/2026/089</div>
-                        </div>
-                      </div>
-
-                      <div className="crm-letter-body-grid">
-                        <div>
-                          <span style={{ color: '#64748B' }}>Allottee Name:</span>
-                          <div style={{ fontWeight: '700', color: '#0F172A' }}>Muhammad Tariq Sheikh</div>
-                        </div>
-                        <div>
-                          <span style={{ color: '#64748B' }}>CNIC Number:</span>
-                          <div style={{ fontWeight: '700', color: '#0F172A' }}>35202-*******-1</div>
-                        </div>
-                        <div>
-                          <span style={{ color: '#64748B' }}>Project &amp; Sector:</span>
-                          <div style={{ fontWeight: '700', color: '#0F172A' }}>Al-Raziq Garden — Sector B</div>
-                        </div>
-                        <div>
-                          <span style={{ color: '#64748B' }}>Plot Size &amp; Unit #:</span>
-                          <div style={{ fontWeight: '700', color: '#0F172A' }}>10 Marla Regular (Plot #44)</div>
-                        </div>
-                        <div>
-                          <span style={{ color: '#64748B' }}>Booking Date:</span>
-                          <div style={{ fontWeight: '700', color: '#0F172A' }}>28 September 2026</div>
-                        </div>
-                        <div>
-                          <span style={{ color: '#64748B' }}>Booking Token Advance:</span>
-                          <div style={{ fontWeight: '700', color: '#16A34A' }}>PKR 1,500,000 (Verified)</div>
-                        </div>
-                      </div>
-
-                      <div className="crm-letter-stamp-row">
-                        <div style={{ fontSize: '11px', color: '#64748B' }}>
-                          <div>Authorized Cashier Stamp: <b>VERIFIED BY BANK</b></div>
-                          <div>QR Code Reference: #99281-CONFIRMED</div>
-                        </div>
-                        <div style={{ textAlign: 'right' }}>
-                          <div style={{ borderBottom: '1px solid #94A3B8', width: '160px', marginBottom: '4px' }}></div>
-                          <span style={{ fontSize: '11px', fontWeight: '700', color: '#0F172A' }}>Authorized Signature (Admin)</span>
-                        </div>
-                      </div>
+                    <div className="crm-table-card">
+                      <table className="crm-data-table">
+                        <thead>
+                          <tr>
+                            <th>Booking Ref</th>
+                            <th>Customer Name</th>
+                            <th>CNIC</th>
+                            <th>Property Project &amp; Unit</th>
+                            <th>Total Deal Value</th>
+                            <th>Token Advance</th>
+                            <th>Assigned Broker / Rep</th>
+                            <th>Status</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td><b>BKG-2026-089</b></td>
+                            <td>Muhammad Tariq Sheikh</td>
+                            <td>35202-*******-1</td>
+                            <td>Al-Raziq Garden • Unit #44 (10 Marla)</td>
+                            <td>PKR 7,500,000</td>
+                            <td><b style={{ color: '#16A34A' }}>PKR 1,500,000</b></td>
+                            <td>Al-Haram Real Estate (Dealer)</td>
+                            <td><span className="crm-status-available">Confirmed</span></td>
+                          </tr>
+                          <tr>
+                            <td><b>BKG-2026-090</b></td>
+                            <td>Bilal Hassan</td>
+                            <td>35201-*******-5</td>
+                            <td>Al-Raziq Garden • Unit #102 (5 Marla)</td>
+                            <td>PKR 3,500,000</td>
+                            <td><b style={{ color: '#16A34A' }}>PKR 700,000</b></td>
+                            <td>Ayesha Khadim (In-House)</td>
+                            <td><span className="crm-status-available">Confirmed</span></td>
+                          </tr>
+                          <tr>
+                            <td><b>BKG-2026-091</b></td>
+                            <td>Chaudhry Kamran</td>
+                            <td>35202-*******-8</td>
+                            <td>Al-Raziq Garden • Unit #105 (1 Kanal)</td>
+                            <td>PKR 14,000,000</td>
+                            <td><b style={{ color: '#16A34A' }}>PKR 2,800,000</b></td>
+                            <td>Farrukh Abbas (In-House)</td>
+                            <td><span className="crm-status-available">Confirmed</span></td>
+                          </tr>
+                        </tbody>
+                      </table>
                     </div>
                   </div>
                 )}
@@ -1172,7 +1256,6 @@ export default function CRMProductPage() {
                       <div>
                         <h2 className="crm-dashboard-heading">
                           External Dealers &amp; Broker Commissions
-                          <span className="crm-heading-underline"></span>
                         </h2>
                         <p style={{ fontSize: '13px', color: '#64748B', margin: '4px 0 0 0' }}>
                           Transparent commission tracking for affiliate agencies and independent realtors.
@@ -1235,7 +1318,7 @@ export default function CRMProductPage() {
         </div>
       </section>
 
-      {/* 5. Core Capabilities (Bento Grid) */}
+      {/* 4. Core Capabilities (Bento Grid) */}
       <section className="crm-capabilities-section" id="features">
         <div className="crm-container">
           <div className="crm-section-header">
@@ -1293,9 +1376,9 @@ export default function CRMProductPage() {
                   <path d="M18 9h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-2"></path>
                 </svg>
               </div>
-              <h3 className="crm-bento-title">Plot &amp; Unit Inventory Management</h3>
+              <h3 className="crm-bento-title">Property Inventory Management</h3>
               <p className="crm-bento-desc">
-                Manage society phases, sectors, and commercial plazas. Lock units in real-time as Available, Booked, or Sold to eliminate embarrassing double bookings.
+                Manage society phases, residential properties, and commercial plazas. Lock property units in real-time as Available, Booked, or Sold to eliminate double bookings.
               </p>
             </div>
 
@@ -1306,9 +1389,9 @@ export default function CRMProductPage() {
                   <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
                 </svg>
               </div>
-              <h3 className="crm-bento-title">Official Legal Allotment Letters</h3>
+              <h3 className="crm-bento-title">Confirmed Bookings &amp; Deal Tracking</h3>
               <p className="crm-bento-desc">
-                Admin-exclusive letterhead document generation. Issue verified provisional allotment certificates and initial booking payment receipts with company NTN and stamps.
+                Admin-exclusive booking authority. Record verified property customer bookings, token advances, and down payments with protected role boundaries.
               </p>
             </div>
 
@@ -1330,14 +1413,14 @@ export default function CRMProductPage() {
         </div>
       </section>
 
-      {/* 6. Strict Role-Based Permissions Section */}
+      {/* 5. Strict Role-Based Permissions Section */}
       <section className="crm-roles-section" id="security">
         <div className="crm-container">
           <div className="crm-section-header">
             <span className="crm-section-badge">Data Protection</span>
             <h2 className="crm-section-title">Strict Role-Based Access Control</h2>
             <p className="crm-section-desc">
-              Prevent lead theft and protect company documents with isolated role boundaries.
+              Prevent lead theft and protect company records with isolated role boundaries.
             </p>
           </div>
 
@@ -1346,7 +1429,7 @@ export default function CRMProductPage() {
               <span className="crm-role-badge crm-role-badge-admin">Full Executive Access</span>
               <h3 className="crm-role-title">Company Admin</h3>
               <p className="crm-role-desc">
-                Exclusive power to lock bookings, generate official legal allotment letters, print payment vouchers, add team members, and view executive conversion reports.
+                Exclusive authority to confirm bookings, lock property units, add team members, and view executive conversion reports.
               </p>
             </div>
 
@@ -1362,7 +1445,7 @@ export default function CRMProductPage() {
               <span className="crm-role-badge crm-role-badge-sales">Assigned Focus</span>
               <h3 className="crm-role-title">Sales Representative</h3>
               <p className="crm-role-desc">
-                Can only view and follow up on leads assigned to them. Cannot export customer phone numbers or issue legal allotment certificates.
+                Can only view and follow up on leads assigned to them. Cannot export customer phone numbers or create unauthorized bookings.
               </p>
             </div>
 
@@ -1370,14 +1453,14 @@ export default function CRMProductPage() {
               <span className="crm-role-badge crm-role-badge-dealer">Partner Portal</span>
               <h3 className="crm-role-title">Affiliate Dealer / Broker</h3>
               <p className="crm-role-desc">
-                View available unit inventory, submit buyer leads to lock commission attribution, and view verified payout statuses.
+                View available property units, submit buyer leads to lock commission attribution, and view verified payout statuses.
               </p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* 7. Transparent SaaS Pricing Section */}
+      {/* 6. Transparent SaaS Pricing Section */}
       <section className="crm-pricing-section" id="pricing">
         <div className="crm-container">
           <div className="crm-section-header">
@@ -1432,7 +1515,7 @@ export default function CRMProductPage() {
                 </li>
                 <li className="crm-feature-item">
                   <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-                  <span>Basic Unit Inventory View</span>
+                  <span>Basic Property Inventory View</span>
                 </li>
                 <li className="crm-feature-item">
                   <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="20 6 9 17 4 12"/></svg>
@@ -1480,7 +1563,7 @@ export default function CRMProductPage() {
                 </li>
                 <li className="crm-feature-item">
                   <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-                  <span>Official Allotment Letter &amp; Voucher Generator</span>
+                  <span>Confirmed Bookings &amp; Deal Tracking</span>
                 </li>
                 <li className="crm-feature-item">
                   <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="20 6 9 17 4 12"/></svg>
@@ -1547,7 +1630,7 @@ export default function CRMProductPage() {
         </div>
       </section>
 
-      {/* 8. Frequently Asked Questions */}
+      {/* 7. Frequently Asked Questions */}
       <section className="crm-faq-section" id="faq">
         <div className="crm-container">
           <div className="crm-section-header">
@@ -1575,7 +1658,7 @@ export default function CRMProductPage() {
               </button>
               {openFaq === 1 && (
                 <div className="crm-faq-answer">
-                  Whenever a lead is ingested via Facebook Ads, web forms, or manual entry, our system normalizes the Pakistani phone number and checks your database. If the phone already exists, it displays an alert with the assigned agent's name, preventing multiple agents from calling the same buyer.
+                  Whenever a lead is ingested via Facebook Ads, web forms, or manual entry, our system normalizes the Pakistani phone number and checks your database. If the phone already exists, it displays an alert with the assigned agent&apos;s name, preventing multiple agents from calling the same buyer.
                 </div>
               )}
             </div>
@@ -1594,12 +1677,12 @@ export default function CRMProductPage() {
 
             <div className="crm-faq-item">
               <button className="crm-faq-question" onClick={() => toggleFaq(3)}>
-                <span>Who has permission to issue official Allotment Letters?</span>
+                <span>Who has permission to enter new property bookings?</span>
                 <span>{openFaq === 3 ? '−' : '+'}</span>
               </button>
               {openFaq === 3 && (
                 <div className="crm-faq-answer">
-                  Only the Company Administrator has the permission to enter confirmed bookings and generate or print official legal Allotment Letters. Sales agents and external brokers have view-only rights to prevent unauthorized document issuance.
+                  Only the Company Administrator has the permission to enter new property bookings and lock property unit status. Sales agents and external brokers have view-only rights to prevent unauthorized booking entries.
                 </div>
               )}
             </div>
@@ -1611,7 +1694,7 @@ export default function CRMProductPage() {
               </button>
               {openFaq === 4 && (
                 <div className="crm-faq-answer">
-                  Your dedicated company workspace can be set up within 24 to 48 hours. We configure your projects, plot inventory, and team accounts, followed by an onboarding walkthrough for your sales team.
+                  Your dedicated company workspace can be set up within 24 to 48 hours. We configure your projects, property inventory, and team accounts, followed by an onboarding walkthrough for your sales team.
                 </div>
               )}
             </div>
@@ -1619,12 +1702,12 @@ export default function CRMProductPage() {
         </div>
       </section>
 
-      {/* 9. Bottom Launch Banner */}
+      {/* 8. Bottom Launch Banner */}
       <section className="crm-bottom-banner">
         <div className="crm-container">
           <h2 className="crm-bottom-title">Ready to Automate Your Real Estate Sales &amp; Team Productivity?</h2>
           <p className="crm-bottom-desc">
-            Join forward-thinking developers and agencies operating on Propkads CRM. Experience zero lead leakage, faster plot bookings, and live sales accountability.
+            Join forward-thinking developers and agencies operating on Propkads CRM. Experience zero lead leakage, faster property bookings, and live sales accountability.
           </p>
           <div className="crm-bottom-ctas">
             <a
@@ -1635,19 +1718,11 @@ export default function CRMProductPage() {
             >
               <span>Login to Propkads CRM Portal →</span>
             </a>
-            <a
-              href="https://wa.me/923332000649?text=Hello%20Propkads,%20we%20want%20to%20get%20started%20with%20Propkads%20CRM."
-              target="_blank"
-              rel="noopener noreferrer"
-              className="crm-btn-talk-demo"
-            >
-              <span>Talk to an Onboarding Specialist</span>
-            </a>
           </div>
         </div>
       </section>
 
-      {/* 10. Website Standard Footer */}
+      {/* 9. Website Standard Footer */}
       <Footer />
     </div>
   );
