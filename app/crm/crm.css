@@ -1562,3 +1562,10 @@
     grid-template-columns: 1fr 1fr;
   }
 }
+
+/* Website Footer Visibility Guarantee */
+.footer-v2 {
+  opacity: 1 !important;
+  transform: none !important;
+  visibility: visible !important;
+}

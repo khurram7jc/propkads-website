@@ -27,7 +27,7 @@ export default function Footer({ c = {} }) {
   };
 
   return (
-    <footer className="footer-v2 reveal">
+    <footer className="footer-v2">
       <div className="footer-v2-inner">
         <div className="footer-v2-col footer-v2-brand">
           <img src="/logo.png" alt="Propkads" className="footer-v2-logo" />
