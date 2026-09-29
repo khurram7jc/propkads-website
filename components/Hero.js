@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import { CoinsIcon, TargetIcon, UsersIcon, LayersIcon, TrendingUpIcon, ShieldIcon } from '@/components/Icons';
 
 export default function Hero({ c, onQuickPhone }) {
@@ -30,7 +31,30 @@ export default function Hero({ c, onQuickPhone }) {
 
       <div className="hero-v2-inner">
         <div className="hero-v2-left">
-          <span className="hero-tag reveal">A complete revenue system, not just ads</span>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap', marginBottom: '12px' }}>
+            <span className="hero-tag reveal">A complete revenue system, not just ads</span>
+            <Link
+              href="/crm"
+              className="reveal"
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '6px',
+                fontSize: '12px',
+                fontWeight: '700',
+                color: '#14A750',
+                background: '#EBF8F1',
+                border: '1px solid rgba(20, 167, 80, 0.3)',
+                padding: '4px 12px',
+                borderRadius: '999px',
+                textDecoration: 'none',
+                boxShadow: '0 2px 8px rgba(20, 167, 80, 0.1)'
+              }}
+            >
+              <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#14A750' }}></span>
+              <span>Propkads Sales CRM System →</span>
+            </Link>
+          </div>
           <h1 className="reveal reveal-delay-1">{c.hero_heading}</h1>
           <p className="sub reveal reveal-delay-2">{c.hero_subheading}</p>
 
