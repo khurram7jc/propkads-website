@@ -37,60 +37,6 @@
   padding: 0 24px;
 }
 
-/* ==========================================================================
-   Top Action Bar (Top Left Corner CRM Login Button)
-   ========================================================================== */
-.crm-top-action-bar {
-  padding: 16px 0 8px 0;
-  background: #FFFFFF;
-  border-bottom: 1px solid var(--crm-border-subtle);
-}
-
-.crm-top-bar-inner {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 12px;
-}
-
-.crm-top-left-group {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-}
-
-.crm-login-pill-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  background: var(--crm-emerald);
-  color: #FFFFFF !important;
-  font-size: 13.5px;
-  font-weight: 700;
-  padding: 8px 18px;
-  border-radius: 8px;
-  text-decoration: none;
-  box-shadow: 0 2px 10px rgba(20, 167, 80, 0.28);
-  transition: all 0.2s ease;
-  letter-spacing: -0.01em;
-}
-
-.crm-login-pill-btn:hover {
-  background: var(--crm-emerald-dark);
-  transform: translateY(-1px);
-  box-shadow: 0 4px 14px rgba(20, 167, 80, 0.38);
-}
-
-.crm-portal-live-tag {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 12px;
-  font-weight: 600;
-  color: var(--crm-text-muted);
-}
-
 .crm-pulse-dot {
   width: 7px;
   height: 7px;
@@ -105,17 +51,6 @@
   0% { box-shadow: 0 0 0 0 rgba(20, 167, 80, 0.4); }
   70% { box-shadow: 0 0 0 6px rgba(20, 167, 80, 0); }
   100% { box-shadow: 0 0 0 0 rgba(20, 167, 80, 0); }
-}
-
-.crm-top-right-hint {
-  font-size: 12.5px;
-  font-weight: 600;
-  color: var(--crm-text-muted);
-}
-
-.crm-top-right-hint span {
-  color: var(--crm-emerald);
-  font-weight: 700;
 }
 
 /* ==========================================================================
