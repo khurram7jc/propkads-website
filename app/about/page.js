@@ -51,20 +51,18 @@ export default function AboutPage() {
       {/* 2. Hero Section */}
       <section className="services-hub-hero">
         <div className="container">
-          <div className="services-hub-hero-inner" style={{ textAlign: 'center', margin: '0 auto', maxWidth: '860px', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-            <span className="section-tag" style={{ display: 'inline-block', margin: '0 auto 14px auto', textAlign: 'center' }}>
-              {c.about_eyebrow || 'About Propkads'}
-            </span>
-            <h1 className="services-hub-title" style={{ textAlign: 'center' }}>
+          <div className="services-hub-hero-inner">
+            <span className="section-tag">{c.about_eyebrow || 'About Propkads'}</span>
+            <h1 className="services-hub-title">
               {c.about_heading || 'A sales-driven real estate growth partner.'}
             </h1>
-            <div className="about-v2-intro" style={{ margin: '20px auto 32px auto', maxWidth: '820px', textAlign: 'center' }}>
-              <p style={{ fontSize: '16px', lineHeight: '1.7', color: 'var(--ink)', textAlign: 'center' }}>{c.about_lead_1}</p>
-              <p style={{ fontSize: '15.5px', lineHeight: '1.7', color: 'var(--slate)', textAlign: 'center' }}>{c.about_lead_2}</p>
-              <p style={{ fontSize: '15.5px', lineHeight: '1.7', color: 'var(--slate)', textAlign: 'center' }}>{c.about_lead_3}</p>
+            <div className="about-v2-intro" style={{ margin: '20px auto 32px auto', maxWidth: '820px', textAlign: 'left' }}>
+              <p style={{ fontSize: '16px', lineHeight: '1.7', color: 'var(--ink)' }}>{c.about_lead_1}</p>
+              <p style={{ fontSize: '15.5px', lineHeight: '1.7', color: 'var(--slate)' }}>{c.about_lead_2}</p>
+              <p style={{ fontSize: '15.5px', lineHeight: '1.7', color: 'var(--slate)' }}>{c.about_lead_3}</p>
             </div>
 
-            <div className="services-hub-hero-ctas" style={{ justifyContent: 'center' }}>
+            <div className="services-hub-hero-ctas">
               <Link href="/contact" className="btn btn-solid">
                 Get a Free Project Review
               </Link>
@@ -78,29 +76,17 @@ export default function AboutPage() {
 
       {/* 3. Three Core Pillars */}
       <section className="section container">
-        <div style={{ textAlign: 'center', maxWidth: '760px', margin: '0 auto 36px auto', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-          <span className="section-tag" style={{ display: 'inline-block', margin: '0 auto 10px auto', textAlign: 'center' }}>
-            Core Pillars
-          </span>
-          <h2 style={{ fontSize: '32px', textAlign: 'center', margin: '0 auto', maxWidth: '100%' }}>
-            How We Operate &amp; Deliver Results
-          </h2>
-          <p className="section-intro" style={{ textAlign: 'center', margin: '12px auto 0 auto', maxWidth: '640px' }}>
-            Built around execution, accountability, and predictable revenue growth for developers.
-          </p>
-        </div>
-
         <div className="about-cards-v3" style={{ opacity: 1, transform: 'none' }}>
           {cards.map((card, i) => (
-            <div className="about-card-v3" key={i} style={{ opacity: 1, transform: 'none', textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-              <div className="about-card-v3-badge" style={{ margin: '0 auto 16px auto' }}>{String(i + 1).padStart(2, '0')}</div>
-              <h3 style={{ textAlign: 'center', width: '100%' }}>{card.title}</h3>
-              <ul style={{ padding: 0, listStyle: 'none', width: '100%', textAlign: 'center' }}>
+            <div className="about-card-v3" key={i} style={{ opacity: 1, transform: 'none' }}>
+              <div className="about-card-v3-badge">{String(i + 1).padStart(2, '0')}</div>
+              <h3>{card.title}</h3>
+              <ul>
                 {card.bullets.map((b, j) => (
-                  <li key={j} style={{ justifyContent: 'center', textAlign: 'center' }}>{b}</li>
+                  <li key={j}>{b}</li>
                 ))}
               </ul>
-              {card.note && <p className="about-card-v3-note" style={{ textAlign: 'center', width: '100%' }}>{card.note}</p>}
+              {card.note && <p className="about-card-v3-note">{card.note}</p>}
             </div>
           ))}
         </div>
@@ -123,30 +109,30 @@ export default function AboutPage() {
 
         <div className="fit-grid-v2" style={{ opacity: 1, transform: 'none' }}>
           <div className="fit-card-v2 no" style={{ opacity: 1, transform: 'none' }}>
-            <h3 style={{ textAlign: 'center' }}>{c.pos_problem_label || 'Why Most Projects Struggle to Sell'}</h3>
+            <h3>{c.pos_problem_label || 'Why Most Projects Struggle to Sell'}</h3>
             <ul>
               {problems.map((item, i) => (
                 <li key={i}>
                   <span className="fit-card-v2-icon">✕</span>
-                  <span>{item}</span>
+                  {item}
                 </li>
               ))}
             </ul>
           </div>
           <div className="fit-card-v2 yes" style={{ opacity: 1, transform: 'none' }}>
-            <h3 style={{ textAlign: 'center' }}>{c.pos_solution_label || 'What Propkads Changes'}</h3>
+            <h3>{c.pos_solution_label || 'What Propkads Changes'}</h3>
             <ul>
               {solutions.map((item, i) => (
                 <li key={i}>
                   <span className="fit-card-v2-icon">✓</span>
-                  <span>{item}</span>
+                  {item}
                 </li>
               ))}
             </ul>
           </div>
         </div>
 
-        <p className="callout" style={{ marginTop: '36px', textAlign: 'center' }}>
+        <p className="callout" style={{ marginTop: '36px' }}>
           {c.pos_callout || 'Marketing alone does not sell projects — systems do.'}
         </p>
       </section>
@@ -164,23 +150,23 @@ export default function AboutPage() {
 
         <div className="fit-grid-v2" style={{ opacity: 1, transform: 'none' }}>
           <div className="fit-card-v2 yes" style={{ opacity: 1, transform: 'none' }}>
-            <h3 style={{ textAlign: 'center' }}>{c.fit_yes_label || 'Best Fit For'}</h3>
+            <h3>{c.fit_yes_label || 'Best Fit For'}</h3>
             <ul>
               {yesItems.map((item, i) => (
                 <li key={i}>
                   <span className="fit-card-v2-icon">✓</span>
-                  <span>{item}</span>
+                  {item}
                 </li>
               ))}
             </ul>
           </div>
           <div className="fit-card-v2 no" style={{ opacity: 1, transform: 'none' }}>
-            <h3 style={{ textAlign: 'center' }}>{c.fit_no_label || 'Not a Fit For'}</h3>
+            <h3>{c.fit_no_label || 'Not a Fit For'}</h3>
             <ul>
               {noItems.map((item, i) => (
                 <li key={i}>
                   <span className="fit-card-v2-icon">✕</span>
-                  <span>{item}</span>
+                  {item}
                 </li>
               ))}
             </ul>
@@ -190,12 +176,12 @@ export default function AboutPage() {
 
       {/* 6. CTA Banner */}
       <div className="container" style={{ margin: '16px auto 32px auto' }}>
-        <div className="services-hub-banner" style={{ marginTop: '0', textAlign: 'center', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
-          <div style={{ textAlign: 'center' }}>
-            <h4 style={{ textAlign: 'center', marginBottom: '8px' }}>Partner with a Real Estate Sales Growth Agency</h4>
-            <p style={{ textAlign: 'center', margin: '0 auto' }}>Ready to move unsold inventory and get 100% visibility into your sales team&apos;s daily activity?</p>
+        <div className="services-hub-banner" style={{ marginTop: '0' }}>
+          <div>
+            <h4>Partner with a Real Estate Sales Growth Agency</h4>
+            <p>Ready to move unsold inventory and get 100% visibility into your sales team&apos;s daily activity?</p>
           </div>
-          <div className="services-hub-actions" style={{ justifyContent: 'center', marginTop: '12px' }}>
+          <div className="services-hub-actions">
             <Link href="/contact" className="btn btn-solid" style={{ background: '#22C55E', color: '#fff' }}>
               Schedule Free Review →
             </Link>
