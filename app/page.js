@@ -7,12 +7,7 @@ import PlatformsStrip from '@/components/PlatformsStrip';
 import Positioning from '@/components/Positioning';
 import SystemFlow from '@/components/SystemFlow';
 import Services from '@/components/Services';
-import About from '@/components/About';
-import HowItWorks from '@/components/HowItWorks';
-import ExecutionSupport from '@/components/ExecutionSupport';
-import CommercialModel from '@/components/CommercialModel';
-import IdealFit from '@/components/IdealFit';
-import FAQ from '@/components/FAQ';
+import CrmTeaser from '@/components/CrmTeaser';
 import Footer from '@/components/Footer';
 
 const DEFAULT_CONTENT = {
@@ -247,35 +242,20 @@ export default function Home() {
       {/* PLATFORMS */}
       <PlatformsStrip c={c} />
 
-      {/* POSITIONING */}
+      {/* POSITIONING (WHY PROPKADS) */}
       <Positioning c={c} />
 
-      {/* SYSTEM FLOW */}
-      <SystemFlow c={c} />
-
-      {/* ABOUT */}
-      <About c={c} />
-
-      {/* SERVICES */}
+      {/* SERVICES (12 SOLUTIONS BENTO) */}
       <Services c={c} />
 
-      {/* HOW IT WORKS */}
-      <HowItWorks c={c} />
+      {/* PROPKADS CRM SPOTLIGHT */}
+      <CrmTeaser />
 
-      {/* EXECUTION SUPPORT */}
-      <ExecutionSupport c={c} />
-
-      {/* COMMERCIAL MODEL */}
-      <CommercialModel c={c} />
-
-      {/* IDEAL CLIENT FIT */}
-      <IdealFit c={c} />
-
-      {/* FAQ */}
-      <FAQ c={c} />
+      {/* 4-PHASE REVENUE & SALES SYSTEM */}
+      <SystemFlow c={c} />
 
       {/* CONTACT */}
-      <section className="section container reveal" id="contact">
+      <section className="section container" id="contact">
         <div className="section-tag">{c.contact_eyebrow || 'Contact'}</div>
         <h2>{c.contact_heading || 'Get a Free Project Review'}</h2>
         <p className="section-intro">{c.contact_intro || 'Please provide the correct information below and our team will get back to you.'}</p>

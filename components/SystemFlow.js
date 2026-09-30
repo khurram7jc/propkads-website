@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import { UsersIcon, CrmDocIcon, TeamStarIcon, GrowthBarsIcon, CurvedArrowIcon } from '@/components/Icons';
 
 export default function SystemFlow({ c }) {
@@ -9,7 +10,7 @@ export default function SystemFlow({ c }) {
   ];
 
   return (
-    <section className="section container reveal" id="system-flow">
+    <section className="section container" id="system-flow">
       <div className="process-heading-block">
         <div className="platforms-eyebrow">
           <span className="platforms-eyebrow-line"></span>
@@ -52,6 +53,12 @@ export default function SystemFlow({ c }) {
           {c.system_bottom_stat_1 || 'More Leads'} / {c.system_bottom_stat_2 || 'Better Follow-ups'} / {c.system_bottom_stat_3 || 'Higher Sales'}
         </span>
         <span className="process-bottom-line"></span>
+      </div>
+
+      <div style={{ textAlign: 'center', marginTop: '28px' }}>
+        <Link href="/how-it-works" className="btn btn-outline" style={{ background: '#fff' }}>
+          Explore 4-Phase Implementation Process →
+        </Link>
       </div>
     </section>
   );
