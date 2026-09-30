@@ -1,5 +1,6 @@
 'use client';
 import { useState } from 'react';
+import Link from 'next/link';
 
 export default function Footer({ c = {} }) {
   const [email, setEmail] = useState('');
@@ -36,11 +37,11 @@ export default function Footer({ c = {} }) {
 
         <div className="footer-v2-col footer-v2-links">
           <h4>Quick Links</h4>
-          <a href="/#about">{c?.header_nav_1 || 'About Us'}</a>
-          <a href="/#services">{c?.header_nav_2 || 'Services'}</a>
-          <a href="/#how-it-works">{c?.header_nav_3 || 'How It Works'}</a>
-          <a href="/crm">Propkads CRM</a>
-          <a href="/#contact">{c?.header_nav_4 || 'Contact'}</a>
+          <Link href="/about">{c?.header_nav_1 || 'About Us'}</Link>
+          <Link href="/services">{c?.header_nav_2 || 'Services'}</Link>
+          <Link href="/how-it-works">{c?.header_nav_3 || 'How It Works'}</Link>
+          <Link href="/crm">Propkads CRM</Link>
+          <Link href="/contact">{c?.header_nav_4 || 'Contact'}</Link>
         </div>
 
         <div className="footer-v2-col footer-v2-contact">

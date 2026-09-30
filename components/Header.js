@@ -26,7 +26,7 @@ export default function Header({ c = {} }) {
 
           {/* Desktop Nav Links */}
           <div className="mainnav-links">
-            <a href="/#about">{c?.header_nav_1 || 'About Us'}</a>
+            <Link href="/about">{c?.header_nav_1 || 'About Us'}</Link>
 
             {/* Services Dropdown */}
             <div
@@ -107,7 +107,7 @@ export default function Header({ c = {} }) {
               )}
             </div>
 
-            <a href="/#how-it-works">{c?.header_nav_3 || 'How It Works'}</a>
+            <Link href="/how-it-works">{c?.header_nav_3 || 'How It Works'}</Link>
 
             {/* Propkads CRM Link with Badge */}
             <Link href="/crm" className="crm-nav-link">
@@ -115,14 +115,14 @@ export default function Header({ c = {} }) {
               <span className="crm-nav-pill">Portal</span>
             </Link>
 
-            <a href="/#contact">{c?.header_nav_4 || 'Contact'}</a>
+            <Link href="/contact">{c?.header_nav_4 || 'Contact'}</Link>
           </div>
 
           {/* Right CTA */}
           <div className="mainnav-actions">
-            <a href="/#contact" className="mainnav-cta">
+            <Link href="/contact" className="mainnav-cta">
               {c?.header_cta_text || 'Get a Free Review'}
-            </a>
+            </Link>
 
             {/* Mobile Hamburger Button */}
             <button
@@ -150,7 +150,7 @@ export default function Header({ c = {} }) {
         {/* Mobile Dropdown Menu */}
         {mobileMenuOpen && (
           <div className="mobile-nav-panel">
-            <a href="/#about" onClick={() => setMobileMenuOpen(false)}>About Us</a>
+            <Link href="/about" onClick={() => setMobileMenuOpen(false)}>About Us</Link>
             <Link href="/services" onClick={() => setMobileMenuOpen(false)}>All Services</Link>
             <div className="mobile-services-links">
               <Link href="/services/3d-architectural-walkthroughs-cgi" onClick={() => setMobileMenuOpen(false)}>• 3D Walkthroughs &amp; CGI</Link>
@@ -161,11 +161,11 @@ export default function Header({ c = {} }) {
               <Link href="/services/custom-real-estate-web-development" onClick={() => setMobileMenuOpen(false)}>• Web Development</Link>
             </div>
             <Link href="/crm" onClick={() => setMobileMenuOpen(false)}>Propkads CRM (Portal)</Link>
-            <a href="/#how-it-works" onClick={() => setMobileMenuOpen(false)}>How It Works</a>
-            <a href="/#contact" onClick={() => setMobileMenuOpen(false)}>Contact Us</a>
-            <a href="/#contact" className="btn btn-solid" style={{ width: '100%', marginTop: '12px' }} onClick={() => setMobileMenuOpen(false)}>
+            <Link href="/how-it-works" onClick={() => setMobileMenuOpen(false)}>How It Works</Link>
+            <Link href="/contact" onClick={() => setMobileMenuOpen(false)}>Contact Us</Link>
+            <Link href="/contact" className="btn btn-solid" style={{ width: '100%', marginTop: '12px' }} onClick={() => setMobileMenuOpen(false)}>
               Get a Free Review
-            </a>
+            </Link>
           </div>
         )}
       </nav>
