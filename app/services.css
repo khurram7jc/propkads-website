@@ -175,6 +175,9 @@
   text-align: center;
   max-width: 820px;
   margin: 0 auto 24px auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .services-main-title {
@@ -183,7 +186,111 @@
   color: var(--ink);
   letter-spacing: -0.025em;
   line-height: 1.22;
-  margin: 12px 0 16px 0;
+  margin: 12px auto 16px auto;
+  text-align: center;
+}
+
+/* ---------- Compact Services Directory Grid (Homepage) ---------- */
+.services-compact-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  max-width: 1120px;
+  margin: 28px auto 0 auto;
+}
+
+@media (max-width: 960px) {
+  .services-compact-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+  }
+}
+
+@media (max-width: 600px) {
+  .services-compact-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+}
+
+.service-compact-item {
+  background: #FFFFFF;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 16px 18px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.02);
+}
+
+.service-compact-item:hover {
+  border-color: var(--green);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 24px rgba(20, 167, 80, 0.12);
+  background: #FAFAF8;
+}
+
+.service-compact-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  background: var(--green-tint);
+  color: var(--green);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: all 0.2s ease;
+}
+
+.service-compact-item:hover .service-compact-icon {
+  background: var(--green);
+  color: #FFFFFF;
+}
+
+.service-compact-info {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  text-align: left;
+}
+
+.service-compact-title {
+  font-size: 14.5px;
+  font-weight: 700;
+  color: var(--ink);
+  line-height: 1.35;
+  transition: color 0.15s ease;
+}
+
+.service-compact-item:hover .service-compact-title {
+  color: var(--green);
+}
+
+.service-compact-cat {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--slate);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.service-compact-arrow {
+  color: #94A3B8;
+  font-size: 16px;
+  font-weight: 700;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+
+.service-compact-item:hover .service-compact-arrow {
+  color: var(--green);
+  transform: translateX(4px);
 }
 
 .services-filter-tabs {
