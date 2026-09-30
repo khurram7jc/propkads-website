@@ -162,9 +162,9 @@ export default function ServiceDetailPage({ params }) {
             </div>
 
             {/* Workflow Section */}
-            <div className="service-block" style={{ marginTop: '56px' }}>
+            <div className="service-block" style={{ marginTop: '36px' }}>
               <h2 className="service-block-heading">Execution &amp; Deployment Workflow</h2>
-              <p style={{ color: 'var(--slate)', marginBottom: '24px', fontSize: '15px' }}>
+              <p style={{ color: 'var(--slate)', marginBottom: '20px', fontSize: '15px' }}>
                 Our systematic 4-step process ensures clear timelines and transparent delivery milestones.
               </p>
 
@@ -182,11 +182,11 @@ export default function ServiceDetailPage({ params }) {
             </div>
 
             {/* Why Propkads */}
-            <div className="service-why-card" style={{ marginTop: '56px' }}>
-              <h3 style={{ fontSize: '20px', marginBottom: '12px', color: '#0F172A' }}>
+            <div className="service-why-card" style={{ marginTop: '36px', textAlign: 'center' }}>
+              <h3 style={{ fontSize: '20px', marginBottom: '12px', color: '#0F172A', textAlign: 'center' }}>
                 Why Real Estate Developers Choose Propkads for This Service
               </h3>
-              <p style={{ color: 'var(--slate)', fontSize: '14.5px', lineHeight: '1.7' }}>
+              <p style={{ color: 'var(--slate)', fontSize: '14.5px', lineHeight: '1.7', textAlign: 'center', maxWidth: '680px', margin: '0 auto' }}>
                 Unlike generic agencies that treat real estate like e-commerce or clothing brands, Propkads specializes 100% in property marketing, plot/apartment sales psychology, and developer cash flow cycles. Our team understands NOC verification, installment plans, buyer objections, and on-ground closing operations.
               </p>
             </div>
