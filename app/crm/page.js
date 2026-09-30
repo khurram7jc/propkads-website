@@ -25,6 +25,29 @@ const DEFAULT_CONTENT = {
   header_nav_4: 'Contact',
 };
 
+const CRM_FAQS = [
+  {
+    q: 'Is Propkads CRM suitable for real estate marketing agencies as well as developers?',
+    a: 'Yes, absolutely. The CRM supports multi-project management, dealer commissions, and lead pipelines suitable for both housing developers managing their own sales floor and marketing agencies selling inventory on contract.',
+  },
+  {
+    q: 'How does the duplicate phone number detection work?',
+    a: 'Whenever a lead is ingested via Facebook Ads, web forms, or manual entry, our system normalizes the Pakistani phone number and checks your database. If the phone already exists, it displays an alert with the assigned agent\'s name, preventing multiple agents from calling the same buyer.',
+  },
+  {
+    q: 'Can sales representatives see other agents\' leads?',
+    a: 'No. Sales representatives only have access to their assigned leads. They cannot view or export customer contact information assigned to other representatives, keeping your proprietary database secure.',
+  },
+  {
+    q: 'Who has permission to enter new property bookings?',
+    a: 'Only the Company Administrator has the permission to enter new property bookings and lock property unit status. Sales agents and external brokers have view-only rights to prevent unauthorized booking entries.',
+  },
+  {
+    q: 'How quickly can our team get onboarded?',
+    a: 'Your dedicated company workspace can be set up within 24 to 48 hours. We configure your projects, property inventory, and team accounts, followed by an onboarding walkthrough for your sales team.',
+  },
+];
+
 export default function CRMProductPage() {
   const [c, setC] = useState(DEFAULT_CONTENT);
   const [openFaq, setOpenFaq] = useState(0);
@@ -237,74 +260,38 @@ export default function CRMProductPage() {
         </div>
       </section>
 
-      {/* 5. Frequently Asked Questions */}
-      <section className="crm-faq-section" id="faq">
-        <div className="crm-container">
-          <div className="crm-section-header">
-            <span className="crm-section-badge">Common Inquiries</span>
-            <h2 className="crm-section-title">Frequently Asked Questions</h2>
+      {/* 5. Frequently Asked Questions (Matching Main Website Design) */}
+      <section className="section container" id="faq" style={{ paddingBottom: '96px' }}>
+        <div className="faq-v2-wrap">
+          <div className="faq-v2-left">
+            <div className="section-tag">FAQ</div>
+            <h2>Frequently Asked Questions</h2>
+            <p className="section-intro">
+              Common questions about our real estate CRM system, lead tracking, permissions, and deployment.
+            </p>
           </div>
 
-          <div className="crm-faq-list">
-            <div className="crm-faq-item">
-              <button className="crm-faq-question" onClick={() => toggleFaq(0)}>
-                <span>Is Propkads CRM suitable for real estate marketing agencies as well as developers?</span>
-                <span>{openFaq === 0 ? '−' : '+'}</span>
-              </button>
-              {openFaq === 0 && (
-                <div className="crm-faq-answer">
-                  Yes, absolutely. The CRM supports multi-project management, dealer commissions, and lead pipelines suitable for both housing developers managing their own sales floor and marketing agencies selling inventory on contract.
+          <div className="faq-v2-list in-view">
+            {CRM_FAQS.map((f, i) => (
+              <details className={`faq-v2-item faq-stagger-${i + 1}`} key={i} open={openFaq === i}>
+                <summary
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setOpenFaq(openFaq === i ? -1 : i);
+                  }}
+                >
+                  <span className="faq-v2-num">{String(i + 1).padStart(2, '0')}</span>
+                  <span className="faq-v2-q">{f.q}</span>
+                  <span className="faq-v2-icon">
+                    <span className="plus">+</span>
+                    <span className="minus">–</span>
+                  </span>
+                </summary>
+                <div className="faq-v2-answer">
+                  <p>{f.a}</p>
                 </div>
-              )}
-            </div>
-
-            <div className="crm-faq-item">
-              <button className="crm-faq-question" onClick={() => toggleFaq(1)}>
-                <span>How does the duplicate phone number detection work?</span>
-                <span>{openFaq === 1 ? '−' : '+'}</span>
-              </button>
-              {openFaq === 1 && (
-                <div className="crm-faq-answer">
-                  Whenever a lead is ingested via Facebook Ads, web forms, or manual entry, our system normalizes the Pakistani phone number and checks your database. If the phone already exists, it displays an alert with the assigned agent&apos;s name, preventing multiple agents from calling the same buyer.
-                </div>
-              )}
-            </div>
-
-            <div className="crm-faq-item">
-              <button className="crm-faq-question" onClick={() => toggleFaq(2)}>
-                <span>Can sales representatives see other agents&apos; leads?</span>
-                <span>{openFaq === 2 ? '−' : '+'}</span>
-              </button>
-              {openFaq === 2 && (
-                <div className="crm-faq-answer">
-                  No. Sales representatives only have access to their assigned leads. They cannot view or export customer contact information assigned to other representatives, keeping your proprietary database secure.
-                </div>
-              )}
-            </div>
-
-            <div className="crm-faq-item">
-              <button className="crm-faq-question" onClick={() => toggleFaq(3)}>
-                <span>Who has permission to enter new property bookings?</span>
-                <span>{openFaq === 3 ? '−' : '+'}</span>
-              </button>
-              {openFaq === 3 && (
-                <div className="crm-faq-answer">
-                  Only the Company Administrator has the permission to enter new property bookings and lock property unit status. Sales agents and external brokers have view-only rights to prevent unauthorized booking entries.
-                </div>
-              )}
-            </div>
-
-            <div className="crm-faq-item">
-              <button className="crm-faq-question" onClick={() => toggleFaq(4)}>
-                <span>How quickly can our team get onboarded?</span>
-                <span>{openFaq === 4 ? '−' : '+'}</span>
-              </button>
-              {openFaq === 4 && (
-                <div className="crm-faq-answer">
-                  Your dedicated company workspace can be set up within 24 to 48 hours. We configure your projects, property inventory, and team accounts, followed by an onboarding walkthrough for your sales team.
-                </div>
-              )}
-            </div>
+              </details>
+            ))}
           </div>
         </div>
       </section>

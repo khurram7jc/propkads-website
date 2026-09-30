@@ -1391,123 +1391,17 @@
 }
 
 /* ==========================================================================
-   FAQ Section
+   FAQ Section (Main Website Matching Design)
    ========================================================================== */
-.crm-faq-section {
-  padding: 70px 0;
-  background: #FAFAF8;
-  border-top: 1px solid var(--crm-border);
+.crm-page-wrap .faq-v2-item {
+  opacity: 1 !important;
+  transform: none !important;
 }
 
-.crm-faq-list {
-  max-width: 820px;
-  margin: 0 auto;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
+.crm-page-wrap .faq-stagger-5 {
+  transition-delay: .45s;
 }
 
-.crm-faq-item {
-  background: #FFFFFF;
-  border: 1px solid var(--crm-border);
-  border-radius: 10px;
-  overflow: hidden;
-}
-
-.crm-faq-question {
-  width: 100%;
-  padding: 18px 22px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  background: none;
-  border: none;
-  text-align: left;
-  font-size: 15px;
-  font-weight: 700;
-  color: var(--crm-text-heading);
-  cursor: pointer;
-}
-
-.crm-faq-answer {
-  padding: 0 22px 18px 22px;
-  font-size: 14px;
-  color: var(--crm-text-body);
-  line-height: 1.6;
-}
-
-/* ==========================================================================
-   Bottom Launch Banner
-   ========================================================================== */
-.crm-bottom-banner {
-  padding: 70px 0;
-  background: linear-gradient(135deg, #064E3B 0%, #0F172A 100%);
-  color: #FFFFFF;
-  text-align: center;
-}
-
-.crm-bottom-title {
-  font-size: 34px;
-  font-weight: 800;
-  color: #FFFFFF;
-  margin-bottom: 14px;
-  letter-spacing: -0.02em;
-}
-
-.crm-bottom-desc {
-  font-size: 16px;
-  color: #CBD5E1;
-  max-width: 640px;
-  margin: 0 auto 30px auto;
-}
-
-.crm-bottom-ctas {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 14px;
-  flex-wrap: wrap;
-}
-
-.crm-btn-launch-portal {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  background: var(--crm-emerald);
-  color: #FFFFFF !important;
-  font-size: 15px;
-  font-weight: 700;
-  padding: 13px 28px;
-  border-radius: 10px;
-  text-decoration: none;
-  box-shadow: 0 4px 16px rgba(20, 167, 80, 0.4);
-  transition: all 0.2s ease;
-}
-
-.crm-btn-launch-portal:hover {
-  background: #0f8b41;
-  transform: translateY(-2px);
-}
-
-.crm-btn-talk-demo {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  background: rgba(255, 255, 255, 0.12);
-  color: #FFFFFF !important;
-  font-size: 15px;
-  font-weight: 700;
-  padding: 13px 26px;
-  border-radius: 10px;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  text-decoration: none;
-  transition: all 0.2s ease;
-}
-
-.crm-btn-talk-demo:hover {
-  background: rgba(255, 255, 255, 0.2);
-  transform: translateY(-2px);
-}
 
 /* Responsive adjustments */
 @media (max-width: 1024px) {
