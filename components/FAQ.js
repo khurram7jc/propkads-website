@@ -1,33 +1,26 @@
 'use client';
-import { useEffect, useRef, useState } from 'react';
+import { useState } from 'react';
 
-export default function FAQ({ c }) {
-  const listRef = useRef(null);
+export default function FAQ({ c = {} }) {
   const [activeIndex, setActiveIndex] = useState(0);
 
-  useEffect(() => {
-    const el = listRef.current;
-    if (!el) return;
-    const io = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('in-view');
-            io.unobserve(entry.target);
-          }
-        });
-      },
-      { threshold: 0.15 }
-    );
-    io.observe(el);
-    return () => io.disconnect();
-  }, []);
-
   const faqs = [
-    { q: c.faq_q1, a: c.faq_a1 },
-    { q: c.faq_q2, a: c.faq_a2 },
-    { q: c.faq_q3, a: c.faq_a3 },
-    { q: c.faq_q4, a: c.faq_a4 },
+    {
+      q: c?.faq_q1 || 'Do you guarantee sales?',
+      a: c?.faq_a1 || 'We do not offer false guarantees. We build a measurable system that shows real sales potential within 60–90 days using CRM-based data.',
+    },
+    {
+      q: c?.faq_q2 || 'Are you just running ads?',
+      a: c?.faq_a2 || 'No. Ads are only the starting point. CRM control, sales team accountability, and closing support drive conversions.',
+    },
+    {
+      q: c?.faq_q3 || 'Do you replace our sales team?',
+      a: c?.faq_a3 || 'No. We strengthen and enable your existing sales team through systems, tracking, and performance control.',
+    },
+    {
+      q: c?.faq_q4 || 'What type of projects do you work with?',
+      a: c?.faq_a4 || 'We work with developers who value structure, transparency, and long-term revenue control.',
+    },
   ].filter((f) => f.q);
 
   const handleToggle = (i) => (e) => {
@@ -36,18 +29,18 @@ export default function FAQ({ c }) {
   };
 
   return (
-    <section className="section container reveal" id="faq">
+    <section className="section container" id="faq" style={{ paddingBottom: '36px' }}>
       <div className="faq-v2-wrap">
         <div className="faq-v2-left">
-          <div className="section-tag">{c.faq_eyebrow || 'FAQ'}</div>
-          <h2>{c.faq_heading || 'Frequently Asked Questions'}</h2>
+          <div className="section-tag">{c?.faq_eyebrow || 'FAQ'}</div>
+          <h2>{c?.faq_heading || 'Frequently Asked Questions'}</h2>
           <p className="section-intro">
-            {c.faq_intro ||
+            {c?.faq_intro ||
               'Common questions about our services, lead generation, CRM control, and how we work with real estate developers.'}
           </p>
         </div>
 
-        <div className="faq-v2-list" ref={listRef}>
+        <div className="faq-v2-list in-view">
           {faqs.map((f, i) => (
             <details className={`faq-v2-item faq-stagger-${i + 1}`} key={i} open={activeIndex === i}>
               <summary onClick={handleToggle(i)}>

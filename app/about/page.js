@@ -167,8 +167,8 @@ export default function AboutPage() {
       </section>
 
       {/* 6. CTA Banner */}
-      <div className="container" style={{ marginBottom: '64px' }}>
-        <div className="services-hub-banner">
+      <div className="container" style={{ margin: '16px auto 32px auto' }}>
+        <div className="services-hub-banner" style={{ marginTop: '0' }}>
           <div>
             <h4>Partner with a Real Estate Sales Growth Agency</h4>
             <p>Ready to move unsold inventory and get 100% visibility into your sales team&apos;s daily activity?</p>

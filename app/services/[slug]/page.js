@@ -269,8 +269,8 @@ export default function ServiceDetailPage({ params }) {
 
       {/* 4. Related Services Section */}
       {relatedServices.length > 0 && (
-        <section className="section container" style={{ borderTop: '1px solid var(--line)', paddingTop: '64px' }}>
-          <div style={{ textAlign: 'center', marginBottom: '36px' }}>
+        <section className="section container" style={{ borderTop: '1px solid var(--line)', paddingTop: '36px', paddingBottom: '36px' }}>
+          <div style={{ textAlign: 'center', marginBottom: '24px' }}>
             <span className="section-tag">Complementary Services</span>
             <h2 style={{ fontSize: '28px' }}>Other Solutions in {service.categoryName}</h2>
           </div>

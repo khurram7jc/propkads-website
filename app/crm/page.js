@@ -261,7 +261,7 @@ export default function CRMProductPage() {
       </section>
 
       {/* 5. Frequently Asked Questions (Matching Main Website Design) */}
-      <section className="section container" id="faq" style={{ paddingBottom: '96px' }}>
+      <section className="section container" id="faq" style={{ paddingBottom: '36px' }}>
         <div className="faq-v2-wrap">
           <div className="faq-v2-left">
             <div className="section-tag">FAQ</div>

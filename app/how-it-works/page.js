@@ -68,7 +68,7 @@ export default function HowItWorksPage() {
 
       {/* 3. System Flow Section */}
       <section className="section container">
-        <div style={{ textAlign: 'center', maxWidth: '720px', margin: '0 auto 48px auto' }}>
+        <div style={{ textAlign: 'center', maxWidth: '720px', margin: '0 auto 24px auto' }}>
           <span className="section-tag">System Architecture</span>
           <h2 style={{ fontSize: '32px' }}>The 4 Interconnected Pillars of Property Closings</h2>
           <p className="section-intro">
@@ -96,7 +96,7 @@ export default function HowItWorksPage() {
           ))}
         </div>
 
-        <div className="process-bottom-stat" style={{ marginTop: '40px' }}>
+        <div className="process-bottom-stat" style={{ marginTop: '24px' }}>
           <span className="process-bottom-line"></span>
           <span className="process-bottom-check">✓</span>
           <span className="process-bottom-text">
@@ -108,7 +108,7 @@ export default function HowItWorksPage() {
 
       {/* 4. Step-by-Step Implementation Roadmap */}
       <section className="section container" style={{ paddingTop: '0' }}>
-        <div style={{ textAlign: 'center', maxWidth: '720px', margin: '0 auto 48px auto' }}>
+        <div style={{ textAlign: 'center', maxWidth: '720px', margin: '0 auto 24px auto' }}>
           <span className="section-tag">Implementation Steps</span>
           <h2 style={{ fontSize: '30px' }}>{c.howitworks_heading || 'Our working process.'}</h2>
           <p className="section-intro">
@@ -132,7 +132,7 @@ export default function HowItWorksPage() {
 
       {/* 5. Commercial Model Section */}
       <section className="section container" style={{ paddingTop: '0' }}>
-        <div style={{ textAlign: 'center', maxWidth: '720px', margin: '0 auto 36px auto' }}>
+        <div style={{ textAlign: 'center', maxWidth: '720px', margin: '0 auto 24px auto' }}>
           <span className="section-tag">{c.model_eyebrow || 'Commercial Model'}</span>
           <h2 style={{ fontSize: '30px' }}>{c.model_heading || 'Retainer + Performance Structure'}</h2>
         </div>
@@ -157,7 +157,22 @@ export default function HowItWorksPage() {
       {/* 6. FAQ Section */}
       <FAQ c={c} />
 
-      {/* 7. Footer */}
+      {/* 7. CTA Banner */}
+      <div className="container" style={{ margin: '16px auto 32px auto' }}>
+        <div className="services-hub-banner" style={{ marginTop: '0' }}>
+          <div>
+            <h4>Ready to Implement a Predictable Sales Engine?</h4>
+            <p>Get an initial project audit and see how our 4-phase system converts inquiries into verified property bookings.</p>
+          </div>
+          <div className="services-hub-actions">
+            <Link href="/contact" className="btn btn-solid" style={{ background: '#22C55E', color: '#fff' }}>
+              Schedule Free Review →
+            </Link>
+          </div>
+        </div>
+      </div>
+
+      {/* 8. Footer */}
       <Footer c={c} />
     </div>
   );

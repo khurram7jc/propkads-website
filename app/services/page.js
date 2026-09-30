@@ -140,8 +140,8 @@ export default function ServicesPage() {
       </section>
 
       {/* 4. 4-Phase Turnkey Execution Framework */}
-      <section className="section container" style={{ background: '#FFFFFF', borderRadius: '24px', padding: '64px 32px', margin: '40px auto 80px auto', border: '1px solid var(--line)' }}>
-        <div style={{ textAlign: 'center', maxWidth: '720px', margin: '0 auto 48px auto' }}>
+      <section className="section container" style={{ background: '#FFFFFF', borderRadius: '20px', padding: '36px 28px', margin: '24px auto 32px auto', border: '1px solid var(--line)' }}>
+        <div style={{ textAlign: 'center', maxWidth: '720px', margin: '0 auto 24px auto' }}>
           <span className="section-tag">How We Work</span>
           <h2 style={{ fontSize: '32px' }}>Our 4-Phase Real Estate Growth Framework</h2>
           <p className="section-intro">
