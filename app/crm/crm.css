@@ -57,7 +57,7 @@
    Hero Section
    ========================================================================== */
 .crm-hero {
-  padding: 50px 0 40px 0;
+  padding: 40px 0 32px 0;
   background: linear-gradient(180deg, #FFFFFF 0%, #F8FAFC 100%);
   border-bottom: 1px solid var(--crm-border);
 }
@@ -1122,7 +1122,7 @@
    Bento Capabilities Grid (Light Clean Cards)
    ========================================================================== */
 .crm-capabilities-section {
-  padding: 70px 0;
+  padding: 48px 0;
   background: #FFFFFF;
   border-top: 1px solid var(--crm-border);
   border-bottom: 1px solid var(--crm-border);
@@ -1178,7 +1178,7 @@
    Security Role-Based Matrix
    ========================================================================== */
 .crm-roles-section {
-  padding: 70px 0;
+  padding: 48px 0;
   background: #FAFAF8;
 }
 
