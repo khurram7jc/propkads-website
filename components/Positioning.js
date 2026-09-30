@@ -6,9 +6,17 @@ export default function Positioning({ c }) {
 
   return (
     <section className="section container" id="positioning">
-      <div className="section-tag">{c.pos_eyebrow || 'Positioning'}</div>
-      <h2>{c.pos_heading || 'Built for Real Estate Developers — Designed for Closings'}</h2>
-      <p className="section-intro">{c.pos_intro || 'Propkads is not a traditional marketing agency. We build and operate a sales-focused revenue system that connects buyer acquisition, CRM control, and sales team accountability.'}</p>
+      <div style={{ textAlign: 'center', maxWidth: '780px', margin: '0 auto 36px auto', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+        <div className="section-tag" style={{ margin: '0 auto 12px auto', display: 'inline-block', textAlign: 'center' }}>
+          {c.pos_eyebrow || 'Positioning'}
+        </div>
+        <h2 style={{ textAlign: 'center', margin: '0 auto 14px auto', maxWidth: '100%' }}>
+          {c.pos_heading || 'Built for Real Estate Developers — Designed for Closings'}
+        </h2>
+        <p className="section-intro" style={{ textAlign: 'center', margin: '0 auto', maxWidth: '640px' }}>
+          {c.pos_intro || 'Propkads is not a traditional marketing agency. We build and operate a sales-focused revenue system that connects buyer acquisition, CRM control, and sales team accountability.'}
+        </p>
+      </div>
 
       <div className="fit-grid-v2">
         <div className="fit-card-v2 no">

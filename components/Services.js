@@ -8,11 +8,11 @@ export default function Services({ c = {} }) {
   return (
     <section className="section container" id="services">
       {/* Centered Section Header */}
-      <div className="services-section-header" style={{ textAlign: 'center', maxWidth: '780px', margin: '0 auto 28px auto' }}>
-        <div className="section-tag" style={{ margin: '0 auto 12px auto', display: 'inline-block' }}>
+      <div className="services-section-header" style={{ textAlign: 'center', maxWidth: '780px', margin: '0 auto 28px auto', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+        <div className="section-tag" style={{ margin: '0 auto 12px auto', display: 'inline-block', textAlign: 'center' }}>
           {c?.services_eyebrow || 'Complete Real Estate Solutions'}
         </div>
-        <h2 className="services-main-title" style={{ textAlign: 'center', margin: '0 auto 14px auto' }}>
+        <h2 className="services-main-title" style={{ textAlign: 'center', margin: '0 auto 14px auto', maxWidth: '100%' }}>
           {c?.services_heading || '360° Real Estate Creative, Digital Marketing & Tech Services'}
         </h2>
         <p className="section-intro" style={{ textAlign: 'center', margin: '0 auto', maxWidth: '660px' }}>

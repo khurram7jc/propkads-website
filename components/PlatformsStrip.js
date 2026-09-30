@@ -13,17 +13,17 @@ export default function PlatformsStrip({ c }) {
   return (
     <section className="platforms-section reveal">
       <div className="container">
-        <div className="platforms-heading-block">
-          <div className="platforms-eyebrow">
+        <div className="platforms-heading-block" style={{ textAlign: 'center', maxWidth: '640px', margin: '0 auto 24px auto', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+          <div className="platforms-eyebrow" style={{ margin: '0 auto 14px auto', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
             <span className="platforms-eyebrow-line"></span>
             {c.platforms_label || 'Platforms We Advertise On'}
             <span className="platforms-eyebrow-line"></span>
           </div>
-          <h2 className="platforms-heading">
+          <h2 className="platforms-heading" style={{ textAlign: 'center', margin: '0 auto', maxWidth: '100%' }}>
             {c.platforms_heading_1 || 'We run high-performing ads across'}{' '}
             <span className="platforms-heading-highlight">{c.platforms_heading_highlight || 'all major platforms'}</span>
           </h2>
-          <p className="platforms-intro">
+          <p className="platforms-intro" style={{ textAlign: 'center', margin: '12px auto 0 auto', maxWidth: '600px' }}>
             {c.platforms_intro || 'From awareness to conversions, we help real estate brands reach the right audience, on the right platform.'}
           </p>
         </div>

@@ -36,10 +36,14 @@ export default function CrmTeaser() {
 
   return (
     <section className="section container" id="crm-teaser">
-      <div style={{ textAlign: 'center', maxWidth: '780px', margin: '0 auto 28px auto' }}>
-        <span className="section-tag">Proprietary Sales Technology</span>
-        <h2>Propkads Real Estate Sales CRM Engine</h2>
-        <p className="section-intro">
+      <div style={{ textAlign: 'center', maxWidth: '780px', margin: '0 auto 28px auto', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+        <span className="section-tag" style={{ margin: '0 auto 12px auto', display: 'inline-block', textAlign: 'center' }}>
+          Proprietary Sales Technology
+        </span>
+        <h2 style={{ textAlign: 'center', margin: '0 auto 14px auto', maxWidth: '100%' }}>
+          Propkads Real Estate Sales CRM Engine
+        </h2>
+        <p className="section-intro" style={{ textAlign: 'center', margin: '0 auto', maxWidth: '640px' }}>
           Marketing alone does not generate revenue — accountability does. We operate a cloud-based CRM built specifically for residential and commercial developer sales teams.
         </p>
       </div>

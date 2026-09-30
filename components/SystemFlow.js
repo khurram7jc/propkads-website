@@ -11,17 +11,17 @@ export default function SystemFlow({ c }) {
 
   return (
     <section className="section container" id="system-flow">
-      <div className="process-heading-block">
-        <div className="platforms-eyebrow">
+      <div className="process-heading-block" style={{ textAlign: 'center', maxWidth: '680px', margin: '0 auto 28px auto', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+        <div className="platforms-eyebrow" style={{ margin: '0 auto 14px auto', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
           <span className="platforms-eyebrow-line"></span>
           {c.system_eyebrow || 'Our Process'}
           <span className="platforms-eyebrow-line"></span>
         </div>
-        <h2 className="process-heading">
+        <h2 className="process-heading" style={{ textAlign: 'center', margin: '0 auto', maxWidth: '100%' }}>
           {c.system_heading_1 || 'A Complete Revenue & Sales System'}<br />
           <span className="process-heading-highlight">{c.system_heading_highlight || 'for Developers'}</span>
         </h2>
-        <p className="process-intro">
+        <p className="process-intro" style={{ textAlign: 'center', margin: '14px auto 0 auto', maxWidth: '600px' }}>
           {c.system_intro || 'We combine strategy, technology and execution to help real estate developers generate quality leads and close more deals.'}
         </p>
       </div>
