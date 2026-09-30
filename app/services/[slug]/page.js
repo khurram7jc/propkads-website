@@ -236,10 +236,14 @@ export default function ServiceDetailPage({ params }) {
       <section className="section container" style={{ paddingTop: '20px', paddingBottom: '36px' }}>
         {/* Workflow Section */}
         <div className="service-block">
-          <div style={{ textAlign: 'center', marginBottom: '28px' }}>
-            <span className="section-tag">Systematic Process</span>
-            <h2 style={{ fontSize: '28px', color: 'var(--ink)' }}>Execution &amp; Deployment Workflow</h2>
-            <p style={{ color: 'var(--slate)', fontSize: '15px', maxWidth: '640px', margin: '8px auto 0 auto' }}>
+          <div style={{ textAlign: 'center', maxWidth: '720px', margin: '0 auto 28px auto', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+            <span className="section-tag" style={{ display: 'inline-block', margin: '0 auto 10px auto', textAlign: 'center' }}>
+              Systematic Process
+            </span>
+            <h2 style={{ fontSize: '28px', color: 'var(--ink)', textAlign: 'center', margin: '0 auto', maxWidth: '100%' }}>
+              Execution &amp; Deployment Workflow
+            </h2>
+            <p style={{ color: 'var(--slate)', fontSize: '15px', maxWidth: '640px', margin: '10px auto 0 auto', textAlign: 'center' }}>
               Our systematic 4-step process ensures clear timelines and transparent delivery milestones.
             </p>
           </div>
