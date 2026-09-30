@@ -5,7 +5,6 @@ import { PhoneIcon, MailIcon, PinIcon, FacebookIcon, InstagramIcon, LinkedInIcon
 import Hero from '@/components/Hero';
 import PlatformsStrip from '@/components/PlatformsStrip';
 import Positioning from '@/components/Positioning';
-import SystemFlow from '@/components/SystemFlow';
 import Services from '@/components/Services';
 import CrmTeaser from '@/components/CrmTeaser';
 import Footer from '@/components/Footer';
@@ -250,9 +249,6 @@ export default function Home() {
 
       {/* PROPKADS CRM SPOTLIGHT */}
       <CrmTeaser />
-
-      {/* 4-PHASE REVENUE & SALES SYSTEM */}
-      <SystemFlow c={c} />
 
       {/* CONTACT */}
       <section className="section container" id="contact">

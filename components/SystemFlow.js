@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { UsersIcon, CrmDocIcon, TeamStarIcon, GrowthBarsIcon, CurvedArrowIcon } from '@/components/Icons';
 
-export default function SystemFlow({ c }) {
+export default function SystemFlow({ c, buttonHref = '/contact', buttonText = 'Get a Free Project Review →' }) {
   const steps = [
     { icon: <UsersIcon />, title: c.system_step_1 || 'Buyers', desc: c.system_step_1_desc || 'We target the right audience of property buyers through precise digital marketing and smart targeting.' },
     { icon: <CrmDocIcon />, title: c.system_step_2 || 'CRM', desc: c.system_step_2_desc || 'We capture, nurture and manage leads through a powerful CRM system for better follow-ups and higher conversions.' },
@@ -56,8 +56,8 @@ export default function SystemFlow({ c }) {
       </div>
 
       <div style={{ textAlign: 'center', marginTop: '28px' }}>
-        <Link href="/how-it-works" className="btn btn-outline" style={{ background: '#fff' }}>
-          Explore 4-Phase Implementation Process →
+        <Link href={buttonHref} className="btn btn-solid">
+          {buttonText}
         </Link>
       </div>
     </section>

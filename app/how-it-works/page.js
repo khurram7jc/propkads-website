@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
+import SystemFlow from '@/components/SystemFlow';
 import FAQ from '@/components/FAQ';
 import { DEFAULT_CONTENT } from '@/data/content';
 import '@/app/crm/crm.css';
@@ -19,29 +20,6 @@ export default function HowItWorksPage() {
       })
       .catch(() => {});
   }, []);
-
-  const steps = [
-    {
-      num: 1,
-      title: c.hero_step_1 || 'Project Audit',
-      desc: c.hero_step_1_desc || 'Inventory review, pricing analysis, buyer profiling, and competitor assessment.',
-    },
-    {
-      num: 2,
-      title: c.hero_step_2 || 'Launch & CRM Setup',
-      desc: c.hero_step_2_desc || 'Campaign launch, CRM pipeline configuration, and sales team assignment rules.',
-    },
-    {
-      num: 3,
-      title: c.hero_step_3 || 'Weekly Optimization',
-      desc: c.hero_step_3_desc || 'Lead quality improvement, follow-up correction, and sales activity monitoring.',
-    },
-    {
-      num: 4,
-      title: c.hero_step_4 || 'Conversion & Scaling',
-      desc: c.hero_step_4_desc || 'Booking-focused optimization and revenue scaling based on real performance data.',
-    },
-  ];
 
   return (
     <div className="crm-page-wrap">
@@ -72,35 +50,8 @@ export default function HowItWorksPage() {
         </div>
       </section>
 
-      {/* 3. Simple & Clean 4-Step Connected Timeline */}
-      <section className="section container">
-        <div style={{ textAlign: 'center', maxWidth: '780px', margin: '0 auto 36px auto', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-          <span className="section-tag" style={{ margin: '0 auto 12px auto', display: 'inline-block', textAlign: 'center' }}>
-            Working Process
-          </span>
-          <h2 style={{ fontSize: '32px', textAlign: 'center', margin: '0 auto 14px auto', maxWidth: '100%' }}>
-            {c.howitworks_heading || 'Our working process.'}
-          </h2>
-          <p className="section-intro" style={{ textAlign: 'center', margin: '0 auto', maxWidth: '640px' }}>
-            From initial inventory review to scaling booked volume, here is how our team operates alongside yours.
-          </p>
-        </div>
-
-        <div className="process-v2-wrap" style={{ opacity: 1, transform: 'none' }}>
-          <div className="process-v2-line"></div>
-          <div className="process-v2-steps">
-            {steps.map((step, i) => (
-              <div className="process-v2-step" key={i} style={{ opacity: 1, transform: 'none' }}>
-                <div className={`process-v2-circle ${i === steps.length - 1 ? 'is-last' : ''}`}>
-                  {step.num}
-                </div>
-                <h3>{step.title}</h3>
-                <p>{step.desc}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+      {/* 3. The 4-Phase Revenue & Sales System Flow (Moved from Main Page) */}
+      <SystemFlow c={c} buttonHref="/contact" buttonText="Schedule Free Project Review →" />
 
       {/* 4. Commercial Model */}
       <section className="section container" style={{ paddingTop: '0' }}>
