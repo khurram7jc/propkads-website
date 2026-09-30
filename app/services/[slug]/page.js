@@ -31,7 +31,9 @@ const DEFAULT_CONTENT = {
 
 export default function ServiceDetailPage({ params }) {
   const { slug } = params;
-  const service = SERVICES_DATA.find((s) => s.slug === slug);
+  const service = SERVICES_DATA.find(
+    (s) => s.slug === slug || (slug === 'whatsapp-api-sms-automation' && s.slug === 'whatsapp-api-msgs-automation')
+  );
 
   const [c, setC] = useState(DEFAULT_CONTENT);
   const [form, setForm] = useState({ name: '', phone: '', project: '', message: '' });

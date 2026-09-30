@@ -206,20 +206,20 @@ export const SERVICES_DATA = [
     ]
   },
   {
-    id: 'whatsapp-api-sms-automation',
-    slug: 'whatsapp-api-sms-automation',
-    title: 'WhatsApp Business API & SMS Automation',
+    id: 'whatsapp-api-msgs-automation',
+    slug: 'whatsapp-api-msgs-automation',
+    title: 'WhatsApp Business API & MSGs Automation',
     category: 'marketing',
     categoryName: 'Digital Marketing & SEO',
     badge: 'Instant Follow-Up',
     icon: 'messageCircle',
-    shortDesc: 'Automated 60-second WhatsApp brochure delivery, chatbot lead qualification, and verified high-net-worth investor SMS broadcasts.',
+    shortDesc: 'Automated 60-second WhatsApp brochure delivery, chatbot lead qualification, and verified high-net-worth investor MSGs broadcasts.',
     longDesc: 'In Pakistan, 90% of real estate deals move on WhatsApp. If you take 3 hours to send a brochure, the lead is already cold. Our automated WhatsApp API infrastructure sends official project catalogs, payment schedules, and site visit bookings instantly upon form submission.',
     deliverables: [
       'Official Meta WhatsApp Business API Integration',
       'Instant 60-Second Automated Brochure & Payment Plan Delivery',
       'Interactive WhatsApp Chatbot for Budget & Property Type Qualification',
-      'Verified High-Net-Worth Investor SMS Broadcasts',
+      'Verified High-Net-Worth Investor MSGs Broadcasts',
       'Automated Appointment Reminders for Scheduled Site Visits',
       'CRM Sync: All WhatsApp Conversations Logged Directly in CRM'
     ],

@@ -77,8 +77,8 @@ export default function Header({ c = {} }) {
                       <b>Real Estate SEO</b>
                       <span>Rank Page 1 on Google for buyers</span>
                     </Link>
-                    <Link href="/services/whatsapp-api-sms-automation" className="nav-drop-item">
-                      <b>WhatsApp &amp; SMS Automation</b>
+                    <Link href="/services/whatsapp-api-msgs-automation" className="nav-drop-item">
+                      <b>WhatsApp &amp; MSGs Automation</b>
                       <span>60s instant brochure delivery</span>
                     </Link>
                   </div>
