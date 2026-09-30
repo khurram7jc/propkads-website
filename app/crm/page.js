@@ -51,11 +51,6 @@ export default function CRMProductPage() {
       <section className="crm-hero">
         <div className="crm-container">
           <div className="crm-hero-content">
-            <div className="crm-hero-eyebrow">
-              <span className="crm-pulse-dot"></span>
-              <span>Propkads Real Estate Sales CRM System</span>
-            </div>
-
             <h1 className="crm-hero-title">
               The Complete <span className="highlight">Sales CRM System</span> Built for Real Estate Teams
             </h1>
@@ -314,27 +309,7 @@ export default function CRMProductPage() {
         </div>
       </section>
 
-      {/* 6. Bottom Launch Banner */}
-      <section className="crm-bottom-banner">
-        <div className="crm-container">
-          <h2 className="crm-bottom-title">Ready to Automate Your Real Estate Sales &amp; Team Productivity?</h2>
-          <p className="crm-bottom-desc">
-            Join forward-thinking developers and agencies operating on Propkads CRM. Experience zero lead leakage, faster property bookings, and live sales accountability.
-          </p>
-          <div className="crm-bottom-ctas">
-            <a
-              href="https://crm.propkads.com/login"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="crm-btn-launch-portal"
-            >
-              <span>Login to Propkads CRM Portal →</span>
-            </a>
-          </div>
-        </div>
-      </section>
-
-      {/* 7. Website Standard Footer */}
+      {/* 6. Website Standard Footer */}
       <Footer c={c} />
     </div>
   );
