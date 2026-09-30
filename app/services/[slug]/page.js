@@ -50,10 +50,6 @@ export default function ServiceDetailPage({ params }) {
     notFound();
   }
 
-  const relatedServices = SERVICES_DATA
-    .filter((s) => s.id !== service.id && s.category === service.category)
-    .slice(0, 3);
-
   const whatsappMessage = encodeURIComponent(
     `Hello Propkads, I am interested in your "${service.title}" service for my real estate project. Please share details and pricing.`
   );
@@ -267,37 +263,7 @@ export default function ServiceDetailPage({ params }) {
         </div>
       </section>
 
-      {/* 4. Related Services Section */}
-      {relatedServices.length > 0 && (
-        <section className="section container" style={{ borderTop: '1px solid var(--line)', paddingTop: '36px', paddingBottom: '36px' }}>
-          <div style={{ textAlign: 'center', marginBottom: '24px' }}>
-            <span className="section-tag">Complementary Services</span>
-            <h2 style={{ fontSize: '28px' }}>Other Solutions in {service.categoryName}</h2>
-          </div>
-
-          <div className="services-showcase-grid">
-            {relatedServices.map((rel) => (
-              <div className="service-showcase-card" key={rel.id}>
-                <div className="service-card-top">
-                  <div className="service-icon-box">
-                    <ServiceIcon name={rel.icon} size={22} />
-                  </div>
-                  <span className="service-category-pill">{rel.badge}</span>
-                </div>
-                <h3 className="service-card-title">{rel.title}</h3>
-                <p className="service-card-desc">{rel.shortDesc}</p>
-                <div className="service-card-footer" style={{ marginTop: 'auto', paddingTop: '16px' }}>
-                  <Link href={`/services/${rel.slug}`} className="service-card-btn">
-                    <span>Learn More →</span>
-                  </Link>
-                </div>
-              </div>
-            ))}
-          </div>
-        </section>
-      )}
-
-      {/* 5. Footer */}
+      {/* 4. Footer */}
       <Footer c={c} />
     </div>
   );
