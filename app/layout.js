@@ -1,4 +1,5 @@
 import './globals.css';
+import './services.css';
 import { sql } from '@/lib/db';
 
 export const metadata = {

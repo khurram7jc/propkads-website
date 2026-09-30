@@ -14,6 +14,7 @@ import CommercialModel from '@/components/CommercialModel';
 import IdealFit from '@/components/IdealFit';
 import FAQ from '@/components/FAQ';
 import Footer from '@/components/Footer';
+import LeadCalculator from '@/components/LeadCalculator';
 
 const DEFAULT_CONTENT = {
   system_eyebrow: 'Our Process',
@@ -258,6 +259,9 @@ export default function Home() {
 
       {/* SERVICES */}
       <Services c={c} />
+
+      {/* INTERACTIVE LEAD CALCULATOR */}
+      <LeadCalculator />
 
       {/* HOW IT WORKS */}
       <HowItWorks c={c} />
