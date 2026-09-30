@@ -135,15 +135,14 @@ export default function ServiceDetailPage({ params }) {
         </div>
       </section>
 
-      {/* 3. Deliverables & Workflow */}
-      <section className="section container">
+      {/* 3. Deliverables Scope & Proposal Form */}
+      <section className="section container" style={{ paddingBottom: '20px' }}>
         <div className="service-content-grid">
-          {/* Left: Deliverables & Workflow */}
+          {/* Left: Deliverables Scope */}
           <div className="service-content-main">
-            {/* Deliverables Section */}
             <div className="service-block">
               <h2 className="service-block-heading">Comprehensive Deliverables Scope</h2>
-              <p style={{ color: 'var(--slate)', marginBottom: '24px', fontSize: '15px' }}>
+              <p style={{ color: 'var(--slate)', marginBottom: '20px', fontSize: '15px' }}>
                 Every deliverable is crafted specifically to increase real estate buyer confidence, justify premium pricing, and accelerate deal closures.
               </p>
 
@@ -159,36 +158,6 @@ export default function ServiceDetailPage({ params }) {
                   </div>
                 ))}
               </div>
-            </div>
-
-            {/* Workflow Section */}
-            <div className="service-block" style={{ marginTop: '36px' }}>
-              <h2 className="service-block-heading">Execution &amp; Deployment Workflow</h2>
-              <p style={{ color: 'var(--slate)', marginBottom: '20px', fontSize: '15px' }}>
-                Our systematic 4-step process ensures clear timelines and transparent delivery milestones.
-              </p>
-
-              <div className="workflow-timeline-list">
-                {service.workflow.map((step, idx) => (
-                  <div className="workflow-step-card" key={idx}>
-                    <div className="workflow-step-badge">{step.step}</div>
-                    <div className="workflow-step-content">
-                      <h3 className="workflow-step-title">{step.title}</h3>
-                      <p className="workflow-step-desc">{step.desc}</p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Why Propkads */}
-            <div className="service-why-card" style={{ marginTop: '36px', textAlign: 'center' }}>
-              <h3 style={{ fontSize: '20px', marginBottom: '12px', color: '#0F172A', textAlign: 'center' }}>
-                Why Real Estate Developers Choose Propkads for This Service
-              </h3>
-              <p style={{ color: 'var(--slate)', fontSize: '14.5px', lineHeight: '1.7', textAlign: 'center', maxWidth: '680px', margin: '0 auto' }}>
-                Unlike generic agencies that treat real estate like e-commerce or clothing brands, Propkads specializes 100% in property marketing, plot/apartment sales psychology, and developer cash flow cycles. Our team understands NOC verification, installment plans, buyer objections, and on-ground closing operations.
-              </p>
             </div>
           </div>
 
@@ -263,7 +232,43 @@ export default function ServiceDetailPage({ params }) {
         </div>
       </section>
 
-      {/* 4. Footer */}
+      {/* 4. Full-Width Execution Workflow & Why Propkads */}
+      <section className="section container" style={{ paddingTop: '20px', paddingBottom: '36px' }}>
+        {/* Workflow Section */}
+        <div className="service-block">
+          <div style={{ textAlign: 'center', marginBottom: '28px' }}>
+            <span className="section-tag">Systematic Process</span>
+            <h2 style={{ fontSize: '28px', color: 'var(--ink)' }}>Execution &amp; Deployment Workflow</h2>
+            <p style={{ color: 'var(--slate)', fontSize: '15px', maxWidth: '640px', margin: '8px auto 0 auto' }}>
+              Our systematic 4-step process ensures clear timelines and transparent delivery milestones.
+            </p>
+          </div>
+
+          <div className="workflow-timeline-list">
+            {service.workflow.map((step, idx) => (
+              <div className="workflow-step-card" key={idx}>
+                <div className="workflow-step-badge">{step.step}</div>
+                <div className="workflow-step-content">
+                  <h3 className="workflow-step-title">{step.title}</h3>
+                  <p className="workflow-step-desc">{step.desc}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Why Propkads */}
+        <div className="service-why-card" style={{ marginTop: '36px', textAlign: 'center' }}>
+          <h3 style={{ fontSize: '22px', marginBottom: '12px', color: '#0F172A', textAlign: 'center' }}>
+            Why Real Estate Developers Choose Propkads for This Service
+          </h3>
+          <p style={{ color: 'var(--slate)', fontSize: '15px', lineHeight: '1.7', textAlign: 'center', maxWidth: '780px', margin: '0 auto' }}>
+            Unlike generic agencies that treat real estate like e-commerce or clothing brands, Propkads specializes 100% in property marketing, plot/apartment sales psychology, and developer cash flow cycles. Our team understands NOC verification, installment plans, buyer objections, and on-ground closing operations.
+          </p>
+        </div>
+      </section>
+
+      {/* 5. Footer */}
       <Footer c={c} />
     </div>
   );
