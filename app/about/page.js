@@ -37,9 +37,6 @@ export default function AboutPage() {
     },
   ];
 
-  const problems = [c.pos_problem_1, c.pos_problem_2, c.pos_problem_3, c.pos_problem_4].filter(Boolean);
-  const solutions = [c.pos_solution_1, c.pos_solution_2, c.pos_solution_3, c.pos_solution_4].filter(Boolean);
-
   const yesItems = [c.fit_yes_1, c.fit_yes_2, c.fit_yes_3].filter(Boolean);
   const noItems = [c.fit_no_1, c.fit_no_2, c.fit_no_3].filter(Boolean);
 
@@ -92,49 +89,116 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* 4. Strategic Positioning: Struggle vs Solution */}
+      {/* 4. The Propkads Operating Standards (Distinct from Homepage Positioning) */}
       <section className="section container" style={{ paddingTop: '0' }}>
-        <div style={{ textAlign: 'center', maxWidth: '760px', margin: '0 auto 40px auto', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+        <div style={{ textAlign: 'center', maxWidth: '780px', margin: '0 auto 36px auto', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
           <span className="section-tag" style={{ display: 'inline-block', margin: '0 auto 10px auto', textAlign: 'center' }}>
-            {c.pos_eyebrow || 'Positioning'}
+            Operating Standards
           </span>
-          <h2 style={{ fontSize: '32px', textAlign: 'center', margin: '0 auto', maxWidth: '100%' }}>
-            {c.pos_heading || 'Built for Real Estate Developers — Designed for Closings'}
+          <h2 style={{ fontSize: '32px', textAlign: 'center', margin: '0 auto 14px auto', maxWidth: '100%' }}>
+            Why Leading Developers Trust Our Operational Methodology
           </h2>
-          <p className="section-intro" style={{ textAlign: 'center', margin: '14px auto 0 auto', maxWidth: '640px' }}>
-            {c.pos_intro ||
-              'Propkads is not a traditional marketing agency. We build and operate a sales-focused revenue system that connects buyer acquisition, CRM control, and sales team accountability.'}
+          <p className="section-intro" style={{ textAlign: 'center', margin: '0 auto', maxWidth: '660px' }}>
+            Traditional marketing agencies fail because they treat high-ticket property developments like e-commerce clothing or restaurants. Propkads was established by real estate operators to solve the real bottleneck: converting ad spend into verified bank deposits and cleared installments.
           </p>
         </div>
 
-        <div className="fit-grid-v2" style={{ opacity: 1, transform: 'none' }}>
-          <div className="fit-card-v2 no" style={{ opacity: 1, transform: 'none' }}>
-            <h3>{c.pos_problem_label || 'Why Most Projects Struggle to Sell'}</h3>
-            <ul>
-              {problems.map((item, i) => (
-                <li key={i}>
-                  <span className="fit-card-v2-icon">✕</span>
-                  {item}
-                </li>
-              ))}
-            </ul>
+        <div
+          style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+            gap: '20px',
+            marginTop: '20px',
+          }}
+        >
+          <div
+            style={{
+              background: '#FFFFFF',
+              border: '1px solid var(--line)',
+              borderRadius: '18px',
+              padding: '26px 22px',
+              display: 'flex',
+              flexDirection: 'column',
+              boxShadow: '0 4px 16px rgba(0,0,0,0.03)',
+            }}
+          >
+            <div style={{ width: '40px', height: '40px', borderRadius: '12px', background: 'var(--green-tint)', color: 'var(--green)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '14px', fontWeight: '800' }}>
+              01
+            </div>
+            <h3 style={{ fontSize: '18px', fontWeight: '800', color: 'var(--ink)', marginBottom: '8px' }}>
+              100% Real Estate Specialization
+            </h3>
+            <p style={{ fontSize: '14px', color: 'var(--slate)', lineHeight: '1.6', margin: 0 }}>
+              Zero consumer goods, retail, or fashion. Every media buyer, 3D animator, and CRM engineer on our team is dedicated solely to plot files, luxury villas, and high-rise commercial &amp; residential sales cycles.
+            </p>
           </div>
-          <div className="fit-card-v2 yes" style={{ opacity: 1, transform: 'none' }}>
-            <h3>{c.pos_solution_label || 'What Propkads Changes'}</h3>
-            <ul>
-              {solutions.map((item, i) => (
-                <li key={i}>
-                  <span className="fit-card-v2-icon">✓</span>
-                  {item}
-                </li>
-              ))}
-            </ul>
+
+          <div
+            style={{
+              background: '#FFFFFF',
+              border: '1px solid var(--line)',
+              borderRadius: '18px',
+              padding: '26px 22px',
+              display: 'flex',
+              flexDirection: 'column',
+              boxShadow: '0 4px 16px rgba(0,0,0,0.03)',
+            }}
+          >
+            <div style={{ width: '40px', height: '40px', borderRadius: '12px', background: 'var(--green-tint)', color: 'var(--green)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '14px', fontWeight: '800' }}>
+              02
+            </div>
+            <h3 style={{ fontSize: '18px', fontWeight: '800', color: 'var(--ink)', marginBottom: '8px' }}>
+              Accountability Beyond the Click
+            </h3>
+            <p style={{ fontSize: '14px', color: 'var(--slate)', lineHeight: '1.6', margin: 0 }}>
+              While generic agencies stop when a lead form is submitted, we take responsibility for what happens next: ensuring leads are called within 5 minutes, tracked in CRM, and moved to on-ground site visits.
+            </p>
+          </div>
+
+          <div
+            style={{
+              background: '#FFFFFF',
+              border: '1px solid var(--line)',
+              borderRadius: '18px',
+              padding: '26px 22px',
+              display: 'flex',
+              flexDirection: 'column',
+              boxShadow: '0 4px 16px rgba(0,0,0,0.03)',
+            }}
+          >
+            <div style={{ width: '40px', height: '40px', borderRadius: '12px', background: 'var(--green-tint)', color: 'var(--green)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '14px', fontWeight: '800' }}>
+              03
+            </div>
+            <h3 style={{ fontSize: '18px', fontWeight: '800', color: 'var(--ink)', marginBottom: '8px' }}>
+              Data Integrity &amp; Lead Security
+            </h3>
+            <p style={{ fontSize: '14px', color: 'var(--slate)', lineHeight: '1.6', margin: 0 }}>
+              Lead theft and duplicate dealer calls destroy developer credibility. Our CRM enforces contact data encryption, automated Pakistani phone number deduplication, and private sales rep queues.
+            </p>
+          </div>
+
+          <div
+            style={{
+              background: '#FFFFFF',
+              border: '1px solid var(--line)',
+              borderRadius: '18px',
+              padding: '26px 22px',
+              display: 'flex',
+              flexDirection: 'column',
+              boxShadow: '0 4px 16px rgba(0,0,0,0.03)',
+            }}
+          >
+            <div style={{ width: '40px', height: '40px', borderRadius: '12px', background: 'var(--green-tint)', color: 'var(--green)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '14px', fontWeight: '800' }}>
+              04
+            </div>
+            <h3 style={{ fontSize: '18px', fontWeight: '800', color: 'var(--ink)', marginBottom: '8px' }}>
+              Performance-Aligned Growth
+            </h3>
+            <p style={{ fontSize: '14px', color: 'var(--slate)', lineHeight: '1.6', margin: 0 }}>
+              We believe partners should have skin in the game. We structure commercial agreements with transparent retainers and milestone performance incentives that scale only when your inventory is booked.
+            </p>
           </div>
         </div>
-
-        <p className="callout" style={{ marginTop: '36px' }}>
-          {c.pos_callout || 'Marketing alone does not sell projects — systems do.'}
-        </p>
       </section>
 
       {/* 5. Ideal Client Fit */}
