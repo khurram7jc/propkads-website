@@ -20,7 +20,7 @@ const DEFAULT_CONTENT = {
   social_youtube: 'https://www.youtube.com/@Propkads',
   social_x: 'https://x.com/propkads',
   social_tiktok: 'https://www.tiktok.com/@propkads',
-  contact_phone: '+92 333 2000649',
+  contact_phone: '+92 333 3401101',
   contact_email: 'contact@propkads.com',
   contact_location: 'Karachi, Pakistan',
   header_nav_1: 'About Us',
@@ -121,7 +121,7 @@ export default function ServiceDetailPage({ params }) {
 
             <div className="service-detail-ctas">
               <a
-                href={`https://wa.me/923332000649?text=${whatsappMessage}`}
+                href={`https://wa.me/923333401101?text=${whatsappMessage}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="btn btn-solid"
@@ -259,7 +259,7 @@ export default function ServiceDetailPage({ params }) {
 
               <div className="service-quote-contact-alt">
                 <span>Or connect immediately:</span>
-                <a href="tel:+923332000649">+92 333 2000649</a>
+                <a href="tel:+923333401101">+92 333 3401101</a>
                 <a href="mailto:contact@propkads.com">contact@propkads.com</a>
               </div>
             </div>

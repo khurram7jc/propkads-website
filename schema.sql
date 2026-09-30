@@ -57,7 +57,7 @@ insert into site_content (key, value) values
   ('service_4_title', 'Closing & Deal Support'),
   ('service_4_desc', 'Objection handling, payment guidance, documentation clarity, and deal structure support.'),
   ('commercial_model_tagline', 'We earn more only when you sell more.'),
-  ('contact_phone', '+92 333 2000649'),
+  ('contact_phone', '+92 333 3401101'),
   ('contact_email', 'contact@propkads.com'),
   ('contact_location', 'Karachi, Pakistan')
 on conflict (key) do nothing;

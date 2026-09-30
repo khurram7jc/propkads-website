@@ -16,7 +16,7 @@ const DEFAULT_CONTENT = {
   social_youtube: 'https://www.youtube.com/@Propkads',
   social_x: 'https://x.com/propkads',
   social_tiktok: 'https://www.tiktok.com/@propkads',
-  contact_phone: '+92 333 2000649',
+  contact_phone: '+92 333 3401101',
   contact_email: 'contact@propkads.com',
   contact_location: 'Karachi, Pakistan',
   header_nav_1: 'About Us',

@@ -45,7 +45,7 @@ export default function Footer({ c = {} }) {
 
         <div className="footer-v2-col footer-v2-contact">
           <h4>Contact</h4>
-          <a href={`tel:${(c?.contact_phone || '+92 333 2000649').replace(/\s/g, '')}`}>{c?.contact_phone || '+92 333 2000649'}</a>
+          <a href={`tel:${(c?.contact_phone || '+92 333 3401101').replace(/\s/g, '')}`}>{c?.contact_phone || '+92 333 3401101'}</a>
           <a href={`mailto:${c?.contact_email || 'contact@propkads.com'}`}>{c?.contact_email || 'contact@propkads.com'}</a>
           <span>{c?.contact_location || 'Lahore, Pakistan'}</span>
         </div>

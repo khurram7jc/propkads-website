@@ -151,7 +151,7 @@ export default function LeadCalculator() {
 
               <div className="calc-cta-wrap">
                 <a
-                  href={`https://wa.me/923332000649?text=${whatsappMessage}`}
+                  href={`https://wa.me/923333401101?text=${whatsappMessage}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="calc-btn-action"
