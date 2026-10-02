@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { UsersIcon, CrmDocIcon, TeamStarIcon, GrowthBarsIcon, CurvedArrowIcon } from '@/components/Icons';
+import { UsersIcon, CrmDocIcon, TeamStarIcon, GrowthBarsIcon } from '@/components/Icons';
 
 export default function SystemFlow({ c, buttonHref = '/contact', buttonText = 'Get a Free Project Review →' }) {
   const steps = [
@@ -26,22 +26,53 @@ export default function SystemFlow({ c, buttonHref = '/contact', buttonText = 'G
         </p>
       </div>
 
-      <div className="process-row">
-        {steps.map((step, i) => (
-          <div className="process-item" key={i}>
-            <div className="process-card">
-              <div className="process-icon-badge">{step.icon}</div>
-              <span className="process-num">{String(i + 1).padStart(2, '0')}</span>
-              <h3 className="process-title">{step.title}</h3>
-              <span className="process-accent"></span>
-              <p className="process-desc">{step.desc}</p>
+      {/* Clean Pointwise List */}
+      <div
+        style={{
+          maxWidth: '820px',
+          margin: '32px auto 0 auto',
+          display: 'flex',
+          flexDirection: 'column',
+          gap: '22px',
+        }}
+      >
+        {steps.map((step, idx) => (
+          <div
+            key={idx}
+            style={{
+              display: 'flex',
+              alignItems: 'flex-start',
+              gap: '20px',
+              paddingBottom: idx === steps.length - 1 ? 0 : '22px',
+              borderBottom: idx === steps.length - 1 ? 'none' : '1px solid var(--line)',
+            }}
+          >
+            <div
+              style={{
+                width: '38px',
+                height: '38px',
+                borderRadius: '10px',
+                background: 'var(--green-tint)',
+                color: 'var(--green)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                fontWeight: '800',
+                fontSize: '15px',
+                flexShrink: 0,
+                marginTop: '2px',
+              }}
+            >
+              {String(idx + 1).padStart(2, '0')}
             </div>
-            {i < steps.length - 1 && (
-              <div className="process-arrow">
-                <CurvedArrowIcon />
-                <span className="process-arrow-mobile"></span>
-              </div>
-            )}
+            <div style={{ flex: 1 }}>
+              <h3 style={{ fontSize: '18px', fontWeight: '800', color: 'var(--ink)', marginBottom: '6px', lineHeight: '1.3' }}>
+                {step.title}
+              </h3>
+              <p style={{ fontSize: '15px', color: 'var(--slate)', lineHeight: '1.7', margin: 0 }}>
+                {step.desc}
+              </p>
+            </div>
           </div>
         ))}
       </div>
