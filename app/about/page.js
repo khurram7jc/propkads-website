@@ -40,6 +40,29 @@ export default function AboutPage() {
   const yesItems = [c.fit_yes_1, c.fit_yes_2, c.fit_yes_3].filter(Boolean);
   const noItems = [c.fit_no_1, c.fit_no_2, c.fit_no_3].filter(Boolean);
 
+  const methodologyPoints = [
+    {
+      num: '01',
+      title: '100% Real Estate Specialization',
+      desc: 'Zero consumer goods, retail, or fashion. Every media buyer, 3D animator, and CRM engineer on our team is dedicated solely to plot files, luxury villas, and high-rise commercial & residential sales cycles.',
+    },
+    {
+      num: '02',
+      title: 'Accountability Beyond the Click',
+      desc: 'While generic agencies stop when a lead form is submitted, we take responsibility for what happens next: ensuring leads are called within 5 minutes, tracked in CRM, and moved to on-ground site visits.',
+    },
+    {
+      num: '03',
+      title: 'Data Integrity & Lead Security',
+      desc: 'Lead theft and duplicate dealer calls destroy developer credibility. Our CRM enforces contact data encryption, automated Pakistani phone number deduplication, and private sales rep queues.',
+    },
+    {
+      num: '04',
+      title: 'Performance-Aligned Growth',
+      desc: 'We believe partners should have skin in the game. We structure commercial agreements with transparent retainers and milestone performance incentives that scale only when your inventory is booked.',
+    },
+  ];
+
   return (
     <div className="crm-page-wrap">
       {/* 1. Header */}
@@ -89,7 +112,7 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* 4. The Propkads Operating Standards (Distinct from Homepage Positioning) */}
+      {/* 4. The Propkads Operating Standards (Pointwise List, No Cards) */}
       <section className="section container" style={{ paddingTop: '0' }}>
         <div style={{ textAlign: 'center', maxWidth: '780px', margin: '0 auto 36px auto', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
           <span className="section-tag" style={{ display: 'inline-block', margin: '0 auto 10px auto', textAlign: 'center' }}>
@@ -103,101 +126,55 @@ export default function AboutPage() {
           </p>
         </div>
 
+        {/* Clean Pointwise List */}
         <div
           style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
-            gap: '20px',
-            marginTop: '20px',
+            maxWidth: '820px',
+            margin: '32px auto 0 auto',
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '22px',
           }}
         >
-          <div
-            style={{
-              background: '#FFFFFF',
-              border: '1px solid var(--line)',
-              borderRadius: '18px',
-              padding: '26px 22px',
-              display: 'flex',
-              flexDirection: 'column',
-              boxShadow: '0 4px 16px rgba(0,0,0,0.03)',
-            }}
-          >
-            <div style={{ width: '40px', height: '40px', borderRadius: '12px', background: 'var(--green-tint)', color: 'var(--green)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '14px', fontWeight: '800' }}>
-              01
+          {methodologyPoints.map((point, idx) => (
+            <div
+              key={idx}
+              style={{
+                display: 'flex',
+                alignItems: 'flex-start',
+                gap: '20px',
+                paddingBottom: idx === methodologyPoints.length - 1 ? 0 : '22px',
+                borderBottom: idx === methodologyPoints.length - 1 ? 'none' : '1px solid var(--line)',
+              }}
+            >
+              <div
+                style={{
+                  width: '38px',
+                  height: '38px',
+                  borderRadius: '10px',
+                  background: 'var(--green-tint)',
+                  color: 'var(--green)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  fontWeight: '800',
+                  fontSize: '15px',
+                  flexShrink: 0,
+                  marginTop: '2px',
+                }}
+              >
+                {point.num}
+              </div>
+              <div style={{ flex: 1 }}>
+                <h3 style={{ fontSize: '18px', fontWeight: '800', color: 'var(--ink)', marginBottom: '6px', lineHeight: '1.3' }}>
+                  {point.title}
+                </h3>
+                <p style={{ fontSize: '15px', color: 'var(--slate)', lineHeight: '1.7', margin: 0 }}>
+                  {point.desc}
+                </p>
+              </div>
             </div>
-            <h3 style={{ fontSize: '18px', fontWeight: '800', color: 'var(--ink)', marginBottom: '8px' }}>
-              100% Real Estate Specialization
-            </h3>
-            <p style={{ fontSize: '14px', color: 'var(--slate)', lineHeight: '1.6', margin: 0 }}>
-              Zero consumer goods, retail, or fashion. Every media buyer, 3D animator, and CRM engineer on our team is dedicated solely to plot files, luxury villas, and high-rise commercial &amp; residential sales cycles.
-            </p>
-          </div>
-
-          <div
-            style={{
-              background: '#FFFFFF',
-              border: '1px solid var(--line)',
-              borderRadius: '18px',
-              padding: '26px 22px',
-              display: 'flex',
-              flexDirection: 'column',
-              boxShadow: '0 4px 16px rgba(0,0,0,0.03)',
-            }}
-          >
-            <div style={{ width: '40px', height: '40px', borderRadius: '12px', background: 'var(--green-tint)', color: 'var(--green)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '14px', fontWeight: '800' }}>
-              02
-            </div>
-            <h3 style={{ fontSize: '18px', fontWeight: '800', color: 'var(--ink)', marginBottom: '8px' }}>
-              Accountability Beyond the Click
-            </h3>
-            <p style={{ fontSize: '14px', color: 'var(--slate)', lineHeight: '1.6', margin: 0 }}>
-              While generic agencies stop when a lead form is submitted, we take responsibility for what happens next: ensuring leads are called within 5 minutes, tracked in CRM, and moved to on-ground site visits.
-            </p>
-          </div>
-
-          <div
-            style={{
-              background: '#FFFFFF',
-              border: '1px solid var(--line)',
-              borderRadius: '18px',
-              padding: '26px 22px',
-              display: 'flex',
-              flexDirection: 'column',
-              boxShadow: '0 4px 16px rgba(0,0,0,0.03)',
-            }}
-          >
-            <div style={{ width: '40px', height: '40px', borderRadius: '12px', background: 'var(--green-tint)', color: 'var(--green)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '14px', fontWeight: '800' }}>
-              03
-            </div>
-            <h3 style={{ fontSize: '18px', fontWeight: '800', color: 'var(--ink)', marginBottom: '8px' }}>
-              Data Integrity &amp; Lead Security
-            </h3>
-            <p style={{ fontSize: '14px', color: 'var(--slate)', lineHeight: '1.6', margin: 0 }}>
-              Lead theft and duplicate dealer calls destroy developer credibility. Our CRM enforces contact data encryption, automated Pakistani phone number deduplication, and private sales rep queues.
-            </p>
-          </div>
-
-          <div
-            style={{
-              background: '#FFFFFF',
-              border: '1px solid var(--line)',
-              borderRadius: '18px',
-              padding: '26px 22px',
-              display: 'flex',
-              flexDirection: 'column',
-              boxShadow: '0 4px 16px rgba(0,0,0,0.03)',
-            }}
-          >
-            <div style={{ width: '40px', height: '40px', borderRadius: '12px', background: 'var(--green-tint)', color: 'var(--green)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '14px', fontWeight: '800' }}>
-              04
-            </div>
-            <h3 style={{ fontSize: '18px', fontWeight: '800', color: 'var(--ink)', marginBottom: '8px' }}>
-              Performance-Aligned Growth
-            </h3>
-            <p style={{ fontSize: '14px', color: 'var(--slate)', lineHeight: '1.6', margin: 0 }}>
-              We believe partners should have skin in the game. We structure commercial agreements with transparent retainers and milestone performance incentives that scale only when your inventory is booked.
-            </p>
-          </div>
+          ))}
         </div>
       </section>
 
