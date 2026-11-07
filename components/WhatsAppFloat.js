@@ -1,9 +1,22 @@
 'use client';
 
+import { useEffect, useState } from 'react';
 import { usePathname } from 'next/navigation';
 
 export default function WhatsAppFloat() {
   const pathname = usePathname() || '';
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => {
+      const ua = navigator.userAgent || '';
+      const mobileUa = /Android|iPhone|iPad|iPod|IEMobile|Opera Mini/i.test(ua);
+      setIsMobile(mobileUa || window.innerWidth <= 768);
+    };
+    checkMobile();
+    window.addEventListener('resize', checkMobile, { passive: true });
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   // Do not show floating WhatsApp button inside the Admin Panel
   if (pathname.startsWith('/admin')) {
@@ -16,13 +29,17 @@ export default function WhatsAppFloat() {
       ? 'Hello Propkads, I would like to get details about Karachi Enclave.'
       : 'Hello Propkads, I would like to discuss a real estate project.'
   );
-  const whatsappUrl = `https://wa.me/923333401101?text=${text}`;
+
+  // On mobile, use the native whatsapp:// protocol so the OS opens WhatsApp directly without opening a Chrome tab
+  const whatsappUrl = isMobile
+    ? `whatsapp://send?phone=923333401101&text=${text}`
+    : `https://wa.me/923333401101?text=${text}`;
 
   return (
     <a
       href={whatsappUrl}
-      target="_blank"
-      rel="noopener noreferrer"
+      target={isMobile ? undefined : '_blank'}
+      rel={isMobile ? undefined : 'noopener noreferrer'}
       className="wa-float-wrap"
       aria-label="Chat with us on WhatsApp"
     >
