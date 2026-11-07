@@ -9,8 +9,14 @@ export default function Header({ c = {} }) {
   const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [mobileSubmenu, setMobileSubmenu] = useState(null);
   const [servicesDropdownOpen, setServicesDropdownOpen] = useState(false);
   const [projectsDropdownOpen, setProjectsDropdownOpen] = useState(false);
+
+  const closeMobileMenu = () => {
+    setMobileMenuOpen(false);
+    setMobileSubmenu(null);
+  };
 
   const isActive = (path) => {
     if (!pathname) return false;
@@ -130,7 +136,14 @@ export default function Header({ c = {} }) {
             <button
               type="button"
               className="mobile-menu-toggle"
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              onClick={() => {
+                if (mobileMenuOpen) {
+                  closeMobileMenu();
+                } else {
+                  setMobileSubmenu(null);
+                  setMobileMenuOpen(true);
+                }
+              }}
               aria-label="Toggle navigation menu"
             >
               {mobileMenuOpen ? (
@@ -152,15 +165,49 @@ export default function Header({ c = {} }) {
         {/* Mobile Dropdown Menu */}
         {mobileMenuOpen && (
           <div className="mobile-nav-panel">
-            <Link href="/about" className={isActive('/about') ? 'is-active' : ''} onClick={() => setMobileMenuOpen(false)}>About Us</Link>
-            <Link href="/services" className={isActive('/services') ? 'is-active' : ''} onClick={() => setMobileMenuOpen(false)}>Services</Link>
-            <span style={{ fontSize: '13px', fontWeight: '700', textTransform: 'uppercase', letterSpacing: '0.05em', color: 'var(--slate)', padding: '12px 0 4px 0', display: 'block', userSelect: 'none' }}>Projects</span>
-            <div className="mobile-services-links">
-              <Link href="/projects/karachi-enclave" onClick={() => setMobileMenuOpen(false)}>• Karachi Enclave</Link>
-            </div>
-            <Link href="/blog" className={isActive('/blog') ? 'is-active' : ''} onClick={() => setMobileMenuOpen(false)}>Blogs</Link>
-            <Link href="/careers" className={isActive('/careers') ? 'is-active' : ''} onClick={() => setMobileMenuOpen(false)}>Career</Link>
-            <Link href="/contact" className={isActive('/contact') ? 'is-active' : ''} onClick={() => setMobileMenuOpen(false)}>Contact Us</Link>
+            {mobileSubmenu === 'projects' ? (
+              <div className="mobile-submenu-view">
+                <button
+                  type="button"
+                  className="mobile-submenu-back"
+                  onClick={() => setMobileSubmenu(null)}
+                >
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="m15 18-6-6 6-6" />
+                  </svg>
+                  <span>Back to Menu</span>
+                </button>
+                <div className="mobile-submenu-divider" />
+                <Link
+                  href="/projects/karachi-enclave"
+                  className={`mobile-project-item ${isActive('/projects/karachi-enclave') ? 'is-active' : ''}`}
+                  onClick={closeMobileMenu}
+                >
+                  <span>Karachi Enclave</span>
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="m9 18 6-6-6-6" />
+                  </svg>
+                </Link>
+              </div>
+            ) : (
+              <>
+                <Link href="/about" className={isActive('/about') ? 'is-active' : ''} onClick={closeMobileMenu}>About Us</Link>
+                <Link href="/services" className={isActive('/services') ? 'is-active' : ''} onClick={closeMobileMenu}>Services</Link>
+                <button
+                  type="button"
+                  className={`mobile-nav-trigger ${pathname?.startsWith('/projects') ? 'is-active' : ''}`}
+                  onClick={() => setMobileSubmenu('projects')}
+                >
+                  <span>Projects</span>
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="m9 18 6-6-6-6" />
+                  </svg>
+                </button>
+                <Link href="/blog" className={isActive('/blog') ? 'is-active' : ''} onClick={closeMobileMenu}>Blogs</Link>
+                <Link href="/careers" className={isActive('/careers') ? 'is-active' : ''} onClick={closeMobileMenu}>Career</Link>
+                <Link href="/contact" className={isActive('/contact') ? 'is-active' : ''} onClick={closeMobileMenu}>Contact Us</Link>
+              </>
+            )}
           </div>
         )}
       </nav>
