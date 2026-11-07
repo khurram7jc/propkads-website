@@ -165,49 +165,53 @@ export default function Header({ c = {} }) {
         {/* Mobile Dropdown Menu */}
         {mobileMenuOpen && (
           <div className="mobile-nav-panel">
-            {mobileSubmenu === 'projects' ? (
-              <div className="mobile-submenu-view">
-                <button
-                  type="button"
-                  className="mobile-submenu-back"
-                  onClick={() => setMobileSubmenu(null)}
+            <Link href="/about" className={isActive('/about') ? 'is-active' : ''} onClick={closeMobileMenu}>About Us</Link>
+            <Link href="/services" className={isActive('/services') ? 'is-active' : ''} onClick={closeMobileMenu}>Services</Link>
+
+            <div className="mobile-projects-group">
+              <button
+                type="button"
+                className={`mobile-nav-trigger ${pathname?.startsWith('/projects') || mobileSubmenu === 'projects' ? 'is-active' : ''}`}
+                onClick={() => setMobileSubmenu(mobileSubmenu === 'projects' ? null : 'projects')}
+              >
+                <span>Projects</span>
+                <svg
+                  width="18"
+                  height="18"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2.4"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  style={{
+                    transform: mobileSubmenu === 'projects' ? 'rotate(180deg)' : 'rotate(0deg)',
+                    transition: 'transform 0.22s ease',
+                  }}
                 >
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="m15 18-6-6 6-6" />
-                  </svg>
-                  <span>Back to Menu</span>
-                </button>
-                <div className="mobile-submenu-divider" />
-                <Link
-                  href="/projects/karachi-enclave"
-                  className={`mobile-project-item ${isActive('/projects/karachi-enclave') ? 'is-active' : ''}`}
-                  onClick={closeMobileMenu}
-                >
-                  <span>Karachi Enclave</span>
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="m9 18 6-6-6-6" />
-                  </svg>
-                </Link>
-              </div>
-            ) : (
-              <>
-                <Link href="/about" className={isActive('/about') ? 'is-active' : ''} onClick={closeMobileMenu}>About Us</Link>
-                <Link href="/services" className={isActive('/services') ? 'is-active' : ''} onClick={closeMobileMenu}>Services</Link>
-                <button
-                  type="button"
-                  className={`mobile-nav-trigger ${pathname?.startsWith('/projects') ? 'is-active' : ''}`}
-                  onClick={() => setMobileSubmenu('projects')}
-                >
-                  <span>Projects</span>
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="m9 18 6-6-6-6" />
-                  </svg>
-                </button>
-                <Link href="/blog" className={isActive('/blog') ? 'is-active' : ''} onClick={closeMobileMenu}>Blogs</Link>
-                <Link href="/careers" className={isActive('/careers') ? 'is-active' : ''} onClick={closeMobileMenu}>Career</Link>
-                <Link href="/contact" className={isActive('/contact') ? 'is-active' : ''} onClick={closeMobileMenu}>Contact Us</Link>
-              </>
-            )}
+                  <path d="m6 9 6 6 6-6" />
+                </svg>
+              </button>
+
+              {mobileSubmenu === 'projects' && (
+                <div className="mobile-projects-subbox">
+                  <Link
+                    href="/projects/karachi-enclave"
+                    className={`mobile-project-item ${isActive('/projects/karachi-enclave') ? 'is-active' : ''}`}
+                    onClick={closeMobileMenu}
+                  >
+                    <span>Karachi Enclave</span>
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.3" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="m9 18 6-6-6-6" />
+                    </svg>
+                  </Link>
+                </div>
+              )}
+            </div>
+
+            <Link href="/blog" className={isActive('/blog') ? 'is-active' : ''} onClick={closeMobileMenu}>Blogs</Link>
+            <Link href="/careers" className={isActive('/careers') ? 'is-active' : ''} onClick={closeMobileMenu}>Career</Link>
+            <Link href="/contact" className={isActive('/contact') ? 'is-active' : ''} onClick={closeMobileMenu}>Contact Us</Link>
           </div>
         )}
       </nav>
