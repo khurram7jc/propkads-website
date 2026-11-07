@@ -170,36 +170,103 @@
   color: var(--slate);
 }
 
-.mobile-projects-group {
-  display: flex;
-  flex-direction: column;
+.mobile-cascade-wrap {
+  position: absolute;
+  top: 100%;
+  left: 16px;
+  right: 16px;
+  padding-top: 8px;
+  z-index: 100;
+  pointer-events: none;
 }
 
-.mobile-projects-subbox {
-  margin: 6px 0 4px 0;
-  padding: 6px 14px;
-  background: #F8FAFC;
+.mobile-cascade-main {
+  pointer-events: auto;
+  position: relative;
+  width: 168px;
+  background: #FFFFFF;
   border: 1px solid #E2E8F0;
-  border-left: 3px solid var(--green);
+  border-left: 3.5px solid var(--green);
   border-radius: 12px;
+  padding: 8px 0;
+  box-shadow: 0 16px 36px rgba(15, 23, 42, 0.14);
   display: flex;
   flex-direction: column;
-  gap: 4px;
 }
 
-.mobile-project-item {
-  display: flex !important;
+.mobile-cascade-main > a,
+.mobile-cascade-trigger {
+  display: flex;
   align-items: center;
   justify-content: space-between;
   width: 100%;
-  font-size: 14.5px !important;
-  font-weight: 700 !important;
+  padding: 11px 16px;
+  font-size: 14.5px;
+  font-weight: 600;
   color: var(--ink);
-  padding: 8px 2px !important;
+  background: none;
+  border: none;
+  text-decoration: none;
+  text-align: left;
+  cursor: pointer;
+  transition: background 0.18s ease, color 0.18s ease;
 }
 
-.mobile-project-item svg {
+.mobile-cascade-main > a:hover,
+.mobile-cascade-main > a.is-active,
+.mobile-cascade-trigger.is-active {
   color: var(--green);
+  background: rgba(20, 167, 80, 0.06);
+}
+
+.mobile-cascade-item-wrap {
+  position: relative;
+  width: 100%;
+}
+
+.mobile-cascade-arrow {
+  font-size: 13px;
+  color: var(--slate);
+  line-height: 1;
+}
+
+.mobile-cascade-trigger.is-active .mobile-cascade-arrow {
+  color: var(--green);
+}
+
+.mobile-cascade-flyout {
+  position: absolute;
+  top: 0;
+  left: calc(100% + 4px);
+  min-width: 172px;
+  background: #FFFFFF;
+  border: 1px solid #E2E8F0;
+  border-left: 3.5px solid var(--green);
+  border-radius: 12px;
+  padding: 6px 0;
+  box-shadow: 0 16px 36px rgba(15, 23, 42, 0.16);
+  display: flex;
+  flex-direction: column;
+  z-index: 110;
+}
+
+.mobile-cascade-subitem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 11px 16px;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--ink);
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background 0.18s ease, color 0.18s ease;
+}
+
+.mobile-cascade-subitem:hover,
+.mobile-cascade-subitem.is-active {
+  color: var(--green);
+  background: rgba(20, 167, 80, 0.06);
 }
 
 .mobile-nav-panel a.mobile-menu-cta {
