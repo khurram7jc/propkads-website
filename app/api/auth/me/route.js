@@ -6,5 +6,6 @@ export async function GET() {
   if (!session) {
     return NextResponse.json({ success: false }, { status: 401 });
   }
-  return NextResponse.json({ success: true, user: { name: session.name, role: session.role } });
+  const displayName = session.name === 'Khurram' ? 'Khurram Mushtaq' : session.name;
+  return NextResponse.json({ success: true, user: { name: displayName, role: session.role } });
 }

@@ -6,7 +6,7 @@ import Footer from '@/components/Footer';
 import './crm.css';
 
 const DEFAULT_CONTENT = {
-  footer_tagline: 'A complete revenue system for real estate developers — not just ads.',
+  footer_tagline: 'From launch to final booking, turning inventory into closed bookings.',
   newsletter_heading: 'Subscribe to Our Newsletter',
   newsletter_intro: 'Get updates on real estate marketing insights.',
   newsletter_button: 'Subscribe',

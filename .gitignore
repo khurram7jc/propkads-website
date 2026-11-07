@@ -5,3 +5,11 @@ node_modules/
 .DS_Store
 npm-debug.log*
 .vercel
+
+scratch/
+public/render_pdf.html
+public/projects/karachi-enclave/*.raw
+public/projects/karachi-enclave/*.bmp
+public/projects/karachi-enclave/Karachi Enclave 7.pdf
+public/projects/karachi-enclave/karachi-enclave-brochure.pdf
+public/projects/karachi-enclave/TYPICAL 3.pdf

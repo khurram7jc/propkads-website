@@ -3,8 +3,8 @@ const nextConfig = {
   async redirects() {
     return [
       {
-        source: '/services/whatsapp-api-sms-automation',
-        destination: '/services/whatsapp-api-msgs-automation',
+        source: '/services/:slug',
+        destination: '/services',
         permanent: true,
       },
     ];

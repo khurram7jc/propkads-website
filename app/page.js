@@ -1,12 +1,11 @@
 'use client';
 import { useEffect, useState } from 'react';
 import Header from '@/components/Header';
-import { PhoneIcon, MailIcon, PinIcon, FacebookIcon, InstagramIcon, LinkedInIcon } from '@/components/Icons';
 import Hero from '@/components/Hero';
 import PlatformsStrip from '@/components/PlatformsStrip';
 import Positioning from '@/components/Positioning';
-import Services from '@/components/Services';
-import CrmTeaser from '@/components/CrmTeaser';
+import PartnersMarquee from '@/components/PartnersMarquee';
+import SystemFlow from '@/components/SystemFlow';
 import Footer from '@/components/Footer';
 
 const DEFAULT_CONTENT = {
@@ -154,7 +153,7 @@ const DEFAULT_CONTENT = {
   contact_eyebrow: 'Contact',
   contact_heading: 'Get a Free Project Review',
   contact_intro: 'Please provide the correct information below and our team will get back to you.',
-  footer_tagline: 'A complete revenue system for real estate developers — not just ads.',
+  footer_tagline: 'From launch to final booking, turning inventory into closed bookings.',
   newsletter_heading: 'Subscribe to Our Newsletter',
   newsletter_intro: 'Get updates on real estate marketing insights.',
   newsletter_button: 'Subscribe',
@@ -171,8 +170,28 @@ const DEFAULT_CONTENT = {
 
 export default function Home() {
   const [c, setC] = useState(DEFAULT_CONTENT);
+  const [openFaq, setOpenFaq] = useState(0);
   const [form, setForm] = useState({ fullName: '', companyName: '', phone: '', city: '', inventoryType: '' });
   const [status, setStatus] = useState('');
+
+  const faqs = [
+    {
+      q: c?.faq_q1 || 'Do you guarantee sales?',
+      a: c?.faq_a1 || 'We do not offer false guarantees. We build a measurable system that shows real sales potential within 60–90 days using CRM-based data.',
+    },
+    {
+      q: c?.faq_q2 || 'Are you just running ads?',
+      a: c?.faq_a2 || 'No. Ads are only the starting point. CRM control, sales team accountability, and closing support drive conversions.',
+    },
+    {
+      q: c?.faq_q3 || 'Do you replace our sales team?',
+      a: c?.faq_a3 || 'No. We strengthen and enable your existing sales team through systems, tracking, and performance control.',
+    },
+    {
+      q: c?.faq_q4 || 'What type of projects do you work with?',
+      a: c?.faq_a4 || 'We work with developers who value structure, transparency, and long-term revenue control.',
+    },
+  ].filter((f) => f.q);
 
   useEffect(() => {
     fetch('/api/content')
@@ -211,7 +230,7 @@ export default function Home() {
       const res = await fetch('/api/contact', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(form),
+        body: JSON.stringify({ ...form, leadCategory: 'client' }),
       });
       const data = await res.json();
       if (data.success) {
@@ -241,82 +260,114 @@ export default function Home() {
       {/* PLATFORMS */}
       <PlatformsStrip c={c} />
 
+      {/* TRUSTED PARTNERS MARQUEE */}
+      <PartnersMarquee />
+
       {/* POSITIONING (WHY PROPKADS) */}
       <Positioning c={c} />
 
-      {/* SERVICES (12 SOLUTIONS BENTO) */}
-      <Services c={c} />
+      {/* 4-PHASE REVENUE & SALES SYSTEM FLOW */}
+      <SystemFlow c={c} buttonHref="#contact" buttonText="Schedule Free Project Review →" />
 
-      {/* PROPKADS CRM SPOTLIGHT */}
-      <CrmTeaser />
+      {/* FAQ & CONTACT FORM (SIDE-BY-SIDE) */}
+      <section className="section container" id="faq" style={{ paddingBottom: '56px' }}>
+        <div className="faq-contact-grid">
+          {/* Left Column: FAQ */}
+          <div className="faq-contact-col-faq">
+            <h3 style={{ margin: '0 0 18px 0', padding: 0, fontSize: '18px', fontWeight: '700', color: 'var(--ink)', letterSpacing: '-0.01em', lineHeight: '1.25' }}>
+              Frequently Asked Questions
+            </h3>
 
-      {/* CONTACT */}
-      <section className="section container" id="contact">
-        <div className="section-tag">{c.contact_eyebrow || 'Contact'}</div>
-        <h2>{c.contact_heading || 'Get a Free Project Review'}</h2>
-        <p className="section-intro">{c.contact_intro || 'Please provide the correct information below and our team will get back to you.'}</p>
-        <div className="contact-wrap-v2">
-          <form className="contact-form-v2" onSubmit={handleSubmit}>
-            <div className="contact-fields-card">
-              <div className="field-v2">
-                <input type="text" placeholder="Full Name *" required value={form.fullName}
-                  onChange={(e) => setForm({ ...form, fullName: e.target.value })} />
-              </div>
-              <div className="field-v2">
-                <input type="text" placeholder="Company / Project Name" value={form.companyName}
-                  onChange={(e) => setForm({ ...form, companyName: e.target.value })} />
-              </div>
-              <div className="field-v2">
-                <input type="tel" placeholder="Phone / WhatsApp *" required value={form.phone}
-                  onChange={(e) => setForm({ ...form, phone: e.target.value })} />
-              </div>
-              <div className="field-v2">
-                <input type="text" placeholder="City" value={form.city}
-                  onChange={(e) => setForm({ ...form, city: e.target.value })} />
-              </div>
-              <div className="field-v2">
-                <select
-                  required
-                  className={form.inventoryType ? '' : 'is-placeholder'}
-                  value={form.inventoryType}
-                  onChange={(e) => setForm({ ...form, inventoryType: e.target.value })}
-                >
-                  <option value="" disabled hidden>Select Your Property Type</option>
-                  <option>Apartments</option>
-                  <option>Houses / Villas</option>
-                  <option>Plots / Land</option>
-                  <option>Shops / Commercial</option>
-                  <option>Farmhouses</option>
-                </select>
-              </div>
+            <div className="faq-v2-list in-view">
+              {faqs.map((f, i) => (
+                <details className={`faq-v2-item faq-stagger-${i + 1}`} key={i} open={openFaq === i}>
+                  <summary
+                    onClick={(e) => {
+                      e.preventDefault();
+                      setOpenFaq(openFaq === i ? -1 : i);
+                    }}
+                  >
+                    <span className="faq-v2-num">{String(i + 1).padStart(2, '0')}</span>
+                    <span className="faq-v2-q">{f.q}</span>
+                    <span className="faq-v2-icon">
+                      <span className="plus">+</span>
+                      <span className="minus">–</span>
+                    </span>
+                  </summary>
+                  <div className="faq-v2-answer">
+                    <p>{f.a}</p>
+                  </div>
+                </details>
+              ))}
             </div>
-            <div className="contact-submit-wrap">
-              <button type="submit" className="btn btn-solid contact-submit-btn" style={{ border: 'none', width: '100%' }}>Submit Enquiry</button>
-              {status && <p style={{ fontSize: 13.5, color: 'var(--slate)', marginTop: 10 }}>{status}</p>}
-            </div>
-          </form>
+          </div>
 
-          <div className="contact-info-v2">
-            <div className="contact-info-item">
-              <span className="contact-info-icon"><PhoneIcon /></span>
-              <div><span className="lbl">Phone</span><a className="val" href={`tel:${c.contact_phone.replace(/\s/g, '')}`}>{c.contact_phone}</a></div>
-            </div>
-            <div className="contact-info-item">
-              <span className="contact-info-icon"><MailIcon /></span>
-              <div><span className="lbl">Email</span><a className="val" href={`mailto:${c.contact_email}`}>{c.contact_email}</a></div>
-            </div>
-            <div className="contact-info-item">
-              <span className="contact-info-icon"><PinIcon /></span>
-              <div><span className="lbl">Location</span><span className="val">{c.contact_location}</span></div>
-            </div>
-            <div>
-              <span className="lbl" style={{ display: 'block', marginBottom: 10 }}>Follow Us</span>
-              <div className="social-row">
-                <a href={c.social_facebook || 'https://www.facebook.com/Propkads/'} target="_blank" rel="noopener noreferrer" aria-label="Facebook"><FacebookIcon /></a>
-                <a href={c.social_instagram || 'https://www.instagram.com/propkads/'} target="_blank" rel="noopener noreferrer" aria-label="Instagram"><InstagramIcon /></a>
-                <a href={c.social_linkedin || 'https://www.linkedin.com/company/propkads/'} target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><LinkedInIcon /></a>
+          {/* Right Column: Contact Form */}
+          <div className="faq-contact-col-form" id="contact">
+            <h3 style={{ margin: '0 0 18px 0', padding: 0, fontSize: '18px', fontWeight: '700', color: 'var(--ink)', letterSpacing: '-0.01em', lineHeight: '1.25' }}>
+              Get a Free Project Review
+            </h3>
+
+            <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+              <div className="contact-fields-card">
+                <div className="field-v2">
+                  <input
+                    type="text"
+                    placeholder="Full Name *"
+                    required
+                    value={form.fullName}
+                    onChange={(e) => setForm({ ...form, fullName: e.target.value })}
+                  />
+                </div>
+                <div className="field-v2">
+                  <input
+                    type="text"
+                    placeholder="Company / Project Name"
+                    value={form.companyName}
+                    onChange={(e) => setForm({ ...form, companyName: e.target.value })}
+                  />
+                </div>
+                <div className="field-v2">
+                  <input
+                    type="tel"
+                    placeholder="Phone / WhatsApp *"
+                    required
+                    value={form.phone}
+                    onChange={(e) => setForm({ ...form, phone: e.target.value })}
+                  />
+                </div>
+                <div className="field-v2">
+                  <input
+                    type="text"
+                    placeholder="City"
+                    value={form.city}
+                    onChange={(e) => setForm({ ...form, city: e.target.value })}
+                  />
+                </div>
+                <div className="field-v2">
+                  <select
+                    className={form.inventoryType ? '' : 'is-placeholder'}
+                    value={form.inventoryType}
+                    onChange={(e) => setForm({ ...form, inventoryType: e.target.value })}
+                  >
+                    <option value="" disabled hidden>Select Your Property Type</option>
+                    <option>Apartments</option>
+                    <option>Houses / Villas</option>
+                    <option>Plots / Land</option>
+                    <option>Shops / Commercial</option>
+                    <option>Farmhouses</option>
+                  </select>
+                </div>
+                <button type="submit" className="contact-submit-btn">
+                  Submit Enquiry
+                </button>
+                {status && (
+                  <p style={{ fontSize: 13.5, color: 'var(--slate)', marginTop: 8, textAlign: 'center' }}>
+                    {status}
+                  </p>
+                )}
               </div>
-            </div>
+            </form>
           </div>
         </div>
       </section>

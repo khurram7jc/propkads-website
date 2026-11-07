@@ -68,5 +68,5 @@ on conflict (key) do nothing;
 -- 2. Copy the output hash, then run below with your details:
 --
 -- insert into users (name, email, password_hash, role)
--- values ('Khurram', 'you@propkads.com', 'PASTE_HASH_HERE', 'admin');
+-- values ('Khurram', 'propkads@gmail.com', 'PASTE_HASH_HERE', 'admin');
 -- ============================================================

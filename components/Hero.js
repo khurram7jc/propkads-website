@@ -1,6 +1,46 @@
-import { CoinsIcon, TargetIcon, UsersIcon, LayersIcon, TrendingUpIcon, ShieldIcon } from '@/components/Icons';
+'use client';
+import { useState, useEffect, memo } from 'react';
 
-export default function Hero({ c, onQuickPhone }) {
+const TypingWord = memo(function TypingWord() {
+  const targetWord = 'Closed Bookings.';
+  const [displayText, setDisplayText] = useState('Closed Bookings.');
+  const [isDeleting, setIsDeleting] = useState(false);
+
+  useEffect(() => {
+    let delay = isDeleting ? 50 : 85;
+    if (!isDeleting && displayText === targetWord) {
+      delay = 2200;
+    } else if (isDeleting && displayText === '') {
+      delay = 420;
+    }
+
+    const timer = setTimeout(() => {
+      if (!isDeleting) {
+        if (displayText === targetWord) {
+          setIsDeleting(true);
+        } else {
+          setDisplayText(targetWord.substring(0, displayText.length + 1));
+        }
+      } else {
+        if (displayText === '') {
+          setIsDeleting(false);
+        } else {
+          setDisplayText(targetWord.substring(0, displayText.length - 1));
+        }
+      }
+    }, delay);
+
+    return () => clearTimeout(timer);
+  }, [displayText, isDeleting]);
+
+  return (
+    <span className="hero-typing-word">
+      {displayText || '\u00A0'}
+    </span>
+  );
+});
+
+export default function Hero({ c = {}, onQuickPhone }) {
   const handleQuickSubmit = (e) => {
     e.preventDefault();
     const phone = e.target.elements.quickPhone.value.trim();
@@ -10,74 +50,80 @@ export default function Hero({ c, onQuickPhone }) {
 
   return (
     <section className="hero-v2">
-      <div className="hero-float-icons" aria-hidden="true">
-        <svg className="hero-float-icon icon-pin" viewBox="0 0 48 48" style={{ '--dur': '5.5s', '--delay': '.8s' }}>
-          <path d="M24 4C15 4 8 11 8 20C8 32 24 44 24 44C24 44 40 32 40 20C40 11 33 4 24 4Z" fill="none" strokeWidth="2.5" stroke="currentColor" strokeLinejoin="round" />
-          <circle cx="24" cy="20" r="6" fill="none" stroke="currentColor" strokeWidth="2.5" />
-        </svg>
-        <svg className="hero-float-icon icon-house" viewBox="0 0 48 48" style={{ '--dur': '6.5s', '--delay': '0s' }}>
-          <path d="M6 22 L24 8 L42 22 V40 H6 Z" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinejoin="round" />
-          <rect x="19" y="28" width="10" height="12" fill="none" stroke="currentColor" strokeWidth="2.5" />
-        </svg>
-        <svg className="hero-float-icon icon-key" viewBox="0 0 48 48" style={{ '--dur': '7s', '--delay': '1.6s' }}>
-          <circle cx="16" cy="16" r="9" fill="none" stroke="currentColor" strokeWidth="2.5" />
-          <path d="M22 22 L40 40 M34 34 L40 28 M28 40 L34 34" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" />
-        </svg>
-        <svg className="hero-float-icon icon-building" viewBox="0 0 48 48" style={{ '--dur': '6s', '--delay': '2.2s' }}>
-          <rect x="10" y="6" width="28" height="38" fill="none" stroke="currentColor" strokeWidth="2.5" />
-        </svg>
+      {/* Background Video with Real Estate Towers & Overlay */}
+      <div className="hero-video-wrap" aria-hidden="true">
+        <video
+          className="hero-video-bg"
+          autoPlay
+          loop
+          muted
+          playsInline
+          preload="auto"
+        >
+          <source src="/hero-properties.mp4" type="video/mp4" />
+        </video>
+        <div className="hero-video-overlay" />
       </div>
 
       <div className="hero-v2-inner">
+        {/* Left Column: Core Value Proposition */}
         <div className="hero-v2-left">
-          <span className="hero-tag reveal">A complete revenue system, not just ads</span>
-          <h1 className="reveal reveal-delay-1">{c.hero_heading}</h1>
-          <p className="sub reveal reveal-delay-2">{c.hero_subheading}</p>
+          <h1 className="hero-v2-title">
+            We Turn Unsold Real Estate Inventory Into
+            <TypingWord />
+          </h1>
 
-          <form className="hero-quickform reveal reveal-delay-3" onSubmit={handleQuickSubmit}>
-            <input type="tel" name="quickPhone" placeholder="Your phone / WhatsApp number" required />
-            <button type="submit">Next</button>
+          <p className="hero-v2-sub">
+            From project launch to final booking. We generate serious property buyers, filter qualified leads through structured systems, and help your sales team close high-ticket apartments, plots, and commercial units.
+          </p>
+
+          <form className="hero-quickform" onSubmit={handleQuickSubmit}>
+            <input
+              type="tel"
+              name="quickPhone"
+              placeholder="Your phone / WhatsApp number..."
+              required
+            />
+            <button type="submit">Book Project Review →</button>
           </form>
-          <p className="hero-quicknote reveal reveal-delay-3">Or call us directly: <a href={`tel:${(c.contact_phone || '').replace(/\s/g, '')}`}>{c.contact_phone}</a></p>
+
+          <div className="hero-trust-desk">
+            <span className="hero-trust-label">Direct Consultant Desk:</span>
+            <a href={`tel:${(c.contact_phone || '+923333401101').replace(/\s/g, '')}`} className="hero-trust-phone">
+              {c.contact_phone || '+92 333 3401101'}
+            </a>
+          </div>
         </div>
 
-        <div className="hero-v2-right reveal reveal-delay-4">
-          <div className="hero-dash-cards">
-            <div className="hero-dash-card hero-dash-budget">
-              <div className="hero-dash-icon-badge"><CoinsIcon /></div>
-              <span className="hero-dash-eyebrow">{c.hero_stat1_eyebrow || 'Scale'}</span>
-              <div className="hero-dash-number">{c.hero_stat1_number || 'PKR 27 Crore+'}</div>
-              <div className="hero-dash-title">{c.hero_stat1_title || 'Ad Spend Managed'}</div>
-              <div className="hero-dash-divider"></div>
-              <div className="hero-dash-sub-row">
-                <span className="hero-dash-sub-icon"><LayersIcon /></span>
-                <span className="hero-dash-sub-text-only">{c.hero_stat1_sub_text || 'Across Real Estate Projects & Campaigns'}</span>
+        {/* Right Column: Luxury Stadium Capsule Pods */}
+        <div className="hero-v2-right">
+          <div className="hero-capsules-wrap">
+            {/* Capsule 1: Top Primary Wide Pod */}
+            <div className="hero-capsule-item hero-capsule-wide">
+              <span className="hero-capsule-beam"></span>
+              <div className="hero-capsule-left">
+                <div className="hero-capsule-big-num">{c.hero_stat1_number || 'PKR 27 Crore+'}</div>
+              </div>
+              <div className="hero-capsule-div"></div>
+              <div className="hero-capsule-right">
+                <div className="hero-capsule-label">{c.hero_stat1_title || 'Ad Spend Managed'}</div>
               </div>
             </div>
 
-            <div className="hero-dash-row">
-              <div className="hero-dash-card hero-dash-goal">
-                <div className="hero-dash-icon-badge"><TargetIcon /></div>
-                <span className="hero-dash-eyebrow">{c.hero_stat2_eyebrow || 'Efficiency'}</span>
-                <div className="hero-dash-number hero-dash-number-sm">{c.hero_stat2_number || 'PKR 250–500'}</div>
-                <div className="hero-dash-title">{c.hero_stat2_title || 'Typical Cost Per Lead'}</div>
-                <div className="hero-dash-divider"></div>
-                <div className="hero-dash-sub-row">
-                  <span className="hero-dash-sub-icon"><TrendingUpIcon /></span>
-                  <span className="hero-dash-sub-text-only">{c.hero_stat2_sub_text || 'Average CPL: PKR 250–300'}</span>
-                </div>
+            {/* Bottom Row: 2 Distinct Pods */}
+            <div className="hero-capsules-row">
+              {/* Capsule 2: Efficiency */}
+              <div className="hero-capsule-item hero-capsule-pod hero-capsule-efficiency">
+                <span className="hero-capsule-beam"></span>
+                <div className="hero-capsule-mid-num">{c.hero_stat2_number || 'PKR 250–500'}</div>
+                <div className="hero-capsule-label">{c.hero_stat2_title || 'Typical Cost Per Lead'}</div>
               </div>
 
-              <div className="hero-dash-card hero-dash-traffic">
-                <div className="hero-dash-icon-badge"><UsersIcon /></div>
-                <span className="hero-dash-eyebrow">{c.hero_stat3_eyebrow || 'Quality'}</span>
-                <div className="hero-dash-number hero-dash-number-sm">{c.hero_stat3_number || '60–70%'}</div>
-                <div className="hero-dash-title">{c.hero_stat3_title || 'Qualified Lead Rate'}</div>
-                <div className="hero-dash-divider"></div>
-                <div className="hero-dash-sub-row">
-                  <span className="hero-dash-sub-icon"><ShieldIcon /></span>
-                  <span className="hero-dash-sub-text-only">{c.hero_stat3_sub_text || 'High-Quality Leads Generated for Real Estate'}</span>
-                </div>
+              {/* Capsule 3: Quality */}
+              <div className="hero-capsule-item hero-capsule-pod hero-capsule-quality">
+                <span className="hero-capsule-beam"></span>
+                <div className="hero-capsule-mid-num">{c.hero_stat3_number || '60–70%'}</div>
+                <div className="hero-capsule-label">{c.hero_stat3_title || 'Qualified Lead Rate'}</div>
               </div>
             </div>
           </div>

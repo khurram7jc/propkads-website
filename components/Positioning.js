@@ -1,26 +1,19 @@
-import Link from 'next/link';
-
-export default function Positioning({ c }) {
+export default function Positioning({ c = {} }) {
   const problems = [c.pos_problem_1, c.pos_problem_2, c.pos_problem_3, c.pos_problem_4].filter(Boolean);
   const solutions = [c.pos_solution_1, c.pos_solution_2, c.pos_solution_3, c.pos_solution_4].filter(Boolean);
 
   return (
     <section className="section container" id="positioning">
-      <div style={{ textAlign: 'center', maxWidth: '780px', margin: '0 auto 36px auto', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-        <div className="section-tag" style={{ margin: '0 auto 12px auto', display: 'inline-block', textAlign: 'center' }}>
-          {c.pos_eyebrow || 'Positioning'}
-        </div>
-        <h2 style={{ textAlign: 'center', margin: '0 auto 14px auto', maxWidth: '100%' }}>
-          {c.pos_heading || 'Built for Real Estate Developers — Designed for Closings'}
+      <div style={{ textAlign: 'center', maxWidth: '840px', margin: '0 auto 32px auto', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+        <h2 style={{ textAlign: 'center', margin: '0 auto', maxWidth: '100%', lineHeight: '1.25' }}>
+          Built for Real Estate Developers<br />
+          <span style={{ color: 'var(--green)' }}>Designed for Closings</span>
         </h2>
-        <p className="section-intro" style={{ textAlign: 'center', margin: '0 auto', maxWidth: '640px' }}>
-          {c.pos_intro || 'Propkads is not a traditional marketing agency. We build and operate a sales-focused revenue system that connects buyer acquisition, CRM control, and sales team accountability.'}
-        </p>
       </div>
 
       <div className="fit-grid-v2">
         <div className="fit-card-v2 no">
-          <h3>{c.pos_problem_label || 'Why Most Projects Struggle to Sell'}</h3>
+          <h3>{c?.pos_problem_label || 'Why Most Projects Struggle to Sell'}</h3>
           <ul>
             {problems.map((item, i) => (
               <li key={i}>
@@ -31,7 +24,7 @@ export default function Positioning({ c }) {
           </ul>
         </div>
         <div className="fit-card-v2 yes">
-          <h3>{c.pos_solution_label || 'What Propkads Changes'}</h3>
+          <h3>{c?.pos_solution_label || 'What Propkads Changes'}</h3>
           <ul>
             {solutions.map((item, i) => (
               <li key={i}>
@@ -41,13 +34,6 @@ export default function Positioning({ c }) {
             ))}
           </ul>
         </div>
-      </div>
-
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '16px', marginTop: '28px', paddingTop: '20px', borderTop: '1px solid var(--line)' }}>
-        <p className="callout" style={{ margin: 0 }}>{c.pos_callout || 'Marketing alone does not sell projects — systems do.'}</p>
-        <Link href="/about" className="btn btn-outline" style={{ background: '#fff' }}>
-          Learn More About Our Approach →
-        </Link>
       </div>
     </section>
   );

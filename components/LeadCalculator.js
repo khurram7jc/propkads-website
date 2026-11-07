@@ -31,7 +31,7 @@ export default function LeadCalculator() {
       <div className="calc-card-container">
         <div className="calc-header">
           <span className="section-tag">Interactive Planning Tool</span>
-          <h2 className="calc-title">Real Estate Project Revenue &amp; Lead Calculator</h2>
+          <h2 className="calc-title">Project Revenue &amp; Lead Calculator</h2>
           <p className="section-intro" style={{ maxWidth: '720px', margin: '0 auto 36px auto' }}>
             Calculate the exact lead volume, recommended digital ad spend, and sales timeline needed to sell out your residential or commercial inventory.
           </p>
@@ -42,7 +42,7 @@ export default function LeadCalculator() {
           <div className="calc-controls-col">
             {/* Project Type Picker */}
             <div className="calc-group">
-              <label className="calc-label">1. Select Property Project Type</label>
+              <label className="calc-label">Select Property Project Type</label>
               <div className="calc-type-buttons">
                 <button
                   type="button"
@@ -71,7 +71,7 @@ export default function LeadCalculator() {
             {/* Units Slider */}
             <div className="calc-group">
               <div className="calc-slider-header">
-                <label className="calc-label">2. Total Units / Properties to Sell</label>
+                <label className="calc-label">Total Units / Inventory to Sell</label>
                 <span className="calc-slider-value">{units} Units</span>
               </div>
               <input
@@ -93,7 +93,7 @@ export default function LeadCalculator() {
             {/* Average Price Slider */}
             <div className="calc-group">
               <div className="calc-slider-header">
-                <label className="calc-label">3. Average Unit Selling Price</label>
+                <label className="calc-label">Average Unit Selling Price</label>
                 <span className="calc-slider-value">{formatPrice(avgPrice)}</span>
               </div>
               <input

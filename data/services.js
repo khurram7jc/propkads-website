@@ -103,31 +103,6 @@ export const SERVICES_DATA = [
     ]
   },
   {
-    id: 'virtual-360-tours-vr',
-    slug: 'virtual-360-tours-vr',
-    title: 'Virtual 360° Interactive Tours & VR',
-    category: 'creative',
-    categoryName: 'Creative & 3D Media',
-    badge: 'Overseas Ready',
-    icon: 'eye',
-    shortDesc: 'Interactive 360° property walkthroughs allowing overseas buyers in UAE, UK, and USA to tour apartments and societies directly from their smartphones.',
-    longDesc: 'Overseas Pakistanis represent up to 40% of luxury real estate purchasing power. Our interactive 360° virtual tour solutions allow potential buyers anywhere in the world to step inside your model apartment, commercial showroom, or society boulevard as if they are physically there.',
-    deliverables: [
-      'Interactive 360° Panoramic Web Experience',
-      'Interactive Floor Plan Integration with Clickable Hotspots',
-      'Mobile Gyroscope & Touch Navigation Support',
-      'Embedded Video Popups & Specification Sheets',
-      '1-Click WhatsApp Sales Agent Call Trigger inside the Tour'
-    ],
-    impact: 'Increases overseas investor booking conversions by 45% without site visits.',
-    workflow: [
-      { step: '01', title: 'Capture or 3D Stitch', desc: 'HDR 360° photo capture or 3D CGI panoramic rendering.' },
-      { step: '02', title: 'Hotspot Mapping', desc: 'Connecting rooms, balconies, master bedrooms, and society landmarks.' },
-      { step: '03', title: 'Interactive Features', desc: 'Adding dimensions, material details, and booking call buttons.' },
-      { step: '04', title: 'Web & WhatsApp Launch', desc: 'Deploying lightweight, super-fast tours accessible on any phone.' }
-    ]
-  },
-  {
     id: 'social-media-management',
     slug: 'social-media-management',
     title: 'Real Estate Social Media Management (SMM)',
@@ -206,114 +181,62 @@ export const SERVICES_DATA = [
     ]
   },
   {
-    id: 'whatsapp-api-msgs-automation',
-    slug: 'whatsapp-api-msgs-automation',
-    title: 'WhatsApp Business API & MSGs Automation',
-    category: 'marketing',
-    categoryName: 'Digital Marketing & SEO',
-    badge: 'Instant Follow-Up',
-    icon: 'messageCircle',
-    shortDesc: 'Automated 60-second WhatsApp brochure delivery, chatbot lead qualification, and verified high-net-worth investor MSGs broadcasts.',
-    longDesc: 'In Pakistan, 90% of real estate deals move on WhatsApp. If you take 3 hours to send a brochure, the lead is already cold. Our automated WhatsApp API infrastructure sends official project catalogs, payment schedules, and site visit bookings instantly upon form submission.',
-    deliverables: [
-      'Official Meta WhatsApp Business API Integration',
-      'Instant 60-Second Automated Brochure & Payment Plan Delivery',
-      'Interactive WhatsApp Chatbot for Budget & Property Type Qualification',
-      'Verified High-Net-Worth Investor MSGs Broadcasts',
-      'Automated Appointment Reminders for Scheduled Site Visits',
-      'CRM Sync: All WhatsApp Conversations Logged Directly in CRM'
-    ],
-    impact: 'Increases lead engagement by 85% and eliminates response lag.',
-    workflow: [
-      { step: '01', title: 'API Onboarding', desc: 'Setting up Meta WhatsApp Business Account with verified project number.' },
-      { step: '02', title: 'Message Templates', desc: 'Crafting approved interactive templates with PDF brochure attachments.' },
-      { step: '03', title: 'Webhook Trigger', desc: 'Connecting lead forms to trigger automated WhatsApp messages in under 60s.' },
-      { step: '04', title: 'Sales Handover', desc: 'Routing engaged buyer replies directly to active sales representatives.' }
-    ]
-  },
-  {
     id: 'custom-real-estate-web-development',
     slug: 'custom-real-estate-web-development',
-    title: 'Custom Real Estate Web Development & Portals',
+    title: 'Custom Web Portals & Landing Pages',
     category: 'tech',
     categoryName: 'Web & Technology Systems',
     badge: 'Digital Flagship',
     icon: 'code',
-    shortDesc: 'Custom high-performance websites built specifically for property developers with interactive maps, payment plan calculators, and instant booking forms.',
-    longDesc: 'A slow, generic WordPress template damages project credibility. We build lightning-fast custom web applications using modern Next.js technology, featuring interactive society master maps, dynamic installment calculators, and lead capture funnels optimized for mobile.',
+    shortDesc: 'Custom high-performance developer portals and high-converting campaign landing pages engineered to showcase inventory and turn ad traffic into qualified buyers.',
+    longDesc: 'A slow template wastes valuable ad spend. We build custom Next.js property portals and dedicated project landing pages featuring interactive maps, payment plan calculators, NOC highlights, and instant WhatsApp booking funnels.',
     deliverables: [
       'Modern High-Performance Custom Real Estate Web Architecture',
+      'Ultra-Fast Dedicated Campaign Landing Pages Optimized for Meta & Google Ads',
       'Interactive Society Master Map with Sector & Block Explorer',
       'Dynamic Installment & Down Payment Calculator Tool',
       '1-Click WhatsApp & Phone Direct Call Triggers',
-      'Search-Optimized Project Gallery & Virtual Tour Embeds',
-      'Secure CMS Admin Panel for Inventory & Content Updates'
+      'Integrated Lead Capture Forms Connected Directly to Sales CRM'
     ],
-    impact: 'Sub-second page loads that convert web visitors into qualified meetings.',
+    impact: 'Sub-second page loads that double ad conversion rates and eliminate bounce.',
     workflow: [
-      { step: '01', title: 'UI/UX Wireframing', desc: 'Designing modern, luxury layout tailored for high-ticket property buyers.' },
-      { step: '02', title: 'Frontend Development', desc: 'Coding responsive Next.js application with zero bloat and instant speed.' },
-      { step: '03', title: 'Interactive Features', desc: 'Embedding payment calculators, interactive maps, and lead capture forms.' },
-      { step: '04', title: 'Production Launch', desc: 'Deploying on high-speed cloud servers with SSL and automated backups.' }
+      { step: '01', title: 'Offer & UX Architecture', desc: 'Designing high-conversion layouts tailored for serious property investors.' },
+      { step: '02', title: 'Next.js Frontend Build', desc: 'Coding responsive web applications with sub-second speed on mobile.' },
+      { step: '03', title: 'Interactive Features', desc: 'Embedding payment calculators, NOC proof, and lead capture forms.' },
+      { step: '04', title: 'Production Launch', desc: 'Deploying on high-speed cloud infrastructure with complete conversion tracking.' }
     ]
   },
   {
-    id: 'high-converting-landing-pages',
-    slug: 'high-converting-landing-pages',
-    title: 'High-Converting Project Landing Pages & Funnels',
+    id: 'real-estate-crm-pipeline-integration',
+    slug: 'real-estate-crm-pipeline-integration',
+    title: 'Real Estate CRM & Sales Pipeline Integration',
     category: 'tech',
     categoryName: 'Web & Technology Systems',
-    badge: 'Max Conversions',
-    icon: 'zap',
-    shortDesc: 'Ultra-fast landing pages engineered specifically for digital ad campaigns to maximize lead capture with zero distractions and instant forms.',
-    longDesc: 'Sending paid Meta or TikTok ad traffic to a generic homepage wastes 60% of your budget. Our dedicated campaign landing pages eliminate distractions, highlight payment plans, display NOC approvals, and capture high-intent buyer contacts within 10 seconds of landing.',
-    deliverables: [
-      'Sub-Second Page Load Times Optimized for 4G Mobile Traffic',
-      'High-Conversion Real Estate Copywriting & Value Propositions',
-      'Clear NOC Approvals, Location Advantage & Payment Breakdown',
-      'Embedded 1-Click WhatsApp Chat & Call Buttons',
-      'A/B Split Testing for Ad Headline & Offer Optimization',
-      'Google Analytics 4 & Meta Pixel Conversion API Tracking'
-    ],
-    impact: 'Cuts bounce rate in half and doubles ad campaign conversion rates.',
-    workflow: [
-      { step: '01', title: 'Offer Architecture', desc: 'Formulating irresistible project hooks (e.g. 10% Down Payment, 4-Year Plan).' },
-      { step: '02', title: 'Conversion Design', desc: 'Building clean single-focus layout with zero distracting external links.' },
-      { step: '03', title: 'Tracking Setup', desc: 'Configuring Meta CAPI and Google Conversion tracking for exact attribution.' },
-      { step: '04', title: 'A/B Testing', desc: 'Iterating variants to discover the lowest cost-per-lead combination.' }
-    ]
-  },
-  {
-    id: 'propkads-real-estate-sales-crm',
-    slug: 'propkads-real-estate-sales-crm',
-    title: 'Propkads Real Estate Sales CRM (Cloud Platform)',
-    category: 'tech',
-    categoryName: 'Web & Technology Systems',
-    badge: 'Proprietary SaaS',
+    badge: 'System Integration',
     icon: 'layout',
-    shortDesc: 'Enterprise sales CRM with automated phone deduplication, daily call productivity audits, property inventory locks, and outside dealer ledgers.',
-    longDesc: 'Marketing alone does not sell projects — systems do. Propkads CRM is purpose-built for Pakistani real estate teams to eliminate lead theft, audit sales agent response times, lock property units in real-time, and manage outside broker commissions with complete transparency.',
+    shortDesc: 'Complete CRM setup, sales pipeline automation, lead distribution rules, and agent productivity tracking to eliminate lead leakage.',
+    longDesc: 'Marketing alone does not sell projects — organized sales systems do. We set up, configure, and integrate proven real estate CRM systems tailored for developers and agencies. Every inquiry from Meta, Google, and WhatsApp is routed in real time into structured agent pipelines with complete follow-up accountability.',
     deliverables: [
-      'Dedicated Multi-Tenant Developer Cloud Workspace',
-      'Automated Phone Normalization & Duplicate Lead Protection',
-      'Daily Sales Team Call Audit & Response Lag Tracking',
-      'Real-Time Property Inventory Management (Available/Booked/Sold)',
-      'Role-Based Security (Admin, Sales Manager, Agent, Dealer)',
-      'Outside Broker Network & Commission Attribution Ledger'
+      'Custom CRM System Setup & Pipeline Configuration',
+      'Automated Lead Distribution & Instant Agent Notification',
+      'Lead Protection, Deduplication & Anti-Leakage Rules',
+      'Sales Team Response Time & Follow-up Tracking',
+      'Inventory Status Tracking (Available, Booked, Sold)',
+      'Complete Sales Funnel Reporting for Decision Makers'
     ],
     impact: 'Zero duplicate lead leakage and 100% sales floor transparency.',
     workflow: [
-      { step: '01', title: 'Workspace Setup', desc: 'Configuring company workspace, project inventory, and team roles in 24h.' },
-      { step: '02', title: 'Lead Ingestion', desc: 'Connecting Meta Ads, web forms, and TikTok leads for instant ingestion.' },
+      { step: '01', title: 'Pipeline Discovery', desc: 'Analyzing your sales team structure, project inventory, and follow-up stages.' },
+      { step: '02', title: 'CRM Architecture', desc: 'Connecting Meta Ads, web forms, and TikTok leads for instant pipeline ingestion.' },
       { step: '03', title: 'Team Onboarding', desc: 'Training your sales managers and reps on call logging and status updates.' },
-      { step: '04', title: 'Live Performance', desc: 'Monitoring daily call answer rates, pipeline deals, and inventory locks.' }
+      { step: '04', title: 'Closing Tracking', desc: 'Monitoring daily call answer rates, pipeline deals, and closed site visits.' }
     ]
   }
 ];
 
 export const SERVICE_CATEGORIES = [
-  { id: 'all', label: 'All 12 Services', count: 12 },
-  { id: 'creative', label: '🎨 Creative & 3D Media', count: 5 },
-  { id: 'marketing', label: '📈 Digital Marketing & SEO', count: 4 },
-  { id: 'tech', label: '💻 Web & Technology Systems', count: 3 }
+  { id: 'all', label: 'All Services', count: 9 },
+  { id: 'creative', label: '🎨 Creative & 3D Media', count: 4 },
+  { id: 'marketing', label: '📈 Digital Marketing & SEO', count: 3 },
+  { id: 'tech', label: '💻 Web & Technology Systems', count: 2 }
 ];

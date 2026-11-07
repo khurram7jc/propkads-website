@@ -1,6 +1,7 @@
 import './globals.css';
 import './services.css';
 import { sql } from '@/lib/db';
+import WhatsAppFloat from '@/components/WhatsAppFloat';
 
 export const metadata = {
   metadataBase: new URL('https://propkads.com'),
@@ -161,7 +162,10 @@ export default async function RootLayout({ children }) {
           </>
         )}
       </head>
-      <body>{children}</body>
+      <body>
+        {children}
+        <WhatsAppFloat />
+      </body>
     </html>
   );
 }

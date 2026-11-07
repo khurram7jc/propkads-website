@@ -18,12 +18,6 @@ export default async function sitemap() {
       priority: 0.9,
     },
     {
-      url: `${baseUrl}/crm`,
-      lastModified: new Date(),
-      changeFrequency: 'weekly',
-      priority: 0.9,
-    },
-    {
       url: `${baseUrl}/how-it-works`,
       lastModified: new Date(),
       changeFrequency: 'weekly',
@@ -45,7 +39,6 @@ export default async function sitemap() {
 
   // Dynamic service detail pages
   const servicePages = SERVICES_DATA
-    .filter((s) => s.id !== 'propkads-real-estate-sales-crm')
     .map((service) => ({
       url: `${baseUrl}/services/${service.slug}`,
       lastModified: new Date(),

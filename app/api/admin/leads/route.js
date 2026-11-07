@@ -2,66 +2,109 @@ import { NextResponse } from 'next/server';
 import { sql } from '@/lib/db';
 import { getSession } from '@/lib/auth';
 
+async function ensureLeadColumns() {
+  await sql`alter table leads add column if not exists lead_category text default 'client'`;
+  await sql`alter table leads add column if not exists project_name text`;
+  await sql`alter table leads add column if not exists unit_interest text`;
+
+  // Auto-classify any earlier Karachi Enclave inquiries that were stored via company_name
+  await sql`
+    update leads
+    set
+      lead_category = 'project',
+      project_name = coalesce(project_name, 'Karachi Enclave'),
+      unit_interest = coalesce(unit_interest, replace(company_name, 'Karachi Enclave Inquiry - ', ''))
+    where company_name ilike 'Karachi Enclave Inquiry%'
+      and (lead_category is null or lead_category = 'client')
+  `;
+}
+
 export async function GET(req) {
   const session = getSession();
   if (!session) return NextResponse.json({ success: false }, { status: 401 });
 
-  const { searchParams } = new URL(req.url);
-  const status = searchParams.get('status');
-  const search = searchParams.get('search');
+  try {
+    await ensureLeadColumns();
 
-  let rows;
-  if (status && search) {
-    const like = `%${search}%`;
-    rows = await sql`
-      select * from leads
-      where status = ${status}
-        and (full_name ilike ${like} or phone ilike ${like} or city ilike ${like} or company_name ilike ${like})
-      order by created_at desc`;
-  } else if (status) {
-    rows = await sql`select * from leads where status = ${status} order by created_at desc`;
-  } else if (search) {
-    const like = `%${search}%`;
-    rows = await sql`
-      select * from leads
-      where full_name ilike ${like} or phone ilike ${like} or city ilike ${like} or company_name ilike ${like}
-      order by created_at desc`;
-  } else {
-    rows = await sql`select * from leads order by created_at desc`;
+    const { searchParams } = new URL(req.url);
+    const category = searchParams.get('category'); // 'client' | 'project' | null
+    const project = searchParams.get('project');
+    const status = searchParams.get('status');
+    const search = searchParams.get('search');
+
+    const allRows = await sql`select * from leads order by created_at desc`;
+
+    const filtered = allRows.filter((r) => {
+      const rowCat = r.lead_category || 'client';
+      if (category && rowCat !== category) return false;
+      if (project && (r.project_name || '') !== project) return false;
+      if (status && r.status !== status) return false;
+      if (search) {
+        const q = search.toLowerCase();
+        const hay = [
+          r.full_name,
+          r.company_name,
+          r.phone,
+          r.city,
+          r.inventory_type,
+          r.project_name,
+          r.unit_interest,
+        ]
+          .filter(Boolean)
+          .join(' ')
+          .toLowerCase();
+        if (!hay.includes(q)) return false;
+      }
+      return true;
+    });
+
+    return NextResponse.json({ success: true, leads: filtered });
+  } catch (err) {
+    console.error('admin leads GET error:', err);
+    return NextResponse.json({ success: true, leads: [] });
   }
-
-  return NextResponse.json({ success: true, leads: rows });
 }
 
 export async function PATCH(req) {
   const session = getSession();
   if (!session) return NextResponse.json({ success: false }, { status: 401 });
 
-  const body = await req.json();
-  const {
-    id,
-    full_name = null,
-    company_name = null,
-    phone = null,
-    city = null,
-    inventory_type = null,
-    status = null,
-  } = body;
+  try {
+    await ensureLeadColumns();
 
-  if (!id) return NextResponse.json({ success: false, error: 'Missing id.' }, { status: 400 });
+    const body = await req.json();
+    const {
+      id,
+      full_name = null,
+      company_name = null,
+      phone = null,
+      city = null,
+      inventory_type = null,
+      status = null,
+      project_name = null,
+      unit_interest = null,
+    } = body;
 
-  await sql`
-    update leads set
-      full_name = coalesce(${full_name}, full_name),
-      company_name = coalesce(${company_name}, company_name),
-      phone = coalesce(${phone}, phone),
-      city = coalesce(${city}, city),
-      inventory_type = coalesce(${inventory_type}, inventory_type),
-      status = coalesce(${status}, status),
-      updated_at = now()
-    where id = ${id}
-  `;
-  return NextResponse.json({ success: true });
+    if (!id) return NextResponse.json({ success: false, error: 'Missing id.' }, { status: 400 });
+
+    await sql`
+      update leads set
+        full_name = coalesce(${full_name}, full_name),
+        company_name = coalesce(${company_name}, company_name),
+        phone = coalesce(${phone}, phone),
+        city = coalesce(${city}, city),
+        inventory_type = coalesce(${inventory_type}, inventory_type),
+        status = coalesce(${status}, status),
+        project_name = coalesce(${project_name}, project_name),
+        unit_interest = coalesce(${unit_interest}, unit_interest),
+        updated_at = now()
+      where id = ${id}
+    `;
+    return NextResponse.json({ success: true });
+  } catch (err) {
+    console.error('admin leads PATCH error:', err);
+    return NextResponse.json({ success: false, error: 'Server error.' }, { status: 500 });
+  }
 }
 
 export async function DELETE(req) {
