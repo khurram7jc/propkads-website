@@ -1138,6 +1138,11 @@ input, select, textarea{font-family:inherit;}
     gap: 48px;
   }
 }
+@media (max-width: 768px) {
+  .faq-contact-col-faq {
+    display: none !important;
+  }
+}
 
 /* ---------- CONTACT ---------- */
 .contact-wrap-v2{
