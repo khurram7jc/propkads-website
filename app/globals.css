@@ -1933,12 +1933,12 @@ input, select, textarea{font-family:inherit;}
 
 @media (max-width: 768px) {
   #system-flow .process-heading-block {
-    margin-bottom: 18px !important;
+    margin-bottom: 32px !important;
   }
   .system-capsules-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 12px;
-    margin-top: 18px;
+    margin-top: 32px !important;
   }
   .system-capsule-card {
     padding: 18px 14px;
