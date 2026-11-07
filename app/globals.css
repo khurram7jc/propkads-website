@@ -3103,19 +3103,16 @@ input, select, textarea{font-family:inherit;}
   position: fixed;
   right: 24px;
   bottom: 24px;
-  z-index: 999;
+  z-index: 9999;
   display: flex;
   align-items: center;
   gap: 10px;
   text-decoration: none;
-  animation: waBob 3.2s ease-in-out infinite;
-  will-change: transform;
-  backface-visibility: hidden;
-  -webkit-backface-visibility: hidden;
-}
-
-.wa-float-wrap:hover {
-  animation-play-state: paused;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+  -webkit-user-select: none;
+  cursor: pointer;
 }
 
 @keyframes waBob {
@@ -3123,7 +3120,7 @@ input, select, textarea{font-family:inherit;}
     transform: translate3d(0, 0, 0);
   }
   50% {
-    transform: translate3d(0, -6px, 0);
+    transform: translate3d(0, -5px, 0);
   }
 }
 
@@ -3142,11 +3139,6 @@ input, select, textarea{font-family:inherit;}
   transition: opacity 0.22s cubic-bezier(0.16, 1, 0.3, 1), transform 0.22s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.wa-float-wrap:hover .wa-float-tooltip {
-  opacity: 1;
-  transform: translate3d(0, 0, 0);
-}
-
 .wa-float-btn {
   position: relative;
   width: 56px;
@@ -3158,8 +3150,17 @@ input, select, textarea{font-family:inherit;}
   align-items: center;
   justify-content: center;
   box-shadow: 0 10px 26px rgba(37, 211, 102, 0.38);
-  transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.22s ease, background 0.22s ease;
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s ease, background 0.2s ease;
   flex-shrink: 0;
+  pointer-events: none;
+  animation: waBob 3.2s ease-in-out infinite;
+  will-change: transform;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+.wa-float-btn svg {
+  pointer-events: none;
 }
 
 .wa-float-btn::before {
@@ -3169,6 +3170,7 @@ input, select, textarea{font-family:inherit;}
   border-radius: 50%;
   background: rgba(37, 211, 102, 0.45);
   z-index: -1;
+  pointer-events: none;
   animation: waPulseRing 2.4s cubic-bezier(0.16, 1, 0.3, 1) infinite;
 }
 
@@ -3183,22 +3185,35 @@ input, select, textarea{font-family:inherit;}
   }
 }
 
-.wa-float-wrap:hover .wa-float-btn {
-  transform: scale(1.07);
-  background: #20BD5A;
-  box-shadow: 0 14px 32px rgba(37, 211, 102, 0.48);
+@media (hover: hover) and (pointer: fine) {
+  .wa-float-wrap:hover .wa-float-tooltip {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+  .wa-float-wrap:hover .wa-float-btn {
+    animation-play-state: paused;
+    transform: scale(1.07);
+    background: #20BD5A;
+    box-shadow: 0 14px 32px rgba(37, 211, 102, 0.48);
+  }
 }
 
-@media (max-width: 640px) {
+.wa-float-wrap:active .wa-float-btn {
+  transform: scale(0.95);
+  background: #20BD5A;
+}
+
+@media (max-width: 768px) {
   .wa-float-wrap {
     right: 16px;
     bottom: 16px;
   }
   .wa-float-btn {
-    width: 50px;
-    height: 50px;
+    width: 52px;
+    height: 52px;
+    animation: none;
   }
   .wa-float-tooltip {
-    display: none;
+    display: none !important;
   }
 }
