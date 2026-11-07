@@ -48,8 +48,8 @@ export async function POST(req) {
       return res;
     }
 
-    // 2. Database Verification (Neon Postgres users table if configured)
-    if (process.env.DATABASE_URL) {
+    // 2. Database Verification (MySQL users table if configured)
+    if (process.env.DB_NAME || process.env.DATABASE_URL) {
       try {
         const rows = await sql`select * from users where email = ${normalizedEmail}`;
         const user = rows[0];
