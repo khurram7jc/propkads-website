@@ -1,5 +1,7 @@
 'use client';
 
+import { useEffect, useRef } from 'react';
+
 const PARTNERS = [
   { name: 'Karachi Enclave', src: '/partners/karachi-enclave.png' },
   { name: 'Fariha Builders & Developers', src: '/partners/fariha-builders.png' },
@@ -24,6 +26,91 @@ const PARTNERS = [
 ];
 
 export default function PartnersMarquee() {
+  const trackRef = useRef(null);
+  const offsetRef = useRef(0);
+  const isHoveredRef = useRef(false);
+  const isDraggingRef = useRef(false);
+  const dragStartXRef = useRef(0);
+  const dragStartOffsetRef = useRef(0);
+
+  useEffect(() => {
+    const track = trackRef.current;
+    if (!track) return;
+
+    let rafId;
+    let lastTime = performance.now();
+    const SPEED_PX_PER_SEC = 58; // Smooth continuous speed
+
+    const wrapOffset = (val, halfWidth) => {
+      if (halfWidth <= 0) return 0;
+      let next = val % halfWidth;
+      if (next < 0) next += halfWidth;
+      return next;
+    };
+
+    const step = (now) => {
+      const dt = Math.min((now - lastTime) / 1000, 0.1);
+      lastTime = now;
+
+      const halfWidth = track.scrollWidth / 2;
+      if (!isHoveredRef.current && !isDraggingRef.current && halfWidth > 0) {
+        offsetRef.current = wrapOffset(offsetRef.current + SPEED_PX_PER_SEC * dt, halfWidth);
+        track.style.transform = `translate3d(${-offsetRef.current}px, 0, 0)`;
+      }
+
+      rafId = requestAnimationFrame(step);
+    };
+
+    rafId = requestAnimationFrame(step);
+    return () => cancelAnimationFrame(rafId);
+  }, []);
+
+  const updateDragPosition = (clientX) => {
+    const track = trackRef.current;
+    if (!track) return;
+    const halfWidth = track.scrollWidth / 2;
+    if (halfWidth <= 0) return;
+
+    const dx = clientX - dragStartXRef.current;
+    let next = (dragStartOffsetRef.current - dx) % halfWidth;
+    if (next < 0) next += halfWidth;
+    offsetRef.current = next;
+    track.style.transform = `translate3d(${-offsetRef.current}px, 0, 0)`;
+  };
+
+  // Touch handlers (Mobile: pause on thumb down, drag left/right, resume immediately on thumb up)
+  const handleTouchStart = (e) => {
+    if (!e.touches || e.touches.length === 0) return;
+    isDraggingRef.current = true;
+    dragStartXRef.current = e.touches[0].clientX;
+    dragStartOffsetRef.current = offsetRef.current;
+  };
+
+  const handleTouchMove = (e) => {
+    if (!isDraggingRef.current || !e.touches || e.touches.length === 0) return;
+    updateDragPosition(e.touches[0].clientX);
+  };
+
+  const handleTouchEnd = () => {
+    isDraggingRef.current = false;
+  };
+
+  // Mouse handlers (Desktop: pause on hover, optional click-drag)
+  const handleMouseDown = (e) => {
+    isDraggingRef.current = true;
+    dragStartXRef.current = e.clientX;
+    dragStartOffsetRef.current = offsetRef.current;
+  };
+
+  const handleMouseMove = (e) => {
+    if (!isDraggingRef.current) return;
+    updateDragPosition(e.clientX);
+  };
+
+  const handleMouseUp = () => {
+    isDraggingRef.current = false;
+  };
+
   return (
     <section
       id="partners"
@@ -65,8 +152,16 @@ export default function PartnersMarquee() {
           position: relative;
           width: 100%;
           overflow: hidden;
+          touch-action: pan-y;
+          user-select: none;
+          -webkit-user-select: none;
+          cursor: grab;
           mask-image: linear-gradient(to right, transparent, black 12%, black 88%, transparent);
           -webkit-mask-image: linear-gradient(to right, transparent, black 12%, black 88%, transparent);
+        }
+
+        .partners-marquee-container:active {
+          cursor: grabbing;
         }
 
         .partners-marquee-track {
@@ -77,20 +172,6 @@ export default function PartnersMarquee() {
           backface-visibility: hidden;
           -webkit-backface-visibility: hidden;
           transform: translate3d(0, 0, 0);
-          animation: partnersScroll 46s linear infinite;
-        }
-
-        .partners-marquee-track:hover {
-          animation-play-state: paused;
-        }
-
-        @keyframes partnersScroll {
-          0% {
-            transform: translate3d(0, 0, 0);
-          }
-          100% {
-            transform: translate3d(-50%, 0, 0);
-          }
         }
 
         .partner-logo-item {
@@ -112,12 +193,15 @@ export default function PartnersMarquee() {
           height: auto;
           object-fit: contain;
           opacity: 0.94;
+          pointer-events: none;
           transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.25s ease;
         }
 
-        .partner-logo-item:hover .partner-logo-img {
-          opacity: 1;
-          transform: scale(1.06);
+        @media (hover: hover) and (pointer: fine) {
+          .partner-logo-item:hover .partner-logo-img {
+            opacity: 1;
+            transform: scale(1.06);
+          }
         }
 
         @media (max-width: 640px) {
@@ -133,8 +217,26 @@ export default function PartnersMarquee() {
         }
       `}</style>
 
-      <div className="partners-marquee-container">
-        <div className="partners-marquee-track">
+      <div
+        className="partners-marquee-container"
+        onMouseEnter={() => {
+          if (window.matchMedia && window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+            isHoveredRef.current = true;
+          }
+        }}
+        onMouseLeave={() => {
+          isHoveredRef.current = false;
+          isDraggingRef.current = false;
+        }}
+        onMouseDown={handleMouseDown}
+        onMouseMove={handleMouseMove}
+        onMouseUp={handleMouseUp}
+        onTouchStart={handleTouchStart}
+        onTouchMove={handleTouchMove}
+        onTouchEnd={handleTouchEnd}
+        onTouchCancel={handleTouchEnd}
+      >
+        <div className="partners-marquee-track" ref={trackRef}>
           {/* First Set of Logos */}
           {PARTNERS.map((partner, idx) => (
             <div key={`p1-${idx}`} className="partner-logo-item" title={partner.name}>
@@ -144,6 +246,7 @@ export default function PartnersMarquee() {
                 className="partner-logo-img"
                 loading="eager"
                 decoding="async"
+                draggable={false}
               />
             </div>
           ))}
@@ -156,6 +259,7 @@ export default function PartnersMarquee() {
                 className="partner-logo-img"
                 loading="eager"
                 decoding="async"
+                draggable={false}
               />
             </div>
           ))}
