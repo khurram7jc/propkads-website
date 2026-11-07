@@ -11,24 +11,6 @@ export async function GET(req) {
     const search = searchParams.get('search');
     const position = searchParams.get('position');
 
-    // Ensure table exists
-    await sql`
-      create table if not exists job_applications (
-        id serial primary key,
-        full_name text not null,
-        email text not null,
-        phone text not null,
-        position text,
-        portfolio_link text,
-        message text,
-        resume_name text,
-        resume_size integer,
-        resume_type text,
-        resume_data text,
-        created_at timestamptz not null default now()
-      )
-    `;
-
     let rows;
     if (position && search) {
       const like = `%${search}%`;

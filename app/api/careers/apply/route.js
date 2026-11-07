@@ -38,34 +38,15 @@ export async function POST(req) {
 
     // Save to database
     try {
-      if (process.env.DATABASE_URL) {
-        await sql`
-          create table if not exists job_applications (
-            id serial primary key,
-            full_name text not null,
-            email text not null,
-            phone text not null,
-            position text,
-            portfolio_link text,
-            message text,
-            resume_name text,
-            resume_size integer,
-            resume_type text,
-            resume_data text,
-            created_at timestamptz not null default now()
-          )
-        `;
-
-        await sql`
-          insert into job_applications (
-            full_name, email, phone, position, portfolio_link, message, resume_name, resume_size, resume_type, resume_data
-          )
-          values (
-            ${fullName}, ${email}, ${phone}, ${position || null}, ${portfolioLink || null}, ${message || null},
-            ${resumeName}, ${resumeSize}, ${resumeType}, ${resumeData}
-          )
-        `;
-      }
+      await sql`
+        insert into job_applications (
+          full_name, email, phone, position, portfolio_link, message, resume_name, resume_size, resume_type, resume_data
+        )
+        values (
+          ${fullName}, ${email}, ${phone}, ${position || null}, ${portfolioLink || null}, ${message || null},
+          ${resumeName}, ${resumeSize}, ${resumeType}, ${resumeData}
+        )
+      `;
     } catch (dbErr) {
       console.warn('DB save warning:', dbErr.message);
     }

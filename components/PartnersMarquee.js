@@ -49,6 +49,15 @@ export default function PartnersMarquee() {
         >
           Trusted Partners
         </h2>
+        <div
+          style={{
+            width: '100%',
+            maxWidth: '220px',
+            height: '1px',
+            background: 'linear-gradient(90deg, transparent, #CBD5E1 50%, transparent)',
+            margin: '14px auto 0 auto',
+          }}
+        />
       </div>
 
       <style>{`
