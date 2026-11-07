@@ -98,20 +98,20 @@ export default function PartnersMarquee() {
           align-items: center;
           justify-content: center;
           flex-shrink: 0;
-          height: 64px;
-          min-width: 125px;
-          padding: 0 8px;
+          height: 82px;
+          min-width: 150px;
+          padding: 0 10px;
           margin-right: 52px;
           transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         .partner-logo-img {
-          max-height: 50px;
-          max-width: 140px;
+          max-height: 68px;
+          max-width: 175px;
           width: auto;
           height: auto;
           object-fit: contain;
-          opacity: 0.92;
+          opacity: 0.94;
           transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.25s ease;
         }
 
@@ -122,13 +122,13 @@ export default function PartnersMarquee() {
 
         @media (max-width: 640px) {
           .partner-logo-item {
-            margin-right: 34px;
-            min-width: 96px;
-            height: 52px;
+            margin-right: 38px;
+            min-width: 132px;
+            height: 74px;
           }
           .partner-logo-img {
-            max-height: 38px;
-            max-width: 110px;
+            max-height: 60px;
+            max-width: 155px;
           }
         }
       `}</style>

@@ -161,9 +161,6 @@ export default function Header({ c = {} }) {
             <Link href="/blog" className={isActive('/blog') ? 'is-active' : ''} onClick={() => setMobileMenuOpen(false)}>Blogs</Link>
             <Link href="/careers" className={isActive('/careers') ? 'is-active' : ''} onClick={() => setMobileMenuOpen(false)}>Career</Link>
             <Link href="/contact" className={isActive('/contact') ? 'is-active' : ''} onClick={() => setMobileMenuOpen(false)}>Contact Us</Link>
-            <Link href="/contact" className="mobile-menu-cta" onClick={() => setMobileMenuOpen(false)}>
-              {c?.header_cta_text || 'Get a Free Review'}
-            </Link>
           </div>
         )}
       </nav>
