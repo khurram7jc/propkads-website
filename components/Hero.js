@@ -77,21 +77,23 @@ export default function Hero({ c = {}, onQuickPhone }) {
             From project launch to final booking. We generate serious property buyers, filter qualified leads through structured systems, and help your sales team close high-ticket apartments, plots, and commercial units.
           </p>
 
-          <form className="hero-quickform" onSubmit={handleQuickSubmit}>
-            <input
-              type="tel"
-              name="quickPhone"
-              placeholder="Your phone / WhatsApp number..."
-              required
-            />
-            <button type="submit">Book Project Review →</button>
-          </form>
+          <div className="hero-v2-cta-wrap">
+            <form className="hero-quickform" onSubmit={handleQuickSubmit}>
+              <input
+                type="tel"
+                name="quickPhone"
+                placeholder="Your phone / WhatsApp number..."
+                required
+              />
+              <button type="submit">Book Project Review →</button>
+            </form>
 
-          <div className="hero-trust-desk">
-            <span className="hero-trust-label">Direct Consultant Desk:</span>
-            <a href={`tel:${(c.contact_phone || '+923333401101').replace(/\s/g, '')}`} className="hero-trust-phone">
-              {c.contact_phone || '+92 333 3401101'}
-            </a>
+            <div className="hero-trust-desk">
+              <span className="hero-trust-label">Direct Consultant Desk:</span>
+              <a href={`tel:${(c.contact_phone || '+923333401101').replace(/\s/g, '')}`} className="hero-trust-phone">
+                {c.contact_phone || '+92 333 3401101'}
+              </a>
+            </div>
           </div>
         </div>
 

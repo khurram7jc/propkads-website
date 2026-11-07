@@ -134,15 +134,15 @@ export default function Header({ c = {} }) {
               aria-label="Toggle navigation menu"
             >
               {mobileMenuOpen ? (
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
                   <line x1="18" y1="6" x2="6" y2="18"></line>
                   <line x1="6" y1="6" x2="18" y2="18"></line>
                 </svg>
               ) : (
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-                  <line x1="4" y1="12" x2="20" y2="12"></line>
-                  <line x1="4" y1="6" x2="20" y2="6"></line>
-                  <line x1="4" y1="18" x2="20" y2="18"></line>
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
+                  <line x1="3" y1="12" x2="21" y2="12"></line>
+                  <line x1="3" y1="6" x2="21" y2="6"></line>
+                  <line x1="3" y1="18" x2="21" y2="18"></line>
                 </svg>
               )}
             </button>
@@ -161,8 +161,8 @@ export default function Header({ c = {} }) {
             <Link href="/blog" className={isActive('/blog') ? 'is-active' : ''} onClick={() => setMobileMenuOpen(false)}>Blogs</Link>
             <Link href="/careers" className={isActive('/careers') ? 'is-active' : ''} onClick={() => setMobileMenuOpen(false)}>Career</Link>
             <Link href="/contact" className={isActive('/contact') ? 'is-active' : ''} onClick={() => setMobileMenuOpen(false)}>Contact Us</Link>
-            <Link href="/contact" className="btn btn-solid" style={{ width: '100%', marginTop: '12px' }} onClick={() => setMobileMenuOpen(false)}>
-              Get a Free Review
+            <Link href="/contact" className="mobile-menu-cta" onClick={() => setMobileMenuOpen(false)}>
+              {c?.header_cta_text || 'Get a Free Review'}
             </Link>
           </div>
         )}
