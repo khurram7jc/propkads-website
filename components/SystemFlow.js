@@ -5,21 +5,25 @@ export default function SystemFlow({ c = {} }) {
     {
       icon: <UsersIcon />,
       title: c.system_step_1 || 'Buyers',
+      mobileTitle: 'Buyer Acquisition',
       desc: c.system_step_1_desc || 'Targeting verified high-intent property buyers through precise digital acquisition.',
     },
     {
       icon: <CrmDocIcon />,
       title: c.system_step_2 || 'CRM',
+      mobileTitle: 'CRM & Lead Control',
       desc: c.system_step_2_desc || 'Capturing, nurturing, and distributing leads through structured real-time pipelines.',
     },
     {
       icon: <TeamStarIcon />,
       title: c.system_step_3 || 'Sales Team',
+      mobileTitle: 'Sales Accountability',
       desc: c.system_step_3_desc || 'Connecting qualified prospects with trained sales teams to handle inquiries and visits.',
     },
     {
       icon: <GrowthBarsIcon />,
       title: c.system_step_4 || 'Closings',
+      mobileTitle: 'Bookings & Closings',
       desc: c.system_step_4_desc || 'Closing high-ticket units with consistent follow-ups and streamlined booking handovers.',
     },
   ];
@@ -44,7 +48,10 @@ export default function SystemFlow({ c = {} }) {
             <div className="system-capsule-top">
               <div className="system-capsule-icon">{step.icon}</div>
             </div>
-            <h3 className="system-capsule-title">{step.title}</h3>
+            <h3 className="system-capsule-title">
+              <span className="system-title-desktop">{step.title}</span>
+              <span className="system-title-mobile">{step.mobileTitle}</span>
+            </h3>
             <p className="system-capsule-desc">{step.desc}</p>
           </div>
         ))}
