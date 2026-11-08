@@ -1165,7 +1165,112 @@ input, select, textarea{font-family:inherit;}
 }
 .field-v2 select.is-placeholder{color:var(--slate);}
 .field-v2 input::placeholder{color:var(--slate);}
-.field-v2:focus-within{border-color:var(--green); background:#fff;}
+.field-v2:focus-within, .field-v2:has(.is-active){border-color:var(--green); background:#fff;}
+
+/* Custom Select Dropdown (Consistent Desktop & Mobile UI) */
+.custom-select-wrap {
+  position: relative;
+  width: 100%;
+}
+.custom-select-trigger {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: transparent;
+  border: none;
+  outline: none;
+  font-size: 14.5px;
+  padding: 11px 13px;
+  color: var(--ink);
+  cursor: pointer;
+  text-align: left;
+  font-family: inherit;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+.custom-select-trigger.is-placeholder {
+  color: var(--slate);
+}
+.custom-select-text {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding-right: 8px;
+}
+.custom-select-arrow {
+  flex-shrink: 0;
+  color: var(--slate);
+  transition: transform 0.2s ease, color 0.2s ease;
+}
+.custom-select-trigger.is-open .custom-select-arrow,
+.custom-select-arrow.arrow-up {
+  transform: rotate(180deg);
+  color: var(--green);
+}
+.custom-select-menu {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  right: 0;
+  background: #FFFFFF;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12), 0 3px 8px rgba(0, 0, 0, 0.05);
+  list-style: none;
+  padding: 6px 0;
+  margin: 0;
+  z-index: 1000;
+  max-height: 260px;
+  overflow-y: auto;
+  animation: selectFadeIn 0.16s ease-out;
+}
+@keyframes selectFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.custom-select-option {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 11px 16px;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--ink);
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+.custom-select-option:hover,
+.custom-select-option:focus {
+  background: #F3F4F6;
+  color: var(--ink);
+}
+.custom-select-option.is-selected {
+  background: #F0FDF4;
+  color: var(--green);
+  font-weight: 600;
+}
+
+/* Career Form Custom Select styling */
+.career-custom-select .custom-select-trigger {
+  background: #F8FAFC;
+  border: 1px solid #E2E8F0;
+  border-radius: 10px;
+  padding: 12px 14px;
+  font-size: 13.5px;
+}
+.career-custom-select.is-active .custom-select-trigger {
+  background: #ffffff;
+  border-color: var(--green);
+}
 
 .contact-submit-wrap{width:100%;}
 .contact-submit-btn{

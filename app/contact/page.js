@@ -3,9 +3,18 @@
 import { useState, useEffect } from 'react';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
+import CustomSelect from '@/components/CustomSelect';
 import { DEFAULT_CONTENT } from '@/data/content';
 import { PhoneIcon, MailIcon, PinIcon, FacebookIcon, InstagramIcon, LinkedInIcon, YoutubeIcon } from '@/components/Icons';
 import '@/app/crm/crm.css';
+
+const PROPERTY_TYPE_OPTIONS = [
+  'Apartments',
+  'Houses / Villas',
+  'Plots / Land',
+  'Shops / Commercial',
+  'Farmhouses',
+];
 
 export default function ContactPage() {
   const [c, setC] = useState(DEFAULT_CONTENT);
@@ -133,18 +142,12 @@ export default function ContactPage() {
               </div>
 
               <div className="field-v2">
-                <select
-                  className={form.inventoryType ? '' : 'is-placeholder'}
+                <CustomSelect
+                  options={PROPERTY_TYPE_OPTIONS}
                   value={form.inventoryType}
-                  onChange={(e) => setForm({ ...form, inventoryType: e.target.value })}
-                >
-                  <option value="" disabled hidden>Select Your Property Type</option>
-                  <option>Apartments</option>
-                  <option>Houses / Villas</option>
-                  <option>Plots / Land</option>
-                  <option>Shops / Commercial</option>
-                  <option>Farmhouses</option>
-                </select>
+                  onChange={(val) => setForm({ ...form, inventoryType: val })}
+                  placeholder="Select Your Property Type"
+                />
               </div>
 
               <div className="contact-submit-wrap" style={{ marginTop: '8px' }}>

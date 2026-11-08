@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from 'react';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
+import CustomSelect from '@/components/CustomSelect';
 import { DEFAULT_CONTENT } from '@/data/content';
 
 const OPEN_ROLES = [
@@ -336,19 +337,16 @@ export default function CareersPage() {
                   />
 
                   {/* Position Dropdown (Auto-filled on card click) */}
-                  <select
-                    className="career-input-field"
+                  <CustomSelect
+                    className="career-custom-select"
+                    options={[
+                      ...OPEN_ROLES.map((r) => ({ value: r.fullTitle, label: r.title })),
+                      { value: 'General Application / Other Role', label: 'Other / General Application' },
+                    ]}
                     value={formData.position}
-                    onChange={(e) => setFormData({ ...formData, position: e.target.value })}
-                    style={{ cursor: 'pointer' }}
-                  >
-                    {OPEN_ROLES.map((r) => (
-                      <option key={r.id} value={r.fullTitle}>
-                        {r.title}
-                      </option>
-                    ))}
-                    <option value="General Application / Other Role">Other / General Application</option>
-                  </select>
+                    onChange={(val) => setFormData({ ...formData, position: val })}
+                    placeholder="Select Target Position *"
+                  />
 
                   {/* Portfolio / CV Link */}
                   <input
