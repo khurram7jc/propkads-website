@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { DEFAULT_CONTENT } from '@/data/content';
-import { PhoneIcon, MailIcon, PinIcon, FacebookIcon, InstagramIcon, LinkedInIcon } from '@/components/Icons';
+import { PhoneIcon, MailIcon, PinIcon, FacebookIcon, InstagramIcon, LinkedInIcon, YoutubeIcon } from '@/components/Icons';
 import '@/app/crm/crm.css';
 
 export default function ContactPage() {
@@ -198,6 +198,7 @@ export default function ContactPage() {
                 <a href={c.social_facebook || 'https://www.facebook.com/Propkads/'} target="_blank" rel="noopener noreferrer" aria-label="Facebook"><FacebookIcon /></a>
                 <a href={c.social_instagram || 'https://www.instagram.com/propkads/'} target="_blank" rel="noopener noreferrer" aria-label="Instagram"><InstagramIcon /></a>
                 <a href={c.social_linkedin || 'https://www.linkedin.com/company/propkads/'} target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><LinkedInIcon /></a>
+                <a href={c.social_youtube || 'https://www.youtube.com/@Propkads'} target="_blank" rel="noopener noreferrer" aria-label="YouTube"><YoutubeIcon /></a>
               </div>
             </div>
           </div>
