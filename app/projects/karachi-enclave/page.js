@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { DEFAULT_CONTENT } from '@/data/content';
@@ -12,7 +12,7 @@ function getVideoEmbedUrl(url) {
   if (!url) return '';
   const ytMatch = url.match(/^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/);
   if (ytMatch && ytMatch[2].length === 11) {
-    return `https://www.youtube.com/embed/${ytMatch[2]}?rel=0`;
+    return `https://www.youtube.com/embed/${ytMatch[2]}?enablejsapi=1&rel=0`;
   }
   if (url.includes('facebook.com')) {
     const encoded = encodeURIComponent(url);
@@ -34,6 +34,50 @@ export default function KarachiEnclavePage() {
   const [leadForm, setLeadForm] = useState({ name: '', phone: '', city: 'Karachi', unit: '' });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitSuccess, setSubmitSuccess] = useState(false);
+  const videoIframeRef = useRef(null);
+  const videoContainerRef = useRef(null);
+
+  // Preload all unit images (3D, 2D, Payment plans) on load so tab switching is instantaneous
+  useEffect(() => {
+    Object.values(units).forEach((u) => {
+      [u.img3d, u.img2d, u.imgPayment].forEach((src) => {
+        if (src) {
+          const img = new Image();
+          img.src = src;
+        }
+      });
+    });
+  }, []);
+
+  // Auto-pause video when scrolled out of view
+  useEffect(() => {
+    const el = videoContainerRef.current;
+    if (!el) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          // If video card is less than 20% visible or user scrolled past it, pause YouTube video
+          if (!entry.isIntersecting || entry.intersectionRatio < 0.2) {
+            try {
+              if (videoIframeRef.current && videoIframeRef.current.contentWindow) {
+                videoIframeRef.current.contentWindow.postMessage(
+                  JSON.stringify({ event: 'command', func: 'pauseVideo', args: [] }),
+                  '*'
+                );
+              }
+            } catch (err) {
+              // Ignore cross-origin postMessage issues
+            }
+          }
+        });
+      },
+      { threshold: [0, 0.2, 0.5] }
+    );
+
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
 
   const setCardView = (unitKey, view) => {
     setCardViews((prev) => ({ ...prev, [unitKey]: view }));
@@ -891,30 +935,39 @@ export default function KarachiEnclavePage() {
                               </div>
                             )}
 
-                            <img
-                              src={cardImg}
-                              alt={`${u.name} - ${currentView}`}
-                              onClick={(e) => {
-                                if (!isCenter) return;
-                                e.stopPropagation();
-                                const label = currentView === 'payment' ? 'Payment Plan' : currentView === '2d' ? '2D Layout' : 'Floor Layout';
-                                setLightboxImg({
-                                  src: cardImg,
-                                  title: `${u.name} (${u.size}) — ${label}`,
-                                });
-                              }}
-                              style={{
-                                maxHeight: '100%',
-                                maxWidth: '100%',
-                                objectFit: 'contain',
-                                display: 'block',
-                                transition: 'transform 0.2s ease, opacity 0.25s ease',
-                                borderRadius: currentView === 'payment' ? '8px' : '0',
-                                boxShadow: currentView === 'payment' ? '0 4px 16px rgba(15, 23, 42, 0.12)' : 'none',
-                                cursor: isCenter ? 'zoom-in' : 'pointer',
-                              }}
-                              title={isCenter ? 'Click to enlarge and view details' : undefined}
-                            />
+                            {/* Pre-rendered Layers for Instant Zero-Delay Switching */}
+                            {[
+                              { viewType: '3d', src: u.img3d, label: 'Floor Layout' },
+                              { viewType: '2d', src: u.img2d, label: '2D Layout' },
+                              { viewType: 'payment', src: u.imgPayment, label: 'Payment Plan' },
+                            ].map((layer) => {
+                              const isVisible = currentView === layer.viewType;
+                              return (
+                                <img
+                                  key={layer.viewType}
+                                  src={layer.src}
+                                  alt={`${u.name} - ${layer.label}`}
+                                  onClick={(e) => {
+                                    if (!isCenter) return;
+                                    e.stopPropagation();
+                                    setLightboxImg({
+                                      src: layer.src,
+                                      title: `${u.name} (${u.size}) — ${layer.label}`,
+                                    });
+                                  }}
+                                  style={{
+                                    maxHeight: '100%',
+                                    maxWidth: '100%',
+                                    objectFit: 'contain',
+                                    display: isVisible ? 'block' : 'none',
+                                    borderRadius: layer.viewType === 'payment' ? '8px' : '0',
+                                    boxShadow: layer.viewType === 'payment' ? '0 4px 16px rgba(15, 23, 42, 0.12)' : 'none',
+                                    cursor: isCenter ? 'zoom-in' : 'pointer',
+                                  }}
+                                  title={isCenter ? 'Click to enlarge and view details' : undefined}
+                                />
+                              );
+                            })}
 
                             {/* Zoom hint on front card */}
                             {isCenter && (
@@ -1291,6 +1344,7 @@ export default function KarachiEnclavePage() {
             </div>
 
             <div
+              ref={videoContainerRef}
               style={{
                 maxWidth: '960px',
                 margin: '0 auto',
@@ -1305,6 +1359,7 @@ export default function KarachiEnclavePage() {
             >
               {KARACHI_ENCLAVE_VIDEO_URL ? (
                 <iframe
+                  ref={videoIframeRef}
                   style={{
                     position: 'absolute',
                     top: 0,
