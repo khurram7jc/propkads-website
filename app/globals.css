@@ -2037,6 +2037,14 @@ input, select, textarea{font-family:inherit;}
   margin-bottom: 12px;
 }
 
+.mobile-only-tag {
+  display: none;
+}
+
+.desktop-only-tag {
+  display: inline-block;
+}
+
 .methodology-zigzag-title {
   font-size: 24px;
   font-weight: 800;
@@ -2056,8 +2064,16 @@ input, select, textarea{font-family:inherit;}
 @media (max-width: 860px) {
   .methodology-zigzag-row {
     grid-template-columns: 1fr;
-    gap: 22px;
+    gap: 16px;
     padding: 32px 0;
+  }
+  .mobile-only-tag {
+    display: inline-block !important;
+    order: 0 !important;
+    margin-bottom: 2px !important;
+  }
+  .desktop-only-tag {
+    display: none !important;
   }
   .methodology-zigzag-img-wrap {
     height: 230px;

@@ -158,13 +158,14 @@ export default function AboutPage() {
             const isImageLeft = idx % 2 === 0;
             return (
               <div key={idx} className="methodology-zigzag-row">
+                <span className="methodology-zigzag-tag mobile-only-tag">{point.tag}</span>
                 {isImageLeft ? (
                   <>
                     <div className="methodology-zigzag-img-wrap">
                       <img src={point.image} alt={point.alt} className="methodology-zigzag-img" />
                     </div>
                     <div className="methodology-zigzag-content">
-                      <span className="methodology-zigzag-tag">{point.tag}</span>
+                      <span className="methodology-zigzag-tag desktop-only-tag">{point.tag}</span>
                       <h3 className="methodology-zigzag-title">{point.title}</h3>
                       <p className="methodology-zigzag-desc">{point.desc}</p>
                     </div>
@@ -172,7 +173,7 @@ export default function AboutPage() {
                 ) : (
                   <>
                     <div className="methodology-zigzag-content">
-                      <span className="methodology-zigzag-tag">{point.tag}</span>
+                      <span className="methodology-zigzag-tag desktop-only-tag">{point.tag}</span>
                       <h3 className="methodology-zigzag-title">{point.title}</h3>
                       <p className="methodology-zigzag-desc">{point.desc}</p>
                     </div>
