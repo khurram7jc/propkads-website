@@ -2,6 +2,8 @@ import { NextResponse } from 'next/server';
 import { sql } from '@/lib/db';
 import { getSession } from '@/lib/auth';
 
+export const dynamic = 'force-dynamic';
+
 async function ensureLeadColumns() {
   await sql`alter table leads add column if not exists lead_category text default 'client'`;
   await sql`alter table leads add column if not exists project_name text`;
