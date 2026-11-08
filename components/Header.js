@@ -166,6 +166,9 @@ export default function Header({ c = {} }) {
         {mobileMenuOpen && (
           <div className="mobile-cascade-wrap">
             <div className="mobile-cascade-main">
+              <Link href="/" className={pathname === '/' ? 'is-active' : ''} onClick={closeMobileMenu}>
+                Home
+              </Link>
               <Link href="/about" className={isActive('/about') ? 'is-active' : ''} onClick={closeMobileMenu}>
                 About Us
               </Link>
