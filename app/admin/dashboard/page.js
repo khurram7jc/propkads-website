@@ -348,6 +348,36 @@ export default function Dashboard() {
   const [tab, setTab] = useState('leads');
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [showNotifications, setShowNotifications] = useState(false);
+  const [readNotifications, setReadNotifications] = useState([]);
+
+  useEffect(() => {
+    try {
+      const stored = localStorage.getItem('pk_read_notifications');
+      if (stored) setReadNotifications(JSON.parse(stored));
+    } catch {}
+  }, []);
+
+  const markAsRead = (key) => {
+    setReadNotifications((prev) => {
+      if (prev.includes(key)) return prev;
+      const updated = [...prev, key];
+      try {
+        localStorage.setItem('pk_read_notifications', JSON.stringify(updated));
+      } catch {}
+      return updated;
+    });
+  };
+
+  const markAllAsRead = () => {
+    const allKeys = newNotifications.map((l) => `${l.lead_category || 'client'}-${l.id}`);
+    setReadNotifications((prev) => {
+      const merged = Array.from(new Set([...prev, ...allKeys]));
+      try {
+        localStorage.setItem('pk_read_notifications', JSON.stringify(merged));
+      } catch {}
+      return merged;
+    });
+  };
 
   // Client Leads state (Developers / Builders from Home & Contact Us)
   const [leads, setLeads] = useState([]);
@@ -593,6 +623,7 @@ export default function Dashboard() {
   };
 
   const openLead = async (lead) => {
+    markAsRead(`${lead.lead_category || 'client'}-${lead.id}`);
     setSelected({ ...lead });
     const res = await fetch(`/api/admin/leads/notes?leadId=${lead.id}`);
     const d = await res.json();
@@ -731,6 +762,10 @@ export default function Dashboard() {
     (a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
   );
 
+  const unreadCount = newNotifications.filter(
+    (l) => !readNotifications.includes(`${l.lead_category || 'client'}-${l.id}`)
+  ).length;
+
   const formatTimeAgo = (dateStr) => {
     if (!dateStr) return '';
     const diff = Math.floor((Date.now() - new Date(dateStr).getTime()) / 1000);
@@ -867,7 +902,7 @@ export default function Dashboard() {
                 title="New Leads Notifications"
               >
                 {Icons.bell}
-                {newNotifications.length > 0 && (
+                {unreadCount > 0 && (
                   <span
                     style={{
                       position: 'absolute',
@@ -887,7 +922,7 @@ export default function Dashboard() {
                       boxShadow: '0 0 0 2px #FFFFFF',
                     }}
                   >
-                    {newNotifications.length}
+                    {unreadCount}
                   </span>
                 )}
               </button>
@@ -926,30 +961,53 @@ export default function Dashboard() {
                     >
                       <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                         <span style={{ fontSize: '14px', fontWeight: 700, color: '#0F172A' }}>Notifications</span>
-                        <span
+                        {unreadCount > 0 && (
+                          <span
+                            style={{
+                              fontSize: '11px',
+                              fontWeight: 700,
+                              padding: '2px 8px',
+                              background: '#FEE2E2',
+                              color: '#DC2626',
+                              borderRadius: '999px',
+                            }}
+                          >
+                            {unreadCount} New
+                          </span>
+                        )}
+                      </div>
+                      {unreadCount > 0 ? (
+                        <button
+                          type="button"
+                          onClick={markAllAsRead}
                           style={{
-                            fontSize: '11px',
-                            fontWeight: 700,
-                            padding: '2px 8px',
-                            background: newNotifications.length > 0 ? '#FEE2E2' : '#F1F5F9',
-                            color: newNotifications.length > 0 ? '#DC2626' : '#64748B',
-                            borderRadius: '999px',
+                            background: 'none',
+                            border: 'none',
+                            color: '#14A750',
+                            fontSize: '11.5px',
+                            fontWeight: 600,
+                            cursor: 'pointer',
+                            padding: 0,
                           }}
                         >
-                          {newNotifications.length} New
-                        </span>
-                      </div>
-                      <span style={{ fontSize: '11.5px', color: '#64748B' }}>Real-time</span>
+                          Mark all read ✓
+                        </button>
+                      ) : (
+                        <span style={{ fontSize: '11.5px', color: '#64748B' }}>All read ✓</span>
+                      )}
                     </div>
 
                     <div style={{ maxHeight: '360px', overflowY: 'auto' }}>
                       {newNotifications.length > 0 ? (
                         newNotifications.map((lead) => {
                           const isClient = lead.lead_category === 'client' || lead.lead_type_label === 'Client Lead';
+                          const key = `${lead.lead_category || 'client'}-${lead.id}`;
+                          const isRead = readNotifications.includes(key);
                           return (
                             <div
-                              key={`${lead.lead_category}-${lead.id}`}
+                              key={key}
                               onClick={() => {
+                                markAsRead(key);
                                 setShowNotifications(false);
                                 setTab(isClient ? 'leads' : 'project_leads');
                                 openLead(lead);
@@ -962,9 +1020,11 @@ export default function Dashboard() {
                                 display: 'flex',
                                 alignItems: 'flex-start',
                                 gap: '12px',
+                                background: isRead ? 'transparent' : '#F0FDF4',
+                                opacity: isRead ? 0.72 : 1,
                               }}
-                              onMouseEnter={(e) => (e.currentTarget.style.background = '#F8FAFC')}
-                              onMouseLeave={(e) => (e.currentTarget.style.background = 'transparent')}
+                              onMouseEnter={(e) => (e.currentTarget.style.background = isRead ? '#F8FAFC' : '#DCFCE7')}
+                              onMouseLeave={(e) => (e.currentTarget.style.background = isRead ? 'transparent' : '#F0FDF4')}
                             >
                               <div
                                 style={{
@@ -978,14 +1038,29 @@ export default function Dashboard() {
                                   justifyContent: 'center',
                                   flexShrink: 0,
                                   marginTop: '2px',
+                                  position: 'relative',
                                 }}
                               >
                                 {isClient ? Icons.leads : Icons.projectLeads}
+                                {!isRead && (
+                                  <span
+                                    style={{
+                                      position: 'absolute',
+                                      top: '-2px',
+                                      right: '-2px',
+                                      width: '8px',
+                                      height: '8px',
+                                      borderRadius: '50%',
+                                      background: '#14A750',
+                                      boxShadow: '0 0 0 2px #FFFFFF',
+                                    }}
+                                  />
+                                )}
                               </div>
 
                               <div style={{ flex: 1, minWidth: 0 }}>
                                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '6px', marginBottom: '2px' }}>
-                                  <span style={{ fontSize: '13px', fontWeight: 700, color: '#0F172A', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                                  <span style={{ fontSize: '13px', fontWeight: isRead ? 600 : 700, color: '#0F172A', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
                                     {lead.full_name}
                                   </span>
                                   <span style={{ fontSize: '11px', color: '#94A3B8', whiteSpace: 'nowrap' }}>
