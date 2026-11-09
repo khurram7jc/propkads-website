@@ -63,12 +63,6 @@ const Icons = {
       <path d="M10 6h8v4h-8V6Z" />
     </svg>
   ),
-  content: (
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
-      <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
-    </svg>
-  ),
   newsletter: (
     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
       <rect width="20" height="16" x="2" y="4" rx="2" />
@@ -328,8 +322,6 @@ export default function Dashboard() {
   const [projUnitFilter, setProjUnitFilter] = useState('');
   const [projStatusFilter, setProjStatusFilter] = useState('');
 
-  // Content state
-  const [content, setContent] = useState([]);
 
   // Team state
   const [users, setUsers] = useState([]);
@@ -364,7 +356,6 @@ export default function Dashboard() {
     if (!me) return;
     if (tab === 'leads') loadLeads();
     if (tab === 'project_leads') loadProjectLeads();
-    if (tab === 'content') loadContent();
     if (tab === 'team' && me.role === 'admin') loadUsers();
     if (tab === 'newsletter') loadSubscribers();
     if (tab === 'applications') loadApplications();
@@ -395,11 +386,6 @@ export default function Dashboard() {
     if (d.success) setProjectLeads(d.leads);
   };
 
-  const loadContent = async () => {
-    const res = await fetch('/api/admin/content');
-    const d = await res.json();
-    if (d.success) setContent(d.content);
-  };
 
   const loadUsers = async () => {
     const res = await fetch('/api/admin/users');
@@ -598,13 +584,6 @@ export default function Dashboard() {
     if (d.success) setNotes(d.notes);
   };
 
-  const updateContentField = async (key, value) => {
-    await fetch('/api/admin/content', {
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ key, value }),
-    });
-  };
 
   const addTeamMember = async (e) => {
     e.preventDefault();
@@ -685,7 +664,6 @@ export default function Dashboard() {
     { key: 'project_leads', label: 'Project Leads', icon: Icons.projectLeads, badge: projectLeads.length },
     { key: 'applications', label: 'Job Applications', icon: Icons.applications, badge: applications.length },
     { key: 'blogs', label: 'News & Blogs', icon: Icons.blogs, badge: blogs.length },
-    { key: 'content', label: 'Site Content', icon: Icons.content },
     { key: 'newsletter', label: 'Newsletter', icon: Icons.newsletter, badge: subscribers.length },
     ...(me.role === 'admin' ? [{ key: 'team', label: 'Team Members', icon: Icons.team, badge: users.length }] : []),
   ];
@@ -1373,21 +1351,7 @@ export default function Dashboard() {
           </>
         )}
 
-        {tab === 'content' && (
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 16, maxWidth: 700 }}>
-            {content.map((item) => (
-              <div key={item.key}>
-                <label style={ui.label}>{item.key}</label>
-                <textarea
-                  defaultValue={item.value}
-                  onBlur={(e) => updateContentField(item.key, e.target.value)}
-                  style={{ ...ui.fieldInput, minHeight: 60, fontFamily: 'inherit', marginTop: 0 }}
-                />
-              </div>
-            ))}
-            <p style={{ fontSize: 12.5, color: '#94a3b8' }}>Click outside a field to save it automatically.</p>
-          </div>
-        )}
+
 
         {tab === 'newsletter' && (
           <div>
