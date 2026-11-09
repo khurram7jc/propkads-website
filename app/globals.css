@@ -1272,6 +1272,24 @@ input, select, textarea{font-family:inherit;}
   border-color: var(--green);
 }
 
+/* Project Form Custom Select styling */
+.project-custom-select .custom-select-trigger {
+  background: #FFFFFF;
+  border: 1px solid #D1D5DB;
+  border-radius: 4px;
+  padding: 11px 14px;
+  font-size: 14.5px;
+  color: #1F2937;
+  box-sizing: border-box;
+}
+.project-custom-select.is-active .custom-select-trigger {
+  border-color: var(--green);
+  outline: none;
+}
+.project-custom-select .custom-select-menu {
+  border-radius: 8px;
+}
+
 .contact-submit-wrap{width:100%;}
 .contact-submit-btn{
   display:flex; align-items:center; justify-content:center;

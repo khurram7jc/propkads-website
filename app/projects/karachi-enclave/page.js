@@ -3,7 +3,16 @@
 import { useState, useEffect, useRef } from 'react';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
+import CustomSelect from '@/components/CustomSelect';
 import { DEFAULT_CONTENT } from '@/data/content';
+
+const UNIT_OPTIONS = [
+  { value: 'Emerald (1230 SQFT) - PKR 1.72 Cr', label: 'Emerald (1230 SQFT) — PKR 1.72 Cr' },
+  { value: 'Ruby (1230 SQFT) - PKR 1.72 Cr', label: 'Ruby (1230 SQFT) — PKR 1.72 Cr' },
+  { value: 'Sapphire (1180 SQFT) - PKR 1.65 Cr', label: 'Sapphire (1180 SQFT) — PKR 1.65 Cr' },
+  { value: 'Opal (1072 SQFT) - PKR 1.50 Cr', label: 'Opal (1072 SQFT) — PKR 1.50 Cr' },
+  { value: 'Commercial Showrooms', label: 'Ground Floor Commercial Showrooms' },
+];
 
 // Video URL for "Life at Karachi Enclave" (Supports both YouTube & Facebook Video links)
 const KARACHI_ENCLAVE_VIDEO_URL = 'https://youtu.be/Q7Xu-GOZrdo';
@@ -547,19 +556,13 @@ export default function KarachiEnclavePage() {
                         <label style={{ fontSize: '15px', fontWeight: '600', color: '#111827', display: 'block', marginBottom: '6px' }}>
                           Available Units &amp; Price Ranges <span style={{ color: '#E11D48' }}>*</span>
                         </label>
-                        <select
-                          required
+                        <CustomSelect
+                          className="project-custom-select"
+                          options={UNIT_OPTIONS}
                           value={leadForm.unit}
-                          onChange={(e) => setLeadForm({ ...leadForm, unit: e.target.value })}
-                          style={{ width: '100%', padding: '11px 14px', border: '1px solid #D1D5DB', borderRadius: '4px', fontSize: '14.5px', color: '#1F2937', boxSizing: 'border-box', background: '#FFFFFF' }}
-                        >
-                          <option value="">- Select -</option>
-                          <option value="Emerald (1230 SQFT) - PKR 1.72 Cr">Emerald (1230 SQFT) — PKR 1.72 Cr</option>
-                          <option value="Ruby (1230 SQFT) - PKR 1.72 Cr">Ruby (1230 SQFT) — PKR 1.72 Cr</option>
-                          <option value="Sapphire (1180 SQFT) - PKR 1.65 Cr">Sapphire (1180 SQFT) — PKR 1.65 Cr</option>
-                          <option value="Opal (1072 SQFT) - PKR 1.50 Cr">Opal (1072 SQFT) — PKR 1.50 Cr</option>
-                          <option value="Commercial Showrooms">Ground Floor Commercial Showrooms</option>
-                        </select>
+                          onChange={(val) => setLeadForm({ ...leadForm, unit: val })}
+                          placeholder="- Select -"
+                        />
                       </div>
 
                       <button

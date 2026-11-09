@@ -7,6 +7,15 @@ import Positioning from '@/components/Positioning';
 import PartnersMarquee from '@/components/PartnersMarquee';
 import SystemFlow from '@/components/SystemFlow';
 import Footer from '@/components/Footer';
+import CustomSelect from '@/components/CustomSelect';
+
+const PROPERTY_TYPE_OPTIONS = [
+  'Apartments',
+  'Houses / Villas',
+  'Plots / Land',
+  'Shops / Commercial',
+  'Farmhouses',
+];
 
 const DEFAULT_CONTENT = {
   system_eyebrow: 'Our Process',
@@ -345,18 +354,12 @@ export default function Home() {
                   />
                 </div>
                 <div className="field-v2">
-                  <select
-                    className={form.inventoryType ? '' : 'is-placeholder'}
+                  <CustomSelect
+                    options={PROPERTY_TYPE_OPTIONS}
                     value={form.inventoryType}
-                    onChange={(e) => setForm({ ...form, inventoryType: e.target.value })}
-                  >
-                    <option value="" disabled hidden>Select Your Property Type</option>
-                    <option>Apartments</option>
-                    <option>Houses / Villas</option>
-                    <option>Plots / Land</option>
-                    <option>Shops / Commercial</option>
-                    <option>Farmhouses</option>
-                  </select>
+                    onChange={(val) => setForm({ ...form, inventoryType: val })}
+                    placeholder="Select Your Property Type"
+                  />
                 </div>
                 <button type="submit" className="contact-submit-btn">
                   Submit Enquiry
