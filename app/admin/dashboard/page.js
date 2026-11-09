@@ -637,15 +637,12 @@ export default function Dashboard() {
   if (!me) return null;
 
   const total = leads.length;
-  const weekAgo = Date.now() - 7 * 24 * 60 * 60 * 1000;
-  const newThisWeek = leads.filter((l) => new Date(l.created_at).getTime() > weekAgo).length;
-  const inPipeline = leads.filter((l) =>
-    ['Contacted', 'Qualified', 'Meeting / Proposal', 'In Negotiation'].includes(l.status)
-  ).length;
+  const newLeads = leads.filter((l) => l.status === 'New').length;
+  const contactedLeads = leads.filter((l) => l.status === 'Contacted').length;
   const dealsClosed = leads.filter((l) =>
-    ['Deal Closed', 'Closed', 'Booked'].includes(l.status)
+    ['Deal Closed', 'Closed'].includes(l.status)
   ).length;
-  const futureProspects = leads.filter((l) => l.status === 'Future Prospect').length;
+  const notInterested = leads.filter((l) => l.status === 'Not Interested').length;
 
   // Dynamic Multi-Project List (always includes Karachi Enclave + any new projects added in the future)
   const projectList = Array.from(
@@ -852,11 +849,11 @@ export default function Dashboard() {
         {tab === 'leads' && (
           <>
             <div style={ui.statRow}>
-              <div style={ui.statCard}><div style={ui.statNum}>{total}</div><div style={ui.statLbl}>Total Client Leads</div></div>
-              <div style={ui.statCard}><div style={ui.statNum}>{newThisWeek}</div><div style={ui.statLbl}>New This Week</div></div>
-              <div style={ui.statCard}><div style={ui.statNum}>{inPipeline}</div><div style={ui.statLbl}>In Pipeline</div></div>
-              <div style={ui.statCard}><div style={ui.statNum}>{dealsClosed}</div><div style={ui.statLbl}>Deals Closed</div></div>
-              <div style={ui.statCard}><div style={ui.statNum}>{futureProspects}</div><div style={ui.statLbl}>Future Prospects</div></div>
+              <div style={ui.statCard}><div style={ui.statNum}>{total}</div><div style={ui.statLbl}>Total Leads</div></div>
+              <div style={ui.statCard}><div style={ui.statNum}>{newLeads}</div><div style={ui.statLbl}>New Leads</div></div>
+              <div style={ui.statCard}><div style={ui.statNum}>{contactedLeads}</div><div style={ui.statLbl}>Contacted Leads</div></div>
+              <div style={ui.statCard}><div style={ui.statNum}>{dealsClosed}</div><div style={ui.statLbl}>Deal Closed</div></div>
+              <div style={ui.statCard}><div style={ui.statNum}>{notInterested}</div><div style={ui.statLbl}>Not Interested</div></div>
             </div>
 
             <div style={ui.toolbar}>
