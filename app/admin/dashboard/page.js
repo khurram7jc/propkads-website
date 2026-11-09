@@ -120,7 +120,7 @@ const Icons = {
   ),
 };
 
-const ui = {
+const baseUi = {
   layout: { display: 'flex', minHeight: '100vh', background: '#F8FAFC', fontFamily: 'Inter, system-ui, sans-serif' },
   sidebar: (collapsed) => ({
     width: collapsed ? '68px' : '240px',
@@ -349,6 +349,79 @@ export default function Dashboard() {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [showNotifications, setShowNotifications] = useState(false);
   const [readNotifications, setReadNotifications] = useState([]);
+  const [isMobile, setIsMobile] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => {
+      const mobile = window.innerWidth < 860;
+      setIsMobile(mobile);
+      if (!mobile) setMobileMenuOpen(false);
+    };
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
+  const ui = {
+    ...baseUi,
+    layout: {
+      ...baseUi.layout,
+      position: 'relative',
+      overflowX: 'hidden',
+    },
+    body: {
+      ...baseUi.body,
+      padding: isMobile ? '16px 12px 40px' : '28px 32px',
+      minWidth: 0,
+    },
+    topBar: {
+      ...baseUi.topBar,
+      padding: isMobile ? '0 12px' : '0 28px',
+    },
+    statRow: {
+      display: 'grid',
+      gridTemplateColumns: isMobile ? 'repeat(2, 1fr)' : 'repeat(auto-fit, minmax(150px, 1fr))',
+      gap: isMobile ? '10px' : '16px',
+      marginBottom: 20,
+    },
+    statCard: {
+      ...baseUi.statCard,
+      padding: isMobile ? '12px 14px' : '18px 22px',
+      minWidth: 0,
+      borderRadius: '8px',
+    },
+    statNum: {
+      ...baseUi.statNum,
+      fontSize: isMobile ? 22 : 26,
+    },
+    overlay: {
+      ...baseUi.overlay,
+      padding: isMobile ? 10 : 20,
+      zIndex: 110,
+    },
+    modal: {
+      ...baseUi.modal,
+      width: '560px',
+      maxWidth: '100%',
+      maxHeight: isMobile ? '92vh' : '88vh',
+      padding: isMobile ? '20px 16px' : 32,
+      borderRadius: '10px',
+      boxSizing: 'border-box',
+    },
+    input: {
+      ...baseUi.input,
+      minWidth: isMobile ? '100%' : 220,
+      flex: isMobile ? '1 1 100%' : 'none',
+      boxSizing: 'border-box',
+      borderRadius: '6px',
+    },
+    select: {
+      ...baseUi.select,
+      borderRadius: '6px',
+      boxSizing: 'border-box',
+    },
+  };
 
   useEffect(() => {
     try {
@@ -820,11 +893,80 @@ export default function Dashboard() {
 
   return (
     <div style={ui.layout}>
-      {/* WordPress-Style Left Sidebar */}
-      <aside style={ui.sidebar(sidebarCollapsed)}>
+      {/* Mobile Drawer Backdrop */}
+      {isMobile && mobileMenuOpen && (
+        <div
+          onClick={() => setMobileMenuOpen(false)}
+          style={{
+            position: 'fixed',
+            inset: 0,
+            background: 'rgba(15, 23, 42, 0.65)',
+            backdropFilter: 'blur(3px)',
+            zIndex: 85,
+          }}
+        />
+      )}
+
+      {/* WordPress-Style Left Sidebar / Mobile Drawer */}
+      <aside
+        style={
+          isMobile
+            ? {
+                position: 'fixed',
+                top: 0,
+                bottom: 0,
+                left: mobileMenuOpen ? 0 : '-280px',
+                width: '260px',
+                background: '#0F172A',
+                color: '#E2E8F0',
+                display: 'flex',
+                flexDirection: 'column',
+                height: '100vh',
+                transition: 'left 0.25s cubic-bezier(0.4, 0, 0.2, 1)',
+                zIndex: 90,
+                boxShadow: mobileMenuOpen ? '0 0 35px rgba(0, 0, 0, 0.6)' : 'none',
+                borderRight: '1px solid #1E293B',
+                userSelect: 'none',
+              }
+            : ui.sidebar(sidebarCollapsed)
+        }
+      >
         {/* Brand Header */}
-        <div style={ui.sidebarHeader(sidebarCollapsed)}>
-          {!sidebarCollapsed ? (
+        <div style={ui.sidebarHeader(isMobile ? false : sidebarCollapsed)}>
+          {isMobile ? (
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <img
+                  src="/logo-white.png"
+                  alt="Propkads"
+                  style={{ height: '34px', width: 'auto', display: 'block', objectFit: 'contain' }}
+                />
+                <span style={{ fontSize: '11px', color: '#3ED17A', fontWeight: '700', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
+                  Admin
+                </span>
+              </div>
+              <button
+                type="button"
+                onClick={() => setMobileMenuOpen(false)}
+                style={{
+                  background: '#1E293B',
+                  color: '#94A3B8',
+                  border: 'none',
+                  borderRadius: '6px',
+                  width: '32px',
+                  height: '32px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  cursor: 'pointer',
+                  fontSize: '15px',
+                }}
+                aria-label="Close menu"
+              >
+                ✕
+              </button>
+            </div>
+          ) : !sidebarCollapsed ? (
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
               <img
                 src="/logo-white.png"
@@ -844,46 +986,52 @@ export default function Dashboard() {
           )}
         </div>
 
-        {/* Collapse Toggle Arrow (Directly Below Logo) */}
-        <div style={{ padding: sidebarCollapsed ? '10px 8px 2px' : '10px 14px 2px', display: 'flex', justifyContent: sidebarCollapsed ? 'center' : 'flex-end' }}>
-          <button
-            type="button"
-            onClick={() => setSidebarCollapsed(!sidebarCollapsed)}
-            style={{
-              background: '#1E293B',
-              color: '#94A3B8',
-              border: 'none',
-              borderRadius: '6px',
-              width: '34px',
-              height: '30px',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              cursor: 'pointer',
-              transition: 'background 0.15s, color 0.15s',
-            }}
-            title={sidebarCollapsed ? 'Expand menu' : 'Collapse menu'}
-          >
-            {sidebarCollapsed ? Icons.expand : Icons.collapse}
-          </button>
-        </div>
+        {/* Collapse Toggle Arrow (Desktop Only) */}
+        {!isMobile && (
+          <div style={{ padding: sidebarCollapsed ? '10px 8px 2px' : '10px 14px 2px', display: 'flex', justifyContent: sidebarCollapsed ? 'center' : 'flex-end' }}>
+            <button
+              type="button"
+              onClick={() => setSidebarCollapsed(!sidebarCollapsed)}
+              style={{
+                background: '#1E293B',
+                color: '#94A3B8',
+                border: 'none',
+                borderRadius: '6px',
+                width: '34px',
+                height: '30px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                cursor: 'pointer',
+                transition: 'background 0.15s, color 0.15s',
+              }}
+              title={sidebarCollapsed ? 'Expand menu' : 'Collapse menu'}
+            >
+              {sidebarCollapsed ? Icons.expand : Icons.collapse}
+            </button>
+          </div>
+        )}
 
         {/* Sidebar Navigation */}
         <nav style={ui.sidebarNav} aria-label="Admin Navigation">
           {navTabs.map((item) => {
             const isActive = tab === item.key;
+            const isItemCollapsed = !isMobile && sidebarCollapsed;
             return (
               <button
                 key={item.key}
                 type="button"
-                style={ui.sidebarItem(isActive, sidebarCollapsed)}
-                onClick={() => setTab(item.key)}
-                title={sidebarCollapsed ? item.label : undefined}
+                style={ui.sidebarItem(isActive, isItemCollapsed)}
+                onClick={() => {
+                  setTab(item.key);
+                  if (isMobile) setMobileMenuOpen(false);
+                }}
+                title={isItemCollapsed ? item.label : undefined}
               >
                 <span style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', color: isActive ? '#FFFFFF' : '#94A3B8' }}>
                   {item.icon}
                 </span>
-                {!sidebarCollapsed && <span>{item.label}</span>}
+                {!isItemCollapsed && <span>{item.label}</span>}
               </button>
             );
           })}
@@ -891,17 +1039,17 @@ export default function Dashboard() {
 
         {/* Sidebar Footer with Profile */}
         <div style={ui.sidebarFooter}>
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: sidebarCollapsed ? 'center' : 'flex-start', gap: '10px', padding: '6px 4px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: (!isMobile && sidebarCollapsed) ? 'center' : 'flex-start', gap: '10px', padding: '6px 4px' }}>
             <div style={{ width: '32px', height: '32px', borderRadius: '50%', background: '#14A750', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: '700', fontSize: '13px', flexShrink: 0 }}>
-              {(me.name || 'A')[0].toUpperCase()}
+              {(me?.name || 'A')[0].toUpperCase()}
             </div>
-            {!sidebarCollapsed && (
+            {(isMobile || !sidebarCollapsed) && (
               <div style={{ minWidth: 0, flex: 1 }}>
                 <div style={{ fontSize: '13px', fontWeight: '600', color: '#FFFFFF', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-                  {me.name === 'Khurram' ? 'Khurram Mushtaq' : me.name}
+                  {me?.name === 'Khurram' ? 'Khurram Mushtaq' : (me?.name || 'Admin')}
                 </div>
                 <div style={{ fontSize: '11px', color: '#94A3B8', textTransform: 'capitalize' }}>
-                  {me.role} Role
+                  {me?.role || 'Admin'} Role
                 </div>
               </div>
             )}
@@ -913,13 +1061,41 @@ export default function Dashboard() {
       <div style={{ flex: 1, minWidth: 0, display: 'flex', flexDirection: 'column' }}>
         {/* Top Navbar */}
         <header style={ui.topBar}>
-          <div style={{ display: 'flex', alignItems: 'center' }}>
-            <div style={{ fontSize: '14px', color: '#64748B' }}>
-              Dashboard / <strong style={{ color: '#0F172A', fontWeight: '700' }}>{currentTabObj.label}</strong>
+          <div style={{ display: 'flex', alignItems: 'center', gap: isMobile ? '10px' : '14px', minWidth: 0 }}>
+            {isMobile && (
+              <button
+                type="button"
+                onClick={() => setMobileMenuOpen(true)}
+                style={{
+                  background: '#F1F5F9',
+                  color: '#0F172A',
+                  border: '1px solid #E2E8F0',
+                  width: '36px',
+                  height: '36px',
+                  borderRadius: '6px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  cursor: 'pointer',
+                  flexShrink: 0,
+                }}
+                aria-label="Open menu"
+                title="Open navigation menu"
+              >
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                  <line x1="3" y1="12" x2="21" y2="12" />
+                  <line x1="3" y1="6" x2="21" y2="6" />
+                  <line x1="3" y1="18" x2="21" y2="18" />
+                </svg>
+              </button>
+            )}
+            <div style={{ fontSize: isMobile ? '13px' : '14px', color: '#64748B', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+              {!isMobile && 'Dashboard / '}
+              <strong style={{ color: '#0F172A', fontWeight: '700' }}>{currentTabObj.label}</strong>
             </div>
           </div>
 
-          <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: isMobile ? '8px' : '14px' }}>
             {/* Real-time Notification Bell & Dropdown */}
             <div style={{ position: 'relative' }}>
               <button
@@ -976,14 +1152,15 @@ export default function Dashboard() {
                   />
                   <div
                     style={{
-                      position: 'absolute',
-                      top: '44px',
-                      right: 0,
-                      width: '360px',
-                      maxWidth: '90vw',
+                      position: isMobile ? 'fixed' : 'absolute',
+                      top: isMobile ? '64px' : '44px',
+                      right: isMobile ? '10px' : 0,
+                      left: isMobile ? '10px' : 'auto',
+                      width: isMobile ? 'auto' : '360px',
+                      maxWidth: isMobile ? 'none' : '90vw',
                       background: '#FFFFFF',
                       borderRadius: '10px',
-                      boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.12), 0 8px 10px -6px rgba(0, 0, 0, 0.08)',
+                      boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.15), 0 8px 10px -6px rgba(0, 0, 0, 0.1)',
                       border: '1px solid #E2E8F0',
                       zIndex: 100,
                       overflow: 'hidden',
@@ -1040,7 +1217,7 @@ export default function Dashboard() {
                       )}
                     </div>
 
-                    <div style={{ maxHeight: '380px', overflowY: 'auto' }}>
+                    <div style={{ maxHeight: isMobile ? 'calc(100vh - 150px)' : '380px', overflowY: 'auto' }}>
                       {newNotifications.length > 0 ? (
                         newNotifications.map((item) => {
                           const isRead = readNotifications.includes(item.notifKey);
@@ -1165,13 +1342,14 @@ export default function Dashboard() {
                 display: 'inline-flex',
                 alignItems: 'center',
                 gap: '5px',
-                padding: '6px 12px',
+                padding: isMobile ? '7px 9px' : '6px 12px',
                 background: '#F1F5F9',
                 borderRadius: '6px',
                 fontWeight: '600',
               }}
+              title="View Public Site"
             >
-              <span>View Site</span>
+              {!isMobile && <span>View Site</span>}
               {Icons.external}
             </a>
 
@@ -1182,7 +1360,7 @@ export default function Dashboard() {
                 background: 'transparent',
                 color: '#B3261E',
                 border: '1px solid #FCA5A5',
-                padding: '6px 12px',
+                padding: isMobile ? '7px 9px' : '6px 12px',
                 fontSize: '12px',
                 fontWeight: '600',
                 borderRadius: '6px',
@@ -1191,9 +1369,10 @@ export default function Dashboard() {
                 alignItems: 'center',
                 gap: '4px',
               }}
+              title="Logout"
             >
               {Icons.logout}
-              <span>Logout</span>
+              {!isMobile && <span>Logout</span>}
             </button>
           </div>
         </header>
