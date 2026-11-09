@@ -19,7 +19,9 @@ const PROJECT_STATUSES = [
   'Site Visit Scheduled',
   'Site Visit Completed',
   'Booked',
+  'Deal Closed',
   'Closed',
+  'Not Interested',
   'Lost',
 ];
 
@@ -653,11 +655,15 @@ export default function Dashboard() {
     return true;
   });
 
-  const weekAgo = Date.now() - 7 * 24 * 60 * 60 * 1000;
   const projTotal = scopedProjectLeads.length;
-  const projNewThisWeek = scopedProjectLeads.filter((l) => new Date(l.created_at).getTime() > weekAgo).length;
-  const projBooked = scopedProjectLeads.filter((l) => l.status === 'Booked').length;
-  const projClosed = scopedProjectLeads.filter((l) => l.status === 'Closed').length;
+  const projNewLeads = scopedProjectLeads.filter((l) => l.status === 'New').length;
+  const projContactedLeads = scopedProjectLeads.filter((l) => l.status === 'Contacted').length;
+  const projDealsClosed = scopedProjectLeads.filter((l) =>
+    ['Deal Closed', 'Closed', 'Booked'].includes(l.status)
+  ).length;
+  const projNotInterested = scopedProjectLeads.filter((l) =>
+    ['Not Interested', 'Lost'].includes(l.status)
+  ).length;
 
   const navTabs = [
     { key: 'leads', label: 'Client Leads', icon: Icons.leads, badge: leads.length },
@@ -943,19 +949,23 @@ export default function Dashboard() {
             <div style={ui.statRow}>
               <div style={ui.statCard}>
                 <div style={ui.statNum}>{projTotal}</div>
-                <div style={ui.statLbl}>{selectedProject ? `${selectedProject} Leads` : 'Total Project Leads'}</div>
+                <div style={ui.statLbl}>Total Leads</div>
               </div>
               <div style={ui.statCard}>
-                <div style={ui.statNum}>{projNewThisWeek}</div>
-                <div style={ui.statLbl}>New This Week</div>
+                <div style={ui.statNum}>{projNewLeads}</div>
+                <div style={ui.statLbl}>New Leads</div>
               </div>
               <div style={ui.statCard}>
-                <div style={ui.statNum}>{projBooked}</div>
-                <div style={ui.statLbl}>Booked Units</div>
+                <div style={ui.statNum}>{projContactedLeads}</div>
+                <div style={ui.statLbl}>Contacted Leads</div>
               </div>
               <div style={ui.statCard}>
-                <div style={ui.statNum}>{projClosed}</div>
-                <div style={ui.statLbl}>Closed Deals</div>
+                <div style={ui.statNum}>{projDealsClosed}</div>
+                <div style={ui.statLbl}>Deal Closed</div>
+              </div>
+              <div style={ui.statCard}>
+                <div style={ui.statNum}>{projNotInterested}</div>
+                <div style={ui.statLbl}>Not Interested</div>
               </div>
             </div>
 
