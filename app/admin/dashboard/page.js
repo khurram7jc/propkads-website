@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 const CLIENT_STATUSES = [
   'New',
   'Contacted',
+  'Not Responding',
   'Qualified',
   'Meeting / Proposal',
   'In Negotiation',
