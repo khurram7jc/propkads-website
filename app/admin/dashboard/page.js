@@ -764,8 +764,6 @@ export default function Dashboard() {
       title: l.full_name,
       subtitle: l.company_name || l.inventory_type || l.phone,
       icon: Icons.leads,
-      badgeColor: '#0284C7',
-      badgeBg: '#E0F2FE',
     }));
 
   const newProjectLeads = projectLeads
@@ -778,8 +776,6 @@ export default function Dashboard() {
       title: l.full_name,
       subtitle: `${l.unit_interest || 'Unit inquiry'} · ${l.phone}`,
       icon: Icons.projectLeads,
-      badgeColor: '#D97706',
-      badgeBg: '#FEF3C7',
     }));
 
   const newAppLeads = applications.map((app) => ({
@@ -790,8 +786,6 @@ export default function Dashboard() {
     title: app.full_name,
     subtitle: `${app.position || 'Applicant'} · ${app.phone || app.email}`,
     icon: Icons.applications,
-    badgeColor: '#7C3AED',
-    badgeBg: '#F3E8FF',
   }));
 
   const newSubscribers = subscribers.map((sub) => ({
@@ -802,8 +796,6 @@ export default function Dashboard() {
     title: sub.email,
     subtitle: 'New Newsletter Subscriber',
     icon: Icons.newsletter,
-    badgeColor: '#14A750',
-    badgeBg: '#E9F7EE',
   }));
 
   const newNotifications = [...newClientLeads, ...newProjectLeads, ...newAppLeads, ...newSubscribers].sort(
@@ -1000,29 +992,29 @@ export default function Dashboard() {
                     <div
                       style={{
                         padding: '14px 16px',
-                        borderBottom: '1px solid #F1F5F9',
+                        borderBottom: '1px solid #E2E8F0',
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'space-between',
-                        background: '#FAFAFA',
+                        background: '#F8FAFC',
                       }}
                     >
                       <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                        <span style={{ fontSize: '14px', fontWeight: 700, color: '#0F172A' }}>Notifications</span>
-                        {unreadCount > 0 && (
+                        <span style={{ fontSize: '13.5px', fontWeight: 700, color: '#0F172A' }}>Notifications</span>
+                        {unreadCount > 0 ? (
                           <span
                             style={{
                               fontSize: '11px',
-                              fontWeight: 700,
+                              fontWeight: 600,
                               padding: '2px 8px',
-                              background: '#FEE2E2',
-                              color: '#DC2626',
+                              background: '#0F172A',
+                              color: '#FFFFFF',
                               borderRadius: '999px',
                             }}
                           >
                             {unreadCount} New
                           </span>
-                        )}
+                        ) : null}
                       </div>
                       {unreadCount > 0 ? (
                         <button
@@ -1031,21 +1023,24 @@ export default function Dashboard() {
                           style={{
                             background: 'none',
                             border: 'none',
-                            color: '#14A750',
+                            color: '#475569',
                             fontSize: '11.5px',
                             fontWeight: 600,
                             cursor: 'pointer',
                             padding: 0,
+                            textDecoration: 'none',
                           }}
+                          onMouseEnter={(e) => (e.currentTarget.style.color = '#0F172A')}
+                          onMouseLeave={(e) => (e.currentTarget.style.color = '#475569')}
                         >
-                          Mark all read ✓
+                          Mark all as read
                         </button>
                       ) : (
-                        <span style={{ fontSize: '11.5px', color: '#64748B' }}>All read ✓</span>
+                        <span style={{ fontSize: '11.5px', color: '#94A3B8' }}>All read</span>
                       )}
                     </div>
 
-                    <div style={{ maxHeight: '360px', overflowY: 'auto' }}>
+                    <div style={{ maxHeight: '380px', overflowY: 'auto' }}>
                       {newNotifications.length > 0 ? (
                         newNotifications.map((item) => {
                           const isRead = readNotifications.includes(item.notifKey);
@@ -1077,67 +1072,69 @@ export default function Dashboard() {
                                 display: 'flex',
                                 alignItems: 'flex-start',
                                 gap: '12px',
-                                background: isRead ? 'transparent' : '#F0FDF4',
-                                opacity: isRead ? 0.72 : 1,
+                                background: isRead ? '#FFFFFF' : '#F8FAFC',
+                                borderLeft: isRead ? '3px solid transparent' : '3px solid #14A750',
                               }}
-                              onMouseEnter={(e) => (e.currentTarget.style.background = isRead ? '#F8FAFC' : '#DCFCE7')}
-                              onMouseLeave={(e) => (e.currentTarget.style.background = isRead ? 'transparent' : '#F0FDF4')}
+                              onMouseEnter={(e) => (e.currentTarget.style.background = '#F1F5F9')}
+                              onMouseLeave={(e) => (e.currentTarget.style.background = isRead ? '#FFFFFF' : '#F8FAFC')}
                             >
                               <div
                                 style={{
                                   width: '32px',
                                   height: '32px',
-                                  borderRadius: '8px',
-                                  background: item.badgeBg || '#F1F5F9',
-                                  color: item.badgeColor || '#475569',
+                                  borderRadius: '6px',
+                                  background: '#FFFFFF',
+                                  color: '#475569',
+                                  border: '1px solid #E2E8F0',
                                   display: 'flex',
                                   alignItems: 'center',
                                   justifyContent: 'center',
                                   flexShrink: 0,
                                   marginTop: '2px',
-                                  position: 'relative',
                                 }}
                               >
                                 {item.icon}
-                                {!isRead && (
-                                  <span
-                                    style={{
-                                      position: 'absolute',
-                                      top: '-2px',
-                                      right: '-2px',
-                                      width: '8px',
-                                      height: '8px',
-                                      borderRadius: '50%',
-                                      background: '#14A750',
-                                      boxShadow: '0 0 0 2px #FFFFFF',
-                                    }}
-                                  />
-                                )}
                               </div>
 
                               <div style={{ flex: 1, minWidth: 0 }}>
-                                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '6px', marginBottom: '2px' }}>
-                                  <span style={{ fontSize: '13px', fontWeight: isRead ? 600 : 700, color: '#0F172A', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-                                    {item.title}
-                                  </span>
+                                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '6px', marginBottom: '3px' }}>
+                                  <div style={{ display: 'flex', alignItems: 'center', gap: '6px', minWidth: 0 }}>
+                                    <span style={{ fontSize: '13px', fontWeight: isRead ? 500 : 700, color: '#0F172A', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                                      {item.title}
+                                    </span>
+                                    {!isRead && (
+                                      <span
+                                        style={{
+                                          width: '6px',
+                                          height: '6px',
+                                          borderRadius: '50%',
+                                          background: '#14A750',
+                                          flexShrink: 0,
+                                        }}
+                                        title="Unread"
+                                      />
+                                    )}
+                                  </div>
                                   <span style={{ fontSize: '11px', color: '#94A3B8', whiteSpace: 'nowrap' }}>
                                     {formatTimeAgo(item.created_at)}
                                   </span>
                                 </div>
-                                <div style={{ fontSize: '12px', color: '#475569', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                                <div style={{ fontSize: '12px', color: '#64748B', display: 'flex', alignItems: 'center', gap: '6px' }}>
                                   <span
                                     style={{
                                       fontSize: '10.5px',
-                                      fontWeight: 600,
+                                      fontWeight: 500,
                                       padding: '1px 6px',
                                       borderRadius: '4px',
-                                      background: item.badgeBg,
-                                      color: item.badgeColor,
+                                      background: '#F1F5F9',
+                                      color: '#475569',
+                                      border: '1px solid #E2E8F0',
+                                      flexShrink: 0,
                                     }}
                                   >
                                     {item.category_label}
                                   </span>
-                                  <span style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                                  <span style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', color: '#64748B' }}>
                                     {item.subtitle}
                                   </span>
                                 </div>
