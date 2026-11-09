@@ -369,7 +369,7 @@ export default function Dashboard() {
   };
 
   const markAllAsRead = () => {
-    const allKeys = newNotifications.map((l) => `${l.lead_category || 'client'}-${l.id}`);
+    const allKeys = newNotifications.map((l) => l.notifKey);
     setReadNotifications((prev) => {
       const merged = Array.from(new Set([...prev, ...allKeys]));
       try {
@@ -438,9 +438,13 @@ export default function Dashboard() {
     if (!me) return;
     loadLeads();
     loadProjectLeads();
+    loadApplications();
+    loadSubscribers();
     const interval = setInterval(() => {
       loadLeads();
       loadProjectLeads();
+      loadApplications();
+      loadSubscribers();
     }, 30000);
     return () => clearInterval(interval);
   }, [me]);
@@ -752,18 +756,62 @@ export default function Dashboard() {
 
   const newClientLeads = leads
     .filter((l) => l.status === 'New')
-    .map((l) => ({ ...l, lead_category: 'client', lead_type_label: 'Client Lead' }));
+    .map((l) => ({
+      ...l,
+      notifKey: `client-${l.id}`,
+      lead_category: 'client',
+      category_label: 'Client Lead',
+      title: l.full_name,
+      subtitle: l.company_name || l.inventory_type || l.phone,
+      icon: Icons.leads,
+      badgeColor: '#0284C7',
+      badgeBg: '#E0F2FE',
+    }));
 
   const newProjectLeads = projectLeads
     .filter((l) => l.status === 'New')
-    .map((l) => ({ ...l, lead_category: 'project', lead_type_label: 'Project Lead' }));
+    .map((l) => ({
+      ...l,
+      notifKey: `project-${l.id}`,
+      lead_category: 'project',
+      category_label: l.project_name || 'Karachi Enclave',
+      title: l.full_name,
+      subtitle: `${l.unit_interest || 'Unit inquiry'} · ${l.phone}`,
+      icon: Icons.projectLeads,
+      badgeColor: '#D97706',
+      badgeBg: '#FEF3C7',
+    }));
 
-  const newNotifications = [...newClientLeads, ...newProjectLeads].sort(
+  const newAppLeads = applications.map((app) => ({
+    ...app,
+    notifKey: `app-${app.id}`,
+    lead_category: 'application',
+    category_label: 'Job Application',
+    title: app.full_name,
+    subtitle: `${app.position || 'Applicant'} · ${app.phone || app.email}`,
+    icon: Icons.applications,
+    badgeColor: '#7C3AED',
+    badgeBg: '#F3E8FF',
+  }));
+
+  const newSubscribers = subscribers.map((sub) => ({
+    ...sub,
+    notifKey: `sub-${sub.id}`,
+    lead_category: 'newsletter',
+    category_label: 'Newsletter',
+    title: sub.email,
+    subtitle: 'New Newsletter Subscriber',
+    icon: Icons.newsletter,
+    badgeColor: '#14A750',
+    badgeBg: '#E9F7EE',
+  }));
+
+  const newNotifications = [...newClientLeads, ...newProjectLeads, ...newAppLeads, ...newSubscribers].sort(
     (a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
   );
 
   const unreadCount = newNotifications.filter(
-    (l) => !readNotifications.includes(`${l.lead_category || 'client'}-${l.id}`)
+    (l) => !readNotifications.includes(l.notifKey)
   ).length;
 
   const formatTimeAgo = (dateStr) => {
@@ -999,18 +1047,27 @@ export default function Dashboard() {
 
                     <div style={{ maxHeight: '360px', overflowY: 'auto' }}>
                       {newNotifications.length > 0 ? (
-                        newNotifications.map((lead) => {
-                          const isClient = lead.lead_category === 'client' || lead.lead_type_label === 'Client Lead';
-                          const key = `${lead.lead_category || 'client'}-${lead.id}`;
-                          const isRead = readNotifications.includes(key);
+                        newNotifications.map((item) => {
+                          const isRead = readNotifications.includes(item.notifKey);
                           return (
                             <div
-                              key={key}
+                              key={item.notifKey}
                               onClick={() => {
-                                markAsRead(key);
+                                markAsRead(item.notifKey);
                                 setShowNotifications(false);
-                                setTab(isClient ? 'leads' : 'project_leads');
-                                openLead(lead);
+                                if (item.lead_category === 'client') {
+                                  setTab('leads');
+                                  openLead(item);
+                                } else if (item.lead_category === 'project') {
+                                  setTab('project_leads');
+                                  if (item.project_name) setSelectedProject(item.project_name);
+                                  openLead(item);
+                                } else if (item.lead_category === 'application') {
+                                  setTab('applications');
+                                  setSelectedApp(item);
+                                } else if (item.lead_category === 'newsletter') {
+                                  setTab('newsletter');
+                                }
                               }}
                               style={{
                                 padding: '12px 16px',
@@ -1031,8 +1088,8 @@ export default function Dashboard() {
                                   width: '32px',
                                   height: '32px',
                                   borderRadius: '8px',
-                                  background: isClient ? '#E9F7EE' : '#EEF2FF',
-                                  color: isClient ? '#14A750' : '#4F46E5',
+                                  background: item.badgeBg || '#F1F5F9',
+                                  color: item.badgeColor || '#475569',
                                   display: 'flex',
                                   alignItems: 'center',
                                   justifyContent: 'center',
@@ -1041,7 +1098,7 @@ export default function Dashboard() {
                                   position: 'relative',
                                 }}
                               >
-                                {isClient ? Icons.leads : Icons.projectLeads}
+                                {item.icon}
                                 {!isRead && (
                                   <span
                                     style={{
@@ -1061,10 +1118,10 @@ export default function Dashboard() {
                               <div style={{ flex: 1, minWidth: 0 }}>
                                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '6px', marginBottom: '2px' }}>
                                   <span style={{ fontSize: '13px', fontWeight: isRead ? 600 : 700, color: '#0F172A', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-                                    {lead.full_name}
+                                    {item.title}
                                   </span>
                                   <span style={{ fontSize: '11px', color: '#94A3B8', whiteSpace: 'nowrap' }}>
-                                    {formatTimeAgo(lead.created_at)}
+                                    {formatTimeAgo(item.created_at)}
                                   </span>
                                 </div>
                                 <div style={{ fontSize: '12px', color: '#475569', display: 'flex', alignItems: 'center', gap: '6px' }}>
@@ -1074,14 +1131,14 @@ export default function Dashboard() {
                                       fontWeight: 600,
                                       padding: '1px 6px',
                                       borderRadius: '4px',
-                                      background: isClient ? '#E0F2FE' : '#FEF3C7',
-                                      color: isClient ? '#0284C7' : '#D97706',
+                                      background: item.badgeBg,
+                                      color: item.badgeColor,
                                     }}
                                   >
-                                    {isClient ? 'Client' : lead.project_name || 'Karachi Enclave'}
+                                    {item.category_label}
                                   </span>
                                   <span style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-                                    {isClient ? lead.company_name || lead.inventory_type || lead.phone : lead.unit_interest || lead.phone}
+                                    {item.subtitle}
                                   </span>
                                 </div>
                               </div>
