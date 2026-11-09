@@ -2,7 +2,28 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 
-const STATUSES = ['New', 'Contacted', 'Site Visit', 'Booked', 'Closed'];
+const CLIENT_STATUSES = [
+  'New',
+  'Contacted',
+  'Qualified',
+  'Meeting / Proposal',
+  'In Negotiation',
+  'Deal Closed',
+  'Future Prospect',
+  'Not Interested',
+];
+
+const PROJECT_STATUSES = [
+  'New',
+  'Contacted',
+  'Site Visit Scheduled',
+  'Site Visit Completed',
+  'Booked',
+  'Closed',
+  'Lost',
+];
+
+const STATUSES = CLIENT_STATUSES;
 
 const Icons = {
   leads: (
@@ -188,11 +209,95 @@ const ui = {
   table: { width: '100%', borderCollapse: 'collapse', background: '#fff', minWidth: 800 },
   th: { textAlign: 'left', padding: 10, fontSize: 12, color: '#70757D', borderBottom: '2px solid #E7E8EA', textTransform: 'uppercase' },
   td: { padding: 10, fontSize: 13.5, borderBottom: '1px solid #E7E8EA' },
-  statusPill: (s) => ({
-    fontSize: 11.5, fontWeight: 700, padding: '4px 10px', display: 'inline-block',
-    background: s === 'Closed' ? '#E9F7EE' : s === 'Booked' ? '#E9F7EE' : s === 'New' ? '#F1F2F3' : '#FFF6E5',
-    color: s === 'Closed' || s === 'Booked' ? '#14A750' : s === 'New' ? '#3F434A' : '#946200',
-  }),
+  statusPill: (s) => {
+    switch (s) {
+      case 'Deal Closed':
+      case 'Closed':
+      case 'Booked':
+        return {
+          fontSize: 11.5,
+          fontWeight: 700,
+          padding: '4px 10px',
+          display: 'inline-block',
+          borderRadius: '6px',
+          background: '#E9F7EE',
+          color: '#14A750',
+          border: '1px solid rgba(20, 167, 80, 0.25)',
+        };
+      case 'Meeting / Proposal':
+      case 'Qualified':
+        return {
+          fontSize: 11.5,
+          fontWeight: 700,
+          padding: '4px 10px',
+          display: 'inline-block',
+          borderRadius: '6px',
+          background: '#EEF2FF',
+          color: '#4F46E5',
+          border: '1px solid rgba(79, 70, 229, 0.25)',
+        };
+      case 'In Negotiation':
+        return {
+          fontSize: 11.5,
+          fontWeight: 700,
+          padding: '4px 10px',
+          display: 'inline-block',
+          borderRadius: '6px',
+          background: '#FEF3C7',
+          color: '#D97706',
+          border: '1px solid rgba(217, 119, 6, 0.25)',
+        };
+      case 'Future Prospect':
+        return {
+          fontSize: 11.5,
+          fontWeight: 700,
+          padding: '4px 10px',
+          display: 'inline-block',
+          borderRadius: '6px',
+          background: '#E0F2FE',
+          color: '#0284C7',
+          border: '1px solid rgba(2, 132, 199, 0.25)',
+        };
+      case 'Contacted':
+      case 'Site Visit':
+      case 'Site Visit Scheduled':
+      case 'Site Visit Completed':
+        return {
+          fontSize: 11.5,
+          fontWeight: 700,
+          padding: '4px 10px',
+          display: 'inline-block',
+          borderRadius: '6px',
+          background: '#FFF6E5',
+          color: '#946200',
+          border: '1px solid rgba(148, 98, 0, 0.25)',
+        };
+      case 'Not Interested':
+      case 'Lost':
+        return {
+          fontSize: 11.5,
+          fontWeight: 700,
+          padding: '4px 10px',
+          display: 'inline-block',
+          borderRadius: '6px',
+          background: '#FEE2E2',
+          color: '#DC2626',
+          border: '1px solid rgba(220, 38, 38, 0.25)',
+        };
+      case 'New':
+      default:
+        return {
+          fontSize: 11.5,
+          fontWeight: 700,
+          padding: '4px 10px',
+          display: 'inline-block',
+          borderRadius: '6px',
+          background: '#F1F2F3',
+          color: '#3F434A',
+          border: '1px solid #E2E8F0',
+        };
+    }
+  },
   overlay: { position: 'fixed', inset: 0, background: 'rgba(20,22,26,0.5)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 100, padding: 20 },
   modal: { background: '#fff', width: '560px', maxWidth: '100%', maxHeight: '88vh', overflowY: 'auto', padding: 32 },
   label: { fontSize: 11.5, fontWeight: 600, color: '#70757D', textTransform: 'uppercase', display: 'block', marginBottom: 6, marginTop: 14 },
@@ -534,8 +639,13 @@ export default function Dashboard() {
   const total = leads.length;
   const weekAgo = Date.now() - 7 * 24 * 60 * 60 * 1000;
   const newThisWeek = leads.filter((l) => new Date(l.created_at).getTime() > weekAgo).length;
-  const booked = leads.filter((l) => l.status === 'Booked').length;
-  const closed = leads.filter((l) => l.status === 'Closed').length;
+  const inPipeline = leads.filter((l) =>
+    ['Contacted', 'Qualified', 'Meeting / Proposal', 'In Negotiation'].includes(l.status)
+  ).length;
+  const dealsClosed = leads.filter((l) =>
+    ['Deal Closed', 'Closed', 'Booked'].includes(l.status)
+  ).length;
+  const futureProspects = leads.filter((l) => l.status === 'Future Prospect').length;
 
   // Dynamic Multi-Project List (always includes Karachi Enclave + any new projects added in the future)
   const projectList = Array.from(
@@ -744,8 +854,9 @@ export default function Dashboard() {
             <div style={ui.statRow}>
               <div style={ui.statCard}><div style={ui.statNum}>{total}</div><div style={ui.statLbl}>Total Client Leads</div></div>
               <div style={ui.statCard}><div style={ui.statNum}>{newThisWeek}</div><div style={ui.statLbl}>New This Week</div></div>
-              <div style={ui.statCard}><div style={ui.statNum}>{booked}</div><div style={ui.statLbl}>Booked</div></div>
-              <div style={ui.statCard}><div style={ui.statNum}>{closed}</div><div style={ui.statLbl}>Closed</div></div>
+              <div style={ui.statCard}><div style={ui.statNum}>{inPipeline}</div><div style={ui.statLbl}>In Pipeline</div></div>
+              <div style={ui.statCard}><div style={ui.statNum}>{dealsClosed}</div><div style={ui.statLbl}>Deals Closed</div></div>
+              <div style={ui.statCard}><div style={ui.statNum}>{futureProspects}</div><div style={ui.statLbl}>Future Prospects</div></div>
             </div>
 
             <div style={ui.toolbar}>
@@ -758,7 +869,7 @@ export default function Dashboard() {
               />
               <select style={ui.select} value={statusFilter} onChange={(e) => setStatusFilter(e.target.value)}>
                 <option value="">All Statuses</option>
-                {STATUSES.map((s) => <option key={s} value={s}>{s}</option>)}
+                {CLIENT_STATUSES.map((s) => <option key={s} value={s}>{s}</option>)}
               </select>
               <button style={ui.btnGhost} onClick={loadLeads}>Apply</button>
               <a style={{ ...ui.btnGhost, marginLeft: 'auto', textDecoration: 'none' }} href="/api/admin/leads/export?category=client">Export CSV</a>
@@ -899,7 +1010,7 @@ export default function Dashboard() {
                 onChange={(e) => setProjStatusFilter(e.target.value)}
               >
                 <option value="">All Statuses</option>
-                {STATUSES.map((s) => (
+                {PROJECT_STATUSES.map((s) => (
                   <option key={s} value={s}>{s}</option>
                 ))}
               </select>
@@ -1648,9 +1759,18 @@ export default function Dashboard() {
               onChange={(e) => setSelected({ ...selected, city: e.target.value })} />
 
             <label style={ui.label}>Status</label>
-            <select style={ui.fieldInput} value={selected.status}
-              onChange={(e) => setSelected({ ...selected, status: e.target.value })}>
-              {STATUSES.map((s) => <option key={s} value={s}>{s}</option>)}
+            <select
+              style={ui.fieldInput}
+              value={selected.status}
+              onChange={(e) => setSelected({ ...selected, status: e.target.value })}
+            >
+              {(() => {
+                const list = selected.lead_category === 'project' ? PROJECT_STATUSES : CLIENT_STATUSES;
+                const options = list.includes(selected.status) ? list : (selected.status ? [selected.status, ...list] : list);
+                return options.map((s) => (
+                  <option key={s} value={s}>{s}</option>
+                ));
+              })()}
             </select>
 
             <div style={{ display: 'flex', gap: 10, marginTop: 20 }}>
