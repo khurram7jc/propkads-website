@@ -674,6 +674,7 @@ export default function Dashboard() {
     return true;
   });
 
+  const weekAgo = Date.now() - 7 * 24 * 60 * 60 * 1000;
   const projTotal = scopedProjectLeads.length;
   const projNewThisWeek = scopedProjectLeads.filter((l) => new Date(l.created_at).getTime() > weekAgo).length;
   const projBooked = scopedProjectLeads.filter((l) => l.status === 'Booked').length;
