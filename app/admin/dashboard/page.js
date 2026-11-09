@@ -16,11 +16,12 @@ const CLIENT_STATUSES = [
 const PROJECT_STATUSES = [
   'New',
   'Contacted',
-  'Site Visit Scheduled',
-  'Site Visit Completed',
-  'Booked',
+  'Not Responding',
+  'Qualified',
+  'Site Visit',
+  'In Negotiation',
   'Deal Closed',
-  'Closed',
+  'Future Prospect',
   'Not Interested',
   'Lost',
 ];
@@ -255,9 +256,6 @@ const ui = {
           border: '1px solid rgba(2, 132, 199, 0.25)',
         };
       case 'Contacted':
-      case 'Site Visit':
-      case 'Site Visit Scheduled':
-      case 'Site Visit Completed':
         return {
           fontSize: 11.5,
           fontWeight: 700,
@@ -268,8 +266,31 @@ const ui = {
           color: '#946200',
           border: '1px solid rgba(148, 98, 0, 0.25)',
         };
+      case 'Not Responding':
+        return {
+          fontSize: 11.5,
+          fontWeight: 700,
+          padding: '4px 10px',
+          display: 'inline-block',
+          borderRadius: '6px',
+          background: '#FFF1F2',
+          color: '#BE123C',
+          border: '1px solid rgba(190, 18, 60, 0.25)',
+        };
+      case 'Site Visit':
+      case 'Site Visit Scheduled':
+      case 'Site Visit Completed':
+        return {
+          fontSize: 11.5,
+          fontWeight: 700,
+          padding: '4px 10px',
+          display: 'inline-block',
+          borderRadius: '6px',
+          background: '#F5F3FF',
+          color: '#7C3AED',
+          border: '1px solid rgba(124, 58, 237, 0.25)',
+        };
       case 'Not Interested':
-      case 'Lost':
         return {
           fontSize: 11.5,
           fontWeight: 700,
@@ -279,6 +300,17 @@ const ui = {
           background: '#FEE2E2',
           color: '#DC2626',
           border: '1px solid rgba(220, 38, 38, 0.25)',
+        };
+      case 'Lost':
+        return {
+          fontSize: 11.5,
+          fontWeight: 700,
+          padding: '4px 10px',
+          display: 'inline-block',
+          borderRadius: '6px',
+          background: '#F1F5F9',
+          color: '#475569',
+          border: '1px solid rgba(71, 85, 105, 0.25)',
         };
       case 'New':
       default:
