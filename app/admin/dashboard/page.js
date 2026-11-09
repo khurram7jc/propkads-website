@@ -112,6 +112,12 @@ const Icons = {
       <line x1="10" y1="14" x2="21" y2="3" />
     </svg>
   ),
+  bell: (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
+      <path d="M13.73 21a2 2 0 0 1-3.46 0" />
+    </svg>
+  ),
 };
 
 const ui = {
@@ -341,6 +347,7 @@ export default function Dashboard() {
   const [me, setMe] = useState(null);
   const [tab, setTab] = useState('leads');
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+  const [showNotifications, setShowNotifications] = useState(false);
 
   // Client Leads state (Developers / Builders from Home & Contact Us)
   const [leads, setLeads] = useState([]);
@@ -401,6 +408,11 @@ export default function Dashboard() {
     if (!me) return;
     loadLeads();
     loadProjectLeads();
+    const interval = setInterval(() => {
+      loadLeads();
+      loadProjectLeads();
+    }, 30000);
+    return () => clearInterval(interval);
   }, [me]);
 
   const loadLeads = async () => {
@@ -699,13 +711,35 @@ export default function Dashboard() {
   ).length;
 
   const navTabs = [
-    { key: 'leads', label: 'Client Leads', icon: Icons.leads, badge: leads.length },
-    { key: 'project_leads', label: 'Project Leads', icon: Icons.projectLeads, badge: projectLeads.length },
-    { key: 'applications', label: 'Job Applications', icon: Icons.applications, badge: applications.length },
-    { key: 'blogs', label: 'News & Blogs', icon: Icons.blogs, badge: blogs.length },
-    { key: 'newsletter', label: 'Newsletter', icon: Icons.newsletter, badge: subscribers.length },
-    ...(me.role === 'admin' ? [{ key: 'team', label: 'Team Members', icon: Icons.team, badge: users.length }] : []),
+    { key: 'leads', label: 'Client Leads', icon: Icons.leads },
+    { key: 'project_leads', label: 'Project Leads', icon: Icons.projectLeads },
+    { key: 'applications', label: 'Job Applications', icon: Icons.applications },
+    { key: 'blogs', label: 'News & Blogs', icon: Icons.blogs },
+    { key: 'newsletter', label: 'Newsletter', icon: Icons.newsletter },
+    ...(me.role === 'admin' ? [{ key: 'team', label: 'Team Members', icon: Icons.team }] : []),
   ];
+
+  const newClientLeads = leads
+    .filter((l) => l.status === 'New')
+    .map((l) => ({ ...l, lead_category: 'client', lead_type_label: 'Client Lead' }));
+
+  const newProjectLeads = projectLeads
+    .filter((l) => l.status === 'New')
+    .map((l) => ({ ...l, lead_category: 'project', lead_type_label: 'Project Lead' }));
+
+  const newNotifications = [...newClientLeads, ...newProjectLeads].sort(
+    (a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
+  );
+
+  const formatTimeAgo = (dateStr) => {
+    if (!dateStr) return '';
+    const diff = Math.floor((Date.now() - new Date(dateStr).getTime()) / 1000);
+    if (diff < 60) return 'Just now';
+    if (diff < 3600) return `${Math.floor(diff / 60)}m ago`;
+    if (diff < 86400) return `${Math.floor(diff / 3600)}h ago`;
+    if (diff < 604800) return `${Math.floor(diff / 86400)}d ago`;
+    return new Date(dateStr).toLocaleDateString();
+  };
 
   const currentTabObj = navTabs.find((t) => t.key === tab) || navTabs[0];
 
@@ -774,14 +808,7 @@ export default function Dashboard() {
                 <span style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', color: isActive ? '#FFFFFF' : '#94A3B8' }}>
                   {item.icon}
                 </span>
-                {!sidebarCollapsed && (
-                  <>
-                    <span>{item.label}</span>
-                    {typeof item.badge === 'number' && item.badge > 0 && (
-                      <span style={ui.sidebarBadge}>{item.badge}</span>
-                    )}
-                  </>
-                )}
+                {!sidebarCollapsed && <span>{item.label}</span>}
               </button>
             );
           })}
@@ -818,6 +845,186 @@ export default function Dashboard() {
           </div>
 
           <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
+            {/* Real-time Notification Bell & Dropdown */}
+            <div style={{ position: 'relative' }}>
+              <button
+                type="button"
+                onClick={() => setShowNotifications((prev) => !prev)}
+                style={{
+                  background: showNotifications ? '#E2E8F0' : '#F1F5F9',
+                  color: '#0F172A',
+                  border: 'none',
+                  width: '36px',
+                  height: '36px',
+                  borderRadius: '6px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  cursor: 'pointer',
+                  position: 'relative',
+                  transition: 'background 0.15s',
+                }}
+                title="New Leads Notifications"
+              >
+                {Icons.bell}
+                {newNotifications.length > 0 && (
+                  <span
+                    style={{
+                      position: 'absolute',
+                      top: '-3px',
+                      right: '-3px',
+                      background: '#EF4444',
+                      color: '#FFFFFF',
+                      fontSize: '10.5px',
+                      fontWeight: 700,
+                      borderRadius: '999px',
+                      minWidth: '18px',
+                      height: '18px',
+                      padding: '0 4px',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      boxShadow: '0 0 0 2px #FFFFFF',
+                    }}
+                  >
+                    {newNotifications.length}
+                  </span>
+                )}
+              </button>
+
+              {/* Floating Notifications Dropdown Panel */}
+              {showNotifications && (
+                <>
+                  <div
+                    style={{ position: 'fixed', inset: 0, zIndex: 90 }}
+                    onClick={() => setShowNotifications(false)}
+                  />
+                  <div
+                    style={{
+                      position: 'absolute',
+                      top: '44px',
+                      right: 0,
+                      width: '360px',
+                      maxWidth: '90vw',
+                      background: '#FFFFFF',
+                      borderRadius: '10px',
+                      boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.12), 0 8px 10px -6px rgba(0, 0, 0, 0.08)',
+                      border: '1px solid #E2E8F0',
+                      zIndex: 100,
+                      overflow: 'hidden',
+                    }}
+                  >
+                    <div
+                      style={{
+                        padding: '14px 16px',
+                        borderBottom: '1px solid #F1F5F9',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'space-between',
+                        background: '#FAFAFA',
+                      }}
+                    >
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                        <span style={{ fontSize: '14px', fontWeight: 700, color: '#0F172A' }}>Notifications</span>
+                        <span
+                          style={{
+                            fontSize: '11px',
+                            fontWeight: 700,
+                            padding: '2px 8px',
+                            background: newNotifications.length > 0 ? '#FEE2E2' : '#F1F5F9',
+                            color: newNotifications.length > 0 ? '#DC2626' : '#64748B',
+                            borderRadius: '999px',
+                          }}
+                        >
+                          {newNotifications.length} New
+                        </span>
+                      </div>
+                      <span style={{ fontSize: '11.5px', color: '#64748B' }}>Real-time</span>
+                    </div>
+
+                    <div style={{ maxHeight: '360px', overflowY: 'auto' }}>
+                      {newNotifications.length > 0 ? (
+                        newNotifications.map((lead) => {
+                          const isClient = lead.lead_category === 'client' || lead.lead_type_label === 'Client Lead';
+                          return (
+                            <div
+                              key={`${lead.lead_category}-${lead.id}`}
+                              onClick={() => {
+                                setShowNotifications(false);
+                                setTab(isClient ? 'leads' : 'project_leads');
+                                openLead(lead);
+                              }}
+                              style={{
+                                padding: '12px 16px',
+                                borderBottom: '1px solid #F1F5F9',
+                                cursor: 'pointer',
+                                transition: 'background 0.15s',
+                                display: 'flex',
+                                alignItems: 'flex-start',
+                                gap: '12px',
+                              }}
+                              onMouseEnter={(e) => (e.currentTarget.style.background = '#F8FAFC')}
+                              onMouseLeave={(e) => (e.currentTarget.style.background = 'transparent')}
+                            >
+                              <div
+                                style={{
+                                  width: '32px',
+                                  height: '32px',
+                                  borderRadius: '8px',
+                                  background: isClient ? '#E9F7EE' : '#EEF2FF',
+                                  color: isClient ? '#14A750' : '#4F46E5',
+                                  display: 'flex',
+                                  alignItems: 'center',
+                                  justifyContent: 'center',
+                                  flexShrink: 0,
+                                  marginTop: '2px',
+                                }}
+                              >
+                                {isClient ? Icons.leads : Icons.projectLeads}
+                              </div>
+
+                              <div style={{ flex: 1, minWidth: 0 }}>
+                                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '6px', marginBottom: '2px' }}>
+                                  <span style={{ fontSize: '13px', fontWeight: 700, color: '#0F172A', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                                    {lead.full_name}
+                                  </span>
+                                  <span style={{ fontSize: '11px', color: '#94A3B8', whiteSpace: 'nowrap' }}>
+                                    {formatTimeAgo(lead.created_at)}
+                                  </span>
+                                </div>
+                                <div style={{ fontSize: '12px', color: '#475569', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                                  <span
+                                    style={{
+                                      fontSize: '10.5px',
+                                      fontWeight: 600,
+                                      padding: '1px 6px',
+                                      borderRadius: '4px',
+                                      background: isClient ? '#E0F2FE' : '#FEF3C7',
+                                      color: isClient ? '#0284C7' : '#D97706',
+                                    }}
+                                  >
+                                    {isClient ? 'Client' : lead.project_name || 'Karachi Enclave'}
+                                  </span>
+                                  <span style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                                    {isClient ? lead.company_name || lead.inventory_type || lead.phone : lead.unit_interest || lead.phone}
+                                  </span>
+                                </div>
+                              </div>
+                            </div>
+                          );
+                        })
+                      ) : (
+                        <div style={{ padding: '36px 20px', textAlign: 'center', color: '#94A3B8' }}>
+                          <div style={{ fontSize: '28px', marginBottom: '6px' }}>🎉</div>
+                          <div style={{ fontSize: '13.5px', fontWeight: 600, color: '#475569', marginBottom: '4px' }}>All caught up!</div>
+                          <div style={{ fontSize: '12px' }}>No new untouched leads waiting for response.</div>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </>
+              )}
+            </div>
             <a
               href="/"
               target="_blank"
