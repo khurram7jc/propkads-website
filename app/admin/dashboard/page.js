@@ -129,21 +129,29 @@ const Icons = {
 };
 
 const baseUi = {
-  layout: { display: 'flex', minHeight: '100vh', background: '#F8FAFC', fontFamily: 'Inter, system-ui, sans-serif' },
+  layout: {
+    display: 'flex',
+    height: '100vh',
+    maxHeight: '100vh',
+    overflow: 'hidden',
+    background: '#F8FAFC',
+    fontFamily: 'Inter, system-ui, sans-serif',
+    width: '100%',
+  },
   sidebar: (collapsed) => ({
     width: collapsed ? '68px' : '240px',
     background: '#0F172A',
     color: '#E2E8F0',
     display: 'flex',
     flexDirection: 'column',
-    position: 'sticky',
-    top: 0,
     height: '100vh',
+    maxHeight: '100vh',
     transition: 'width 0.22s cubic-bezier(0.4, 0, 0.2, 1)',
     zIndex: 40,
     borderRight: '1px solid #1E293B',
     userSelect: 'none',
     flexShrink: 0,
+    overflow: 'hidden',
   }),
   sidebarHeader: (collapsed) => ({
     padding: collapsed ? '18px 0' : '18px 20px',
@@ -199,6 +207,7 @@ const baseUi = {
   },
   topBar: {
     height: '62px',
+    flexShrink: 0,
     background: '#FFFFFF',
     borderBottom: '1px solid #E2E8F0',
     padding: '0 28px',
@@ -206,11 +215,16 @@ const baseUi = {
     alignItems: 'center',
     justifyContent: 'space-between',
     boxSizing: 'border-box',
-    position: 'sticky',
-    top: 0,
     zIndex: 30,
   },
-  body: { padding: '28px 32px', flex: 1, overflowY: 'auto' },
+  body: {
+    padding: '28px 32px',
+    flex: 1,
+    minWidth: 0,
+    overflowY: 'auto',
+    overflowX: 'hidden',
+    WebkitOverflowScrolling: 'touch',
+  },
   statRow: { display: 'flex', gap: 16, marginBottom: 24, flexWrap: 'wrap' },
   statCard: { background: '#fff', border: '1px solid #E7E8EA', padding: '18px 22px', minWidth: 140 },
   statNum: { fontSize: 26, fontWeight: 700 },
@@ -416,7 +430,6 @@ export default function Dashboard() {
     layout: {
       ...baseUi.layout,
       position: 'relative',
-      overflowX: 'hidden',
     },
     body: {
       ...baseUi.body,
@@ -1278,7 +1291,7 @@ export default function Dashboard() {
       </aside>
 
       {/* Right Content Area */}
-      <div style={{ flex: 1, minWidth: 0, display: 'flex', flexDirection: 'column' }}>
+      <div style={{ flex: 1, minWidth: 0, display: 'flex', flexDirection: 'column', height: '100vh', maxHeight: '100vh', overflow: 'hidden' }}>
         {/* Top Navbar */}
         <header style={ui.topBar}>
           <div style={{ display: 'flex', alignItems: 'center', gap: isMobile ? '10px' : '14px', minWidth: 0 }}>
