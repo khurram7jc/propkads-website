@@ -8,8 +8,21 @@ export async function GET() {
   if (!session || session.role !== 'admin') {
     return NextResponse.json({ success: false, error: 'Admin access required.' }, { status: 403 });
   }
-  const rows = await sql`select id, name, email, role, created_at from users order by created_at asc`;
-  return NextResponse.json({ success: true, users: rows });
+  const rows = await sql`select id, name, email, role, permissions, created_at from users order by created_at asc`;
+  const parsedUsers = rows.map((u) => {
+    let perms = [];
+    if (u.role === 'admin') {
+      perms = ['all'];
+    } else if (u.permissions) {
+      try {
+        perms = JSON.parse(u.permissions);
+      } catch {
+        perms = String(u.permissions).split(',').map((p) => p.trim());
+      }
+    }
+    return { ...u, permissions: perms };
+  });
+  return NextResponse.json({ success: true, users: parsedUsers });
 }
 
 export async function POST(req) {
@@ -18,7 +31,7 @@ export async function POST(req) {
     return NextResponse.json({ success: false, error: 'Admin access required.' }, { status: 403 });
   }
 
-  const { name, email, password, role } = await req.json();
+  const { name, email, password, permissions } = await req.json();
   if (!name || !email || !password) {
     return NextResponse.json({ success: false, error: 'Name, email, and password are required.' }, { status: 400 });
   }
@@ -28,11 +41,31 @@ export async function POST(req) {
     return NextResponse.json({ success: false, error: 'A user with this email already exists.' }, { status: 409 });
   }
 
+  const permsArray = Array.isArray(permissions) && permissions.length > 0 ? permissions : ['all'];
+  const permsJson = JSON.stringify(permsArray);
   const password_hash = hashPassword(password);
+
+  // New additions from dashboard are always 'team' role; admin access stays exclusive to super admin
   await sql`
-    insert into users (name, email, password_hash, role)
-    values (${name}, ${email.toLowerCase().trim()}, ${password_hash}, ${role === 'admin' ? 'admin' : 'team'})
+    insert into users (name, email, password_hash, role, permissions)
+    values (${name}, ${email.toLowerCase().trim()}, ${password_hash}, 'team', ${permsJson})
   `;
+  return NextResponse.json({ success: true });
+}
+
+export async function PATCH(req) {
+  const session = getSession();
+  if (!session || session.role !== 'admin') {
+    return NextResponse.json({ success: false, error: 'Admin access required.' }, { status: 403 });
+  }
+
+  const { id, permissions } = await req.json();
+  if (!id) return NextResponse.json({ success: false, error: 'Missing id.' }, { status: 400 });
+
+  const permsArray = Array.isArray(permissions) && permissions.length > 0 ? permissions : [];
+  const permsJson = JSON.stringify(permsArray);
+
+  await sql`update users set permissions = ${permsJson} where id = ${id}`;
   return NextResponse.json({ success: true });
 }
 

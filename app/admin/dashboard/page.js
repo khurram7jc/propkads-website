@@ -29,6 +29,14 @@ const PROJECT_STATUSES = [
 
 const STATUSES = CLIENT_STATUSES;
 
+const AVAILABLE_PERMISSIONS = [
+  { key: 'leads', label: 'Client Leads' },
+  { key: 'project_leads', label: 'Project Leads' },
+  { key: 'applications', label: 'Job Applications' },
+  { key: 'blogs', label: 'News & Blogs' },
+  { key: 'newsletter', label: 'Newsletter' },
+];
+
 const Icons = {
   leads: (
     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -468,10 +476,24 @@ export default function Dashboard() {
   const [projStatusFilter, setProjStatusFilter] = useState('');
 
 
+  const hasAccess = (permKey) => {
+    if (!me) return false;
+    if (me.role === 'admin') return true;
+    const userPerms = Array.isArray(me.permissions) ? me.permissions : [];
+    return userPerms.includes('all') || userPerms.includes(permKey);
+  };
+
   // Team state
   const [users, setUsers] = useState([]);
-  const [newUser, setNewUser] = useState({ name: '', email: '', password: '', role: 'team' });
+  const [newUser, setNewUser] = useState({
+    name: '',
+    email: '',
+    password: '',
+    permissions: ['leads', 'project_leads'],
+  });
   const [teamError, setTeamError] = useState('');
+  const [editingMember, setEditingMember] = useState(null);
+  const [updatingPerms, setUpdatingPerms] = useState(false);
 
   // Newsletter state
   const [subscribers, setSubscribers] = useState([]);
@@ -492,32 +514,42 @@ export default function Dashboard() {
     fetch('/api/auth/me')
       .then((r) => r.json())
       .then((d) => {
-        if (d.success) setMe(d.user);
-        else router.push('/admin');
+        if (d.success) {
+          setMe(d.user);
+          if (d.user.role !== 'admin') {
+            const userPerms = Array.isArray(d.user.permissions) ? d.user.permissions : [];
+            if (!userPerms.includes('all') && !userPerms.includes('leads')) {
+              const firstAllowed = AVAILABLE_PERMISSIONS.find((p) => userPerms.includes(p.key));
+              if (firstAllowed) setTab(firstAllowed.key);
+            }
+          }
+        } else {
+          router.push('/admin');
+        }
       });
   }, []);
 
   useEffect(() => {
     if (!me) return;
-    if (tab === 'leads') loadLeads();
-    if (tab === 'project_leads') loadProjectLeads();
+    if (tab === 'leads' && hasAccess('leads')) loadLeads();
+    if (tab === 'project_leads' && hasAccess('project_leads')) loadProjectLeads();
     if (tab === 'team' && me.role === 'admin') loadUsers();
-    if (tab === 'newsletter') loadSubscribers();
-    if (tab === 'applications') loadApplications();
-    if (tab === 'blogs') loadBlogs();
+    if (tab === 'newsletter' && hasAccess('newsletter')) loadSubscribers();
+    if (tab === 'applications' && hasAccess('applications')) loadApplications();
+    if (tab === 'blogs' && hasAccess('blogs')) loadBlogs();
   }, [tab, me]);
 
   useEffect(() => {
     if (!me) return;
-    loadLeads();
-    loadProjectLeads();
-    loadApplications();
-    loadSubscribers();
+    if (hasAccess('leads')) loadLeads();
+    if (hasAccess('project_leads')) loadProjectLeads();
+    if (hasAccess('applications')) loadApplications();
+    if (hasAccess('newsletter')) loadSubscribers();
     const interval = setInterval(() => {
-      loadLeads();
-      loadProjectLeads();
-      loadApplications();
-      loadSubscribers();
+      if (hasAccess('leads')) loadLeads();
+      if (hasAccess('project_leads')) loadProjectLeads();
+      if (hasAccess('applications')) loadApplications();
+      if (hasAccess('newsletter')) loadSubscribers();
     }, 30000);
     return () => clearInterval(interval);
   }, [me]);
@@ -743,6 +775,10 @@ export default function Dashboard() {
   const addTeamMember = async (e) => {
     e.preventDefault();
     setTeamError('');
+    if (!newUser.permissions || newUser.permissions.length === 0) {
+      setTeamError('Please select at least one permission section.');
+      return;
+    }
     const res = await fetch('/api/admin/users', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -750,10 +786,83 @@ export default function Dashboard() {
     });
     const d = await res.json();
     if (d.success) {
-      setNewUser({ name: '', email: '', password: '', role: 'team' });
+      setNewUser({ name: '', email: '', password: '', permissions: ['leads', 'project_leads'] });
       loadUsers();
     } else {
       setTeamError(d.error || 'Could not add team member.');
+    }
+  };
+
+  const toggleNewUserPerm = (key) => {
+    setNewUser((prev) => {
+      const current = prev.permissions || [];
+      if (key === 'all') {
+        const isAllSelected = current.includes('all') || current.length === AVAILABLE_PERMISSIONS.length;
+        return {
+          ...prev,
+          permissions: isAllSelected ? [] : ['all', ...AVAILABLE_PERMISSIONS.map((p) => p.key)],
+        };
+      }
+      let updated;
+      if (current.includes(key)) {
+        updated = current.filter((k) => k !== key && k !== 'all');
+      } else {
+        updated = [...current.filter((k) => k !== 'all'), key];
+        if (updated.length === AVAILABLE_PERMISSIONS.length) {
+          updated.push('all');
+        }
+      }
+      return { ...prev, permissions: updated };
+    });
+  };
+
+  const toggleEditingPerm = (key) => {
+    setEditingMember((prev) => {
+      if (!prev) return null;
+      const current = prev.permissions || [];
+      if (key === 'all') {
+        const isAllSelected = current.includes('all') || current.length === AVAILABLE_PERMISSIONS.length;
+        return {
+          ...prev,
+          permissions: isAllSelected ? [] : ['all', ...AVAILABLE_PERMISSIONS.map((p) => p.key)],
+        };
+      }
+      let updated;
+      if (current.includes(key)) {
+        updated = current.filter((k) => k !== key && k !== 'all');
+      } else {
+        updated = [...current.filter((k) => k !== 'all'), key];
+        if (updated.length === AVAILABLE_PERMISSIONS.length) {
+          updated.push('all');
+        }
+      }
+      return { ...prev, permissions: updated };
+    });
+  };
+
+  const savePermissions = async () => {
+    if (!editingMember) return;
+    setUpdatingPerms(true);
+    try {
+      const res = await fetch('/api/admin/users', {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          id: editingMember.id,
+          permissions: editingMember.permissions || [],
+        }),
+      });
+      const data = await res.json();
+      if (!res.ok || !data.success) {
+        alert(data.error || 'Failed to update permissions.');
+        return;
+      }
+      setEditingMember(null);
+      loadUsers();
+    } catch (err) {
+      alert('Error updating permissions: ' + err.message);
+    } finally {
+      setUpdatingPerms(false);
     }
   };
 
@@ -827,14 +936,16 @@ export default function Dashboard() {
     ['Not Interested', 'Lost'].includes(l.status)
   ).length;
 
-  const navTabs = [
+  const allNavTabs = [
     { key: 'leads', label: 'Client Leads', icon: Icons.leads },
     { key: 'project_leads', label: 'Project Leads', icon: Icons.projectLeads },
     { key: 'applications', label: 'Job Applications', icon: Icons.applications },
     { key: 'blogs', label: 'News & Blogs', icon: Icons.blogs },
     { key: 'newsletter', label: 'Newsletter', icon: Icons.newsletter },
-    ...(me.role === 'admin' ? [{ key: 'team', label: 'Team Members', icon: Icons.team }] : []),
+    ...(me?.role === 'admin' ? [{ key: 'team', label: 'Team Members', icon: Icons.team }] : []),
   ];
+
+  const navTabs = allNavTabs.filter((t) => (t.key === 'team' ? me?.role === 'admin' : hasAccess(t.key)));
 
   const newClientLeads = leads
     .filter((l) => l.status === 'New')
@@ -880,9 +991,15 @@ export default function Dashboard() {
     icon: Icons.newsletter,
   }));
 
-  const newNotifications = [...newClientLeads, ...newProjectLeads, ...newAppLeads, ...newSubscribers].sort(
-    (a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
-  );
+  const newNotifications = [...newClientLeads, ...newProjectLeads, ...newAppLeads, ...newSubscribers]
+    .filter((item) => {
+      if (item.lead_category === 'client') return hasAccess('leads');
+      if (item.lead_category === 'project') return hasAccess('project_leads');
+      if (item.lead_category === 'application') return hasAccess('applications');
+      if (item.lead_category === 'newsletter') return hasAccess('newsletter');
+      return true;
+    })
+    .sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
 
   const unreadCount = newNotifications.filter(
     (l) => !readNotifications.includes(l.notifKey)
@@ -1950,94 +2067,275 @@ export default function Dashboard() {
 
         {tab === 'team' && me.role === 'admin' && (
           <div>
-            <table style={{ ...ui.table, maxWidth: 700, marginBottom: 32 }}>
-              <thead>
-                <tr>
-                  <th style={ui.th}>Name</th>
-                  <th style={ui.th}>Email</th>
-                  <th style={ui.th}>Role</th>
-                  <th style={ui.th}></th>
-                </tr>
-              </thead>
-              <tbody>
-                {users.map((u) => {
-                  const isCurrent = Boolean(
-                    me?.email &&
-                    u?.email &&
-                    me.email.toLowerCase().trim() === u.email.toLowerCase().trim()
-                  );
-                  const isProtected = ['propkads@gmail.com', 'admin@propkads.com', 'khurram@propkads.com', 'khurram7jc@gmail.com'].includes(u.email?.toLowerCase());
+            <div style={{ overflowX: 'auto', marginBottom: 32 }}>
+              <table style={{ ...ui.table, maxWidth: 900 }}>
+                <thead>
+                  <tr>
+                    <th style={ui.th}>Name</th>
+                    <th style={ui.th}>Email</th>
+                    <th style={ui.th}>Role</th>
+                    <th style={ui.th}>Assigned Access</th>
+                    <th style={{ ...ui.th, textAlign: 'right' }}>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {users.map((u) => {
+                    const isCurrent = Boolean(
+                      me?.email &&
+                      u?.email &&
+                      me.email.toLowerCase().trim() === u.email.toLowerCase().trim()
+                    );
+                    const isProtected = ['propkads@gmail.com', 'admin@propkads.com', 'khurram@propkads.com', 'khurram7jc@gmail.com'].includes(u.email?.toLowerCase());
+                    const perms = Array.isArray(u.permissions) ? u.permissions : [];
+                    const hasAll = u.role === 'admin' || perms.includes('all') || perms.length === AVAILABLE_PERMISSIONS.length;
 
-                  return (
-                    <tr key={u.id}>
-                      <td style={{ ...ui.td, fontWeight: 600, color: '#0F172A' }}>{u.name}</td>
-                      <td style={ui.td}>{u.email}</td>
-                      <td style={ui.td}>
-                        <span
+                    return (
+                      <tr key={u.id}>
+                        <td style={{ ...ui.td, fontWeight: 600, color: '#0F172A' }}>{u.name}</td>
+                        <td style={ui.td}>{u.email}</td>
+                        <td style={ui.td}>
+                          <span
+                            style={{
+                              fontSize: '11px',
+                              fontWeight: 700,
+                              padding: '2px 8px',
+                              borderRadius: '4px',
+                              background: u.role === 'admin' ? '#0F172A' : '#F1F5F9',
+                              color: u.role === 'admin' ? '#FFFFFF' : '#475569',
+                              textTransform: 'uppercase',
+                            }}
+                          >
+                            {u.role === 'admin' ? 'Admin' : 'Team Member'}
+                          </span>
+                        </td>
+                        <td style={{ ...ui.td, maxWidth: 280 }}>
+                          {hasAll ? (
+                            <span style={{ fontSize: '11px', fontWeight: 600, padding: '2px 8px', borderRadius: '4px', background: '#DCFCE7', color: '#166534', display: 'inline-block' }}>
+                              Full Access (All Sections)
+                            </span>
+                          ) : perms.length > 0 ? (
+                            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '4px' }}>
+                              {perms.map((pKey) => {
+                                const found = AVAILABLE_PERMISSIONS.find((p) => p.key === pKey);
+                                return (
+                                  <span
+                                    key={pKey}
+                                    style={{
+                                      fontSize: '11px',
+                                      fontWeight: 500,
+                                      padding: '2px 7px',
+                                      borderRadius: '4px',
+                                      background: '#F1F5F9',
+                                      color: '#475569',
+                                      border: '1px solid #E2E8F0',
+                                    }}
+                                  >
+                                    {found?.label || pKey}
+                                  </span>
+                                );
+                              })}
+                            </div>
+                          ) : (
+                            <span style={{ fontSize: '12px', color: '#94A3B8', fontStyle: 'italic' }}>
+                              No access assigned
+                            </span>
+                          )}
+                        </td>
+                        <td style={{ ...ui.td, textAlign: 'right', whiteSpace: 'nowrap' }}>
+                          {isCurrent ? (
+                            <span style={{ fontSize: '12px', color: '#64748B', fontWeight: 600, fontStyle: 'italic' }}>
+                              You (Active)
+                            </span>
+                          ) : isProtected ? (
+                            <span style={{ fontSize: '12px', color: '#94A3B8', fontWeight: 500 }}>
+                              Primary Admin
+                            </span>
+                          ) : (
+                            <div style={{ display: 'inline-flex', gap: '6px' }}>
+                              <button
+                                type="button"
+                                style={{
+                                  background: '#F1F5F9',
+                                  color: '#0F172A',
+                                  border: '1px solid #CBD5E1',
+                                  padding: '5px 10px',
+                                  fontSize: '11.5px',
+                                  fontWeight: 600,
+                                  borderRadius: '5px',
+                                  cursor: 'pointer',
+                                }}
+                                onClick={() =>
+                                  setEditingMember({
+                                    ...u,
+                                    permissions: Array.isArray(u.permissions)
+                                      ? [...u.permissions]
+                                      : (u.role === 'admin' ? ['all', ...AVAILABLE_PERMISSIONS.map((p) => p.key)] : []),
+                                  })
+                                }
+                              >
+                                Edit Access
+                              </button>
+                              <button
+                                type="button"
+                                style={{
+                                  background: '#FEE2E2',
+                                  color: '#DC2626',
+                                  border: '1px solid #FCA5A5',
+                                  padding: '5px 10px',
+                                  fontSize: '11.5px',
+                                  fontWeight: 600,
+                                  borderRadius: '5px',
+                                  cursor: 'pointer',
+                                  transition: 'background 0.15s',
+                                }}
+                                onMouseEnter={(e) => (e.currentTarget.style.background = '#FCA5A5')}
+                                onMouseLeave={(e) => (e.currentTarget.style.background = '#FEE2E2')}
+                                onClick={() => removeTeamMember(u.id, u.name)}
+                              >
+                                Remove
+                              </button>
+                            </div>
+                          )}
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
+
+            {/* Add Team Member Card */}
+            <div
+              style={{
+                background: '#FFFFFF',
+                border: '1px solid #E2E8F0',
+                borderRadius: '10px',
+                padding: isMobile ? '18px 16px' : '24px 28px',
+                maxWidth: '600px',
+              }}
+            >
+              <h3 style={{ margin: '0 0 6px', fontSize: 16, fontWeight: 700, color: '#0F172A' }}>
+                Add New Team Member
+              </h3>
+              <p style={{ margin: '0 0 18px', fontSize: 13, color: '#64748B' }}>
+                Create credentials for a team member and customize their specific section permissions.
+              </p>
+
+              <form onSubmit={addTeamMember} style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
+                <div>
+                  <label style={{ fontSize: 12, fontWeight: 600, color: '#475569', display: 'block', marginBottom: 4 }}>
+                    Full Name *
+                  </label>
+                  <input
+                    style={{ ...ui.input, width: '100%' }}
+                    placeholder="e.g. Ali Ahmed"
+                    required
+                    value={newUser.name}
+                    onChange={(e) => setNewUser({ ...newUser, name: e.target.value })}
+                  />
+                </div>
+
+                <div>
+                  <label style={{ fontSize: 12, fontWeight: 600, color: '#475569', display: 'block', marginBottom: 4 }}>
+                    Email Address *
+                  </label>
+                  <input
+                    style={{ ...ui.input, width: '100%' }}
+                    type="email"
+                    placeholder="team@example.com"
+                    required
+                    value={newUser.email}
+                    onChange={(e) => setNewUser({ ...newUser, email: e.target.value })}
+                  />
+                </div>
+
+                <div>
+                  <label style={{ fontSize: 12, fontWeight: 600, color: '#475569', display: 'block', marginBottom: 4 }}>
+                    Temporary Password *
+                  </label>
+                  <input
+                    style={{ ...ui.input, width: '100%' }}
+                    type="password"
+                    placeholder="Assign password"
+                    required
+                    value={newUser.password}
+                    onChange={(e) => setNewUser({ ...newUser, password: e.target.value })}
+                  />
+                </div>
+
+                {/* Section Access Permissions */}
+                <div style={{ marginTop: 6, padding: '14px', background: '#F8FAFC', borderRadius: '8px', border: '1px solid #E2E8F0' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 10 }}>
+                    <span style={{ fontSize: 13, fontWeight: 700, color: '#0F172A' }}>
+                      Section Access Permissions:
+                    </span>
+                    <button
+                      type="button"
+                      onClick={() => toggleNewUserPerm('all')}
+                      style={{
+                        background: 'none',
+                        border: 'none',
+                        color: '#14A750',
+                        fontSize: '12px',
+                        fontWeight: 600,
+                        cursor: 'pointer',
+                        padding: 0,
+                      }}
+                    >
+                      {newUser.permissions?.includes('all') || newUser.permissions?.length === AVAILABLE_PERMISSIONS.length
+                        ? 'Deselect All'
+                        : 'Select All / Full Access'}
+                    </button>
+                  </div>
+
+                  <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr', gap: '8px' }}>
+                    {AVAILABLE_PERMISSIONS.map((perm) => {
+                      const isChecked = newUser.permissions?.includes('all') || newUser.permissions?.includes(perm.key);
+                      return (
+                        <label
+                          key={perm.key}
                           style={{
-                            fontSize: '11px',
-                            fontWeight: 700,
-                            padding: '2px 8px',
-                            borderRadius: '4px',
-                            background: u.role === 'admin' ? '#0F172A' : '#F1F5F9',
-                            color: u.role === 'admin' ? '#FFFFFF' : '#475569',
-                            textTransform: 'uppercase',
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: '8px',
+                            padding: '8px 10px',
+                            borderRadius: '6px',
+                            background: isChecked ? '#FFFFFF' : 'transparent',
+                            border: isChecked ? '1px solid #CBD5E1' : '1px solid transparent',
+                            cursor: 'pointer',
+                            fontSize: '13px',
+                            color: isChecked ? '#0F172A' : '#64748B',
+                            fontWeight: isChecked ? 600 : 500,
+                            userSelect: 'none',
                           }}
                         >
-                          {u.role}
-                        </span>
-                      </td>
-                      <td style={ui.td}>
-                        {isCurrent ? (
-                          <span style={{ fontSize: '12px', color: '#64748B', fontWeight: 600, fontStyle: 'italic' }}>
-                            You (Active)
-                          </span>
-                        ) : isProtected ? (
-                          <span style={{ fontSize: '12px', color: '#94A3B8', fontWeight: 500 }}>
-                            Primary Admin
-                          </span>
-                        ) : (
-                          <button
-                            style={{
-                              background: '#FEE2E2',
-                              color: '#DC2626',
-                              border: '1px solid #FCA5A5',
-                              padding: '5px 12px',
-                              fontSize: '12px',
-                              fontWeight: 600,
-                              borderRadius: '4px',
-                              cursor: 'pointer',
-                              transition: 'background 0.15s',
-                            }}
-                            onMouseEnter={(e) => (e.currentTarget.style.background = '#FCA5A5')}
-                            onMouseLeave={(e) => (e.currentTarget.style.background = '#FEE2E2')}
-                            onClick={() => removeTeamMember(u.id, u.name)}
-                          >
-                            Remove
-                          </button>
-                        )}
-                      </td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
+                          <input
+                            type="checkbox"
+                            checked={Boolean(isChecked)}
+                            onChange={() => toggleNewUserPerm(perm.key)}
+                            style={{ accentColor: '#14A750', width: 16, height: 16, cursor: 'pointer' }}
+                          />
+                          <span>{perm.label}</span>
+                        </label>
+                      );
+                    })}
+                  </div>
+                </div>
 
-            <h3 style={{ fontSize: 15, marginBottom: 14 }}>Add Team Member</h3>
-            <form onSubmit={addTeamMember} style={{ display: 'flex', flexDirection: 'column', gap: 12, maxWidth: 340 }}>
-              <input style={ui.input} placeholder="Name" required value={newUser.name}
-                onChange={(e) => setNewUser({ ...newUser, name: e.target.value })} />
-              <input style={ui.input} type="email" placeholder="Email" required value={newUser.email}
-                onChange={(e) => setNewUser({ ...newUser, email: e.target.value })} />
-              <input style={ui.input} type="password" placeholder="Temporary Password" required value={newUser.password}
-                onChange={(e) => setNewUser({ ...newUser, password: e.target.value })} />
-              <select style={ui.select} value={newUser.role} onChange={(e) => setNewUser({ ...newUser, role: e.target.value })}>
-                <option value="team">Team</option>
-                <option value="admin">Admin</option>
-              </select>
-              {teamError && <p style={{ color: '#B3261E', fontSize: 13 }}>{teamError}</p>}
-              <button style={ui.btnGreen} type="submit">Add Member</button>
-            </form>
+                <div style={{ fontSize: 11.5, color: '#64748B', fontStyle: 'italic' }}>
+                  * Added accounts are automatically assigned as Team Members. Full Admin control remains exclusively yours.
+                </div>
+
+                {teamError && <p style={{ color: '#B3261E', fontSize: 13, margin: 0 }}>{teamError}</p>}
+                
+                <button
+                  style={{ ...ui.btnGreen, alignSelf: 'flex-start', padding: '10px 22px', borderRadius: '6px', cursor: 'pointer', marginTop: 4 }}
+                  type="submit"
+                >
+                  Add Team Member
+                </button>
+              </form>
+            </div>
           </div>
         )}
         </main>
@@ -2381,6 +2679,101 @@ export default function Dashboard() {
               <button style={ui.btnGreen} onClick={saveLead}>Save Changes</button>
               <button style={ui.btnDanger} onClick={deleteLead}>Delete Lead</button>
               <button style={{ ...ui.btnGhost, marginLeft: 'auto' }} onClick={() => setSelected(null)}>Close</button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {editingMember && (
+        <div style={ui.overlay} onClick={() => setEditingMember(null)}>
+          <div style={{ ...ui.modal, width: '520px' }} onClick={(e) => e.stopPropagation()}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
+              <div>
+                <h3 style={{ margin: 0, fontSize: 18, color: '#0F172A' }}>Edit Access Permissions</h3>
+                <p style={{ margin: '4px 0 0 0', fontSize: 13, color: '#64748B' }}>
+                  {editingMember.name || 'Team Member'} ({editingMember.email})
+                </p>
+              </div>
+              <button
+                onClick={() => setEditingMember(null)}
+                style={{ background: 'transparent', border: 'none', fontSize: '20px', cursor: 'pointer', color: '#94A3B8' }}
+              >
+                ✕
+              </button>
+            </div>
+
+            <div style={{ marginBottom: 18 }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 10 }}>
+                <span style={{ fontSize: '13px', fontWeight: '600', color: '#334155' }}>Assigned Sections</span>
+                <button
+                  type="button"
+                  onClick={() => toggleEditingPerm('all')}
+                  style={{
+                    background: 'none',
+                    border: 'none',
+                    color: '#14A750',
+                    fontSize: '12px',
+                    fontWeight: '600',
+                    cursor: 'pointer',
+                    padding: 0,
+                  }}
+                >
+                  {editingMember.permissions?.includes('all') || editingMember.permissions?.length === AVAILABLE_PERMISSIONS.length
+                    ? 'Deselect All'
+                    : 'Select All / Full Access'}
+                </button>
+              </div>
+
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                {AVAILABLE_PERMISSIONS.map((perm) => {
+                  const isChecked = editingMember.permissions?.includes('all') || editingMember.permissions?.includes(perm.key);
+                  return (
+                    <label
+                      key={perm.key}
+                      style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '10px',
+                        padding: '10px 12px',
+                        borderRadius: '6px',
+                        border: isChecked ? '1px solid #14A750' : '1px solid #E2E8F0',
+                        background: isChecked ? '#F0FDF4' : '#FFFFFF',
+                        cursor: 'pointer',
+                        transition: 'all 0.15s ease',
+                      }}
+                    >
+                      <input
+                        type="checkbox"
+                        checked={isChecked}
+                        onChange={() => toggleEditingPerm(perm.key)}
+                        style={{ width: '16px', height: '16px', accentColor: '#14A750', cursor: 'pointer' }}
+                      />
+                      <span style={{ fontSize: '13.5px', fontWeight: isChecked ? '600' : '500', color: isChecked ? '#166534' : '#334155' }}>
+                        {perm.label}
+                      </span>
+                    </label>
+                  );
+                })}
+              </div>
+              <p style={{ fontSize: '12px', color: '#94A3B8', margin: '10px 0 0 0' }}>
+                Members can only view, manage, and receive notification alerts for their assigned sections.
+              </p>
+            </div>
+
+            <div style={{ display: 'flex', gap: 10, marginTop: 24 }}>
+              <button
+                style={{ ...ui.btnGreen, flex: 1, padding: '10px 16px', justifyContent: 'center' }}
+                onClick={savePermissions}
+                disabled={updatingPerms}
+              >
+                {updatingPerms ? 'Saving Permissions...' : 'Save Permissions'}
+              </button>
+              <button
+                style={{ ...ui.btnGhost, padding: '10px 16px' }}
+                onClick={() => setEditingMember(null)}
+              >
+                Cancel
+              </button>
             </div>
           </div>
         </div>

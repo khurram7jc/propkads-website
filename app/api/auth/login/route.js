@@ -41,9 +41,10 @@ export async function POST(req) {
         name: 'Khurram Mushtaq',
         email: normalizedEmail,
         role: 'admin',
+        permissions: ['all'],
       };
       const token = createSessionToken(adminUser);
-      const res = NextResponse.json({ success: true, user: { name: adminUser.name, role: adminUser.role, email: adminUser.email } });
+      const res = NextResponse.json({ success: true, user: { name: adminUser.name, role: adminUser.role, email: adminUser.email, permissions: ['all'] } });
       res.cookies.set(COOKIE_NAME, token, {
         httpOnly: true,
         secure: process.env.NODE_ENV === 'production',
@@ -62,7 +63,7 @@ export async function POST(req) {
 
         if (user && verifyPassword(trimmedPassword, user.password_hash)) {
           const token = createSessionToken(user);
-          const res = NextResponse.json({ success: true, user: { name: user.name, role: user.role } });
+          const res = NextResponse.json({ success: true, user: { name: user.name, role: user.role, email: user.email, permissions: user.permissions } });
           res.cookies.set(COOKIE_NAME, token, {
             httpOnly: true,
             secure: process.env.NODE_ENV === 'production',
