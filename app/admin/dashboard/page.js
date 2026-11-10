@@ -216,8 +216,48 @@ const baseUi = {
   statNum: { fontSize: 26, fontWeight: 700 },
   statLbl: { fontSize: 12, color: '#70757D', marginTop: 4 },
   toolbar: { display: 'flex', gap: 12, marginBottom: 16, flexWrap: 'wrap', alignItems: 'center' },
-  input: { padding: '9px 12px', border: '1px solid #E7E8EA', fontSize: 13.5, minWidth: 220 },
-  select: { padding: '9px 12px', border: '1px solid #E7E8EA', fontSize: 13.5 },
+  input: { padding: '9px 12px', border: '1px solid #CBD5E1', fontSize: 13.5, minWidth: 220, borderRadius: '6px', outline: 'none' },
+  select: {
+    padding: '9px 34px 9px 12px',
+    border: '1px solid #CBD5E1',
+    borderRadius: '6px',
+    fontSize: 13.5,
+    fontWeight: '500',
+    color: '#0F172A',
+    backgroundColor: '#FFFFFF',
+    backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2364748B' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E")`,
+    backgroundRepeat: 'no-repeat',
+    backgroundPosition: 'right 12px center',
+    backgroundSize: '12px',
+    outline: 'none',
+    cursor: 'pointer',
+    WebkitAppearance: 'none',
+    MozAppearance: 'none',
+    appearance: 'none',
+    boxSizing: 'border-box',
+    minHeight: '38px',
+  },
+  selectInput: {
+    width: '100%',
+    padding: '10px 36px 10px 12px',
+    border: '1px solid #CBD5E1',
+    borderRadius: '6px',
+    fontSize: 14,
+    fontWeight: '500',
+    color: '#0F172A',
+    backgroundColor: '#FFFFFF',
+    backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2364748B' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E")`,
+    backgroundRepeat: 'no-repeat',
+    backgroundPosition: 'right 12px center',
+    backgroundSize: '12px',
+    outline: 'none',
+    cursor: 'pointer',
+    WebkitAppearance: 'none',
+    MozAppearance: 'none',
+    appearance: 'none',
+    boxSizing: 'border-box',
+    minHeight: '40px',
+  },
   table: { width: '100%', borderCollapse: 'collapse', background: '#fff', minWidth: 800 },
   th: { textAlign: 'left', padding: 10, fontSize: 12, color: '#70757D', borderBottom: '2px solid #E7E8EA', textTransform: 'uppercase' },
   td: { padding: 10, fontSize: 13.5, borderBottom: '1px solid #E7E8EA' },
@@ -428,6 +468,13 @@ export default function Dashboard() {
       ...baseUi.select,
       borderRadius: '6px',
       boxSizing: 'border-box',
+      width: isMobile ? '100%' : 'auto',
+      maxWidth: '100%',
+    },
+    selectInput: {
+      ...baseUi.selectInput,
+      borderRadius: '6px',
+      boxSizing: 'border-box',
     },
   };
 
@@ -494,6 +541,8 @@ export default function Dashboard() {
   const [teamError, setTeamError] = useState('');
   const [editingMember, setEditingMember] = useState(null);
   const [updatingPerms, setUpdatingPerms] = useState(false);
+  const [createdInvite, setCreatedInvite] = useState(null);
+  const [copiedKey, setCopiedKey] = useState('');
 
   // Newsletter state
   const [subscribers, setSubscribers] = useState([]);
@@ -772,6 +821,16 @@ export default function Dashboard() {
   };
 
 
+  const copyToClipboard = async (text, key) => {
+    try {
+      await navigator.clipboard.writeText(text);
+      setCopiedKey(key || 'copied');
+      setTimeout(() => setCopiedKey(''), 2500);
+    } catch {
+      prompt('Copy this link:', text);
+    }
+  };
+
   const addTeamMember = async (e) => {
     e.preventDefault();
     setTeamError('');
@@ -779,17 +838,52 @@ export default function Dashboard() {
       setTeamError('Please select at least one permission section.');
       return;
     }
-    const res = await fetch('/api/admin/users', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(newUser),
-    });
-    const d = await res.json();
-    if (d.success) {
-      setNewUser({ name: '', email: '', password: '', permissions: ['leads', 'project_leads'] });
-      loadUsers();
-    } else {
-      setTeamError(d.error || 'Could not add team member.');
+    try {
+      const res = await fetch('/api/admin/users', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(newUser),
+      });
+      const d = await res.json();
+      if (d.success) {
+        if (d.verifyLink) {
+          setCreatedInvite({
+            name: newUser.name,
+            email: newUser.email,
+            link: d.verifyLink,
+            emailSent: d.emailSent,
+            message: d.message,
+          });
+        }
+        setNewUser({ name: '', email: '', password: '', permissions: ['leads', 'project_leads'] });
+        loadUsers();
+      } else {
+        setTeamError(d.error || 'Could not add team member.');
+      }
+    } catch (err) {
+      setTeamError('Network error adding team member: ' + err.message);
+    }
+  };
+
+  const resendInvite = async (userId, memberName) => {
+    try {
+      const res = await fetch('/api/admin/users', {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id: userId, action: 'resend_invite' }),
+      });
+      const d = await res.json();
+      if (d.success) {
+        if (d.verifyLink) {
+          copyToClipboard(d.verifyLink, `resend-${userId}`);
+        }
+        alert(d.message || 'Invitation resent! Link copied to clipboard.');
+        loadUsers();
+      } else {
+        alert(d.error || 'Failed to resend invitation.');
+      }
+    } catch (err) {
+      alert('Error resending invite: ' + err.message);
     }
   };
 
@@ -1772,118 +1866,120 @@ export default function Dashboard() {
               )}
             </div>
 
-            <table style={ui.table}>
-              <thead>
-                <tr>
-                  <th style={ui.th}>Date</th>
-                  <th style={ui.th}>Candidate</th>
-                  <th style={ui.th}>Position</th>
-                  <th style={ui.th}>Contact</th>
-                  <th style={ui.th}>Portfolio</th>
-                  <th style={ui.th}>Resume / CV</th>
-                  <th style={ui.th}>Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {applications.map((app) => (
-                  <tr key={app.id}>
-                    <td style={ui.td}>
-                      <span style={{ fontSize: '12px', color: '#64748B' }}>
-                        {new Date(app.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
-                      </span>
-                    </td>
-                    <td style={ui.td}>
-                      <strong>{app.full_name}</strong>
-                    </td>
-                    <td style={ui.td}>
-                      <span style={{ fontSize: '12px', fontWeight: '600', color: '#0F172A', background: '#F1F5F9', padding: '3px 8px', borderRadius: '4px' }}>
-                        {app.position || 'General'}
-                      </span>
-                    </td>
-                    <td style={ui.td}>
-                      <div style={{ display: 'flex', flexDirection: 'column', gap: '3px', fontSize: '12.5px' }}>
-                        <a href={`mailto:${app.email}`} style={{ color: '#0284C7', textDecoration: 'none' }}>
-                          {app.email}
-                        </a>
-                        <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
-                          <span>{app.phone}</span>
+            <div style={{ overflowX: 'auto', WebkitOverflowScrolling: 'touch', width: '100%', marginBottom: 20 }}>
+              <table style={ui.table}>
+                <thead>
+                  <tr>
+                    <th style={ui.th}>Date</th>
+                    <th style={ui.th}>Candidate</th>
+                    <th style={ui.th}>Position</th>
+                    <th style={ui.th}>Contact</th>
+                    <th style={ui.th}>Portfolio</th>
+                    <th style={ui.th}>Resume / CV</th>
+                    <th style={ui.th}>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {applications.map((app) => (
+                    <tr key={app.id}>
+                      <td style={ui.td}>
+                        <span style={{ fontSize: '12px', color: '#64748B' }}>
+                          {new Date(app.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
+                        </span>
+                      </td>
+                      <td style={ui.td}>
+                        <strong>{app.full_name}</strong>
+                      </td>
+                      <td style={ui.td}>
+                        <span style={{ fontSize: '12px', fontWeight: '600', color: '#0F172A', background: '#F1F5F9', padding: '3px 8px', borderRadius: '4px' }}>
+                          {app.position || 'General'}
+                        </span>
+                      </td>
+                      <td style={ui.td}>
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: '3px', fontSize: '12.5px' }}>
+                          <a href={`mailto:${app.email}`} style={{ color: '#0284C7', textDecoration: 'none' }}>
+                            {app.email}
+                          </a>
+                          <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+                            <span>{app.phone}</span>
+                            <a
+                              href={`https://wa.me/${(app.phone || '').replace(/\D/g, '')}`}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              style={{ color: '#16A34A', fontWeight: '700', fontSize: '11px', textDecoration: 'none' }}
+                            >
+                              WhatsApp →
+                            </a>
+                          </div>
+                        </div>
+                      </td>
+                      <td style={ui.td}>
+                        {app.portfolio_link ? (
                           <a
-                            href={`https://wa.me/${(app.phone || '').replace(/\D/g, '')}`}
+                            href={app.portfolio_link.startsWith('http') ? app.portfolio_link : `https://${app.portfolio_link}`}
                             target="_blank"
                             rel="noopener noreferrer"
-                            style={{ color: '#16A34A', fontWeight: '700', fontSize: '11px', textDecoration: 'none' }}
+                            style={{ color: '#14A750', fontWeight: '600', fontSize: '12px', textDecoration: 'none' }}
                           >
-                            WhatsApp →
+                            View Link ↗
                           </a>
+                        ) : (
+                          <span style={{ color: '#94A3B8', fontSize: '12px' }}>—</span>
+                        )}
+                      </td>
+                      <td style={ui.td}>
+                        {app.has_resume ? (
+                          <a
+                            href={`/api/admin/applications/download?id=${app.id}`}
+                            download
+                            style={{
+                              display: 'inline-flex',
+                              alignItems: 'center',
+                              gap: '4px',
+                              background: 'rgba(20, 167, 80, 0.1)',
+                              color: '#14A750',
+                              border: '1px solid rgba(20, 167, 80, 0.3)',
+                              padding: '4px 10px',
+                              borderRadius: '6px',
+                              fontSize: '11.5px',
+                              fontWeight: '600',
+                              textDecoration: 'none',
+                            }}
+                          >
+                            ⬇ Download CV
+                          </a>
+                        ) : (
+                          <span style={{ color: '#94A3B8', fontSize: '12px' }}>No CV file</span>
+                        )}
+                      </td>
+                      <td style={ui.td}>
+                        <div style={{ display: 'flex', gap: '8px' }}>
+                          <button
+                            style={{ ...ui.btnGhost, padding: '4px 8px', fontSize: '12px' }}
+                            onClick={() => setSelectedApp(app)}
+                          >
+                            View Details
+                          </button>
+                          <button
+                            style={{ ...ui.btnDanger, padding: '4px 8px', fontSize: '12px' }}
+                            onClick={() => deleteApplication(app)}
+                          >
+                            Delete
+                          </button>
                         </div>
-                      </div>
-                    </td>
-                    <td style={ui.td}>
-                      {app.portfolio_link ? (
-                        <a
-                          href={app.portfolio_link.startsWith('http') ? app.portfolio_link : `https://${app.portfolio_link}`}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          style={{ color: '#14A750', fontWeight: '600', fontSize: '12px', textDecoration: 'none' }}
-                        >
-                          View Link ↗
-                        </a>
-                      ) : (
-                        <span style={{ color: '#94A3B8', fontSize: '12px' }}>—</span>
-                      )}
-                    </td>
-                    <td style={ui.td}>
-                      {app.has_resume ? (
-                        <a
-                          href={`/api/admin/applications/download?id=${app.id}`}
-                          download
-                          style={{
-                            display: 'inline-flex',
-                            alignItems: 'center',
-                            gap: '4px',
-                            background: 'rgba(20, 167, 80, 0.1)',
-                            color: '#14A750',
-                            border: '1px solid rgba(20, 167, 80, 0.3)',
-                            padding: '4px 10px',
-                            borderRadius: '6px',
-                            fontSize: '11.5px',
-                            fontWeight: '600',
-                            textDecoration: 'none',
-                          }}
-                        >
-                          ⬇ Download CV
-                        </a>
-                      ) : (
-                        <span style={{ color: '#94A3B8', fontSize: '12px' }}>No CV file</span>
-                      )}
-                    </td>
-                    <td style={ui.td}>
-                      <div style={{ display: 'flex', gap: '8px' }}>
-                        <button
-                          style={{ ...ui.btnGhost, padding: '4px 8px', fontSize: '12px' }}
-                          onClick={() => setSelectedApp(app)}
-                        >
-                          View Details
-                        </button>
-                        <button
-                          style={{ ...ui.btnDanger, padding: '4px 8px', fontSize: '12px' }}
-                          onClick={() => deleteApplication(app)}
-                        >
-                          Delete
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
-                ))}
-                {applications.length === 0 && (
-                  <tr>
-                    <td colSpan={7} style={{ ...ui.td, textAlign: 'center', color: '#94A3B8', padding: '36px' }}>
-                      No job applications found.
-                    </td>
-                  </tr>
-                )}
-              </tbody>
-            </table>
+                      </td>
+                    </tr>
+                  ))}
+                  {applications.length === 0 && (
+                    <tr>
+                      <td colSpan={7} style={{ ...ui.td, textAlign: 'center', color: '#94A3B8', padding: '36px' }}>
+                        No job applications found.
+                      </td>
+                    </tr>
+                  )}
+                </tbody>
+              </table>
+            </div>
           </>
         )}
 
@@ -2043,62 +2139,66 @@ export default function Dashboard() {
               <span style={{ fontSize: 13.5, color: '#70757D' }}>{subscribers.length} subscriber{subscribers.length !== 1 ? 's' : ''}</span>
               <a style={{ ...ui.btnGhost, marginLeft: 'auto' }} href="/api/admin/newsletter/export">Export CSV</a>
             </div>
-            <table style={{ ...ui.table, maxWidth: 700 }}>
-              <thead>
-                <tr>
-                  <th style={ui.th}>Email</th>
-                  <th style={ui.th}>Subscribed</th>
-                </tr>
-              </thead>
-              <tbody>
-                {subscribers.map((s) => (
-                  <tr key={s.id}>
-                    <td style={ui.td}>{s.email}</td>
-                    <td style={ui.td}>{new Date(s.created_at).toLocaleDateString()}</td>
+            <div style={{ overflowX: 'auto', WebkitOverflowScrolling: 'touch', width: '100%', marginBottom: 20 }}>
+              <table style={{ ...ui.table, maxWidth: 700 }}>
+                <thead>
+                  <tr>
+                    <th style={ui.th}>Email</th>
+                    <th style={ui.th}>Subscribed</th>
                   </tr>
-                ))}
-                {subscribers.length === 0 && (
-                  <tr><td colSpan={2} style={{ ...ui.td, textAlign: 'center', color: '#94a3b8' }}>No subscribers yet.</td></tr>
-                )}
-              </tbody>
-            </table>
+                </thead>
+                <tbody>
+                  {subscribers.map((s) => (
+                    <tr key={s.id}>
+                      <td style={ui.td}>{s.email}</td>
+                      <td style={ui.td}>{new Date(s.created_at).toLocaleDateString()}</td>
+                    </tr>
+                  ))}
+                  {subscribers.length === 0 && (
+                    <tr><td colSpan={2} style={{ ...ui.td, textAlign: 'center', color: '#94a3b8' }}>No subscribers yet.</td></tr>
+                  )}
+                </tbody>
+              </table>
+            </div>
           </div>
         )}
 
         {tab === 'team' && me.role === 'admin' && (
           <div>
-            <div style={{ overflowX: 'auto', marginBottom: 32 }}>
-              <table style={{ ...ui.table, maxWidth: 900 }}>
-                <thead>
-                  <tr>
-                    <th style={ui.th}>Name</th>
-                    <th style={ui.th}>Email</th>
-                    <th style={ui.th}>Role</th>
-                    <th style={ui.th}>Assigned Access</th>
-                    <th style={{ ...ui.th, textAlign: 'right' }}>Actions</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {users.map((u) => {
-                    const isCurrent = Boolean(
-                      me?.email &&
-                      u?.email &&
-                      me.email.toLowerCase().trim() === u.email.toLowerCase().trim()
-                    );
-                    const isProtected = ['propkads@gmail.com', 'admin@propkads.com', 'khurram@propkads.com', 'khurram7jc@gmail.com'].includes(u.email?.toLowerCase());
-                    const perms = Array.isArray(u.permissions) ? u.permissions : [];
-                    const hasAll = u.role === 'admin' || perms.includes('all') || perms.length === AVAILABLE_PERMISSIONS.length;
+            {isMobile ? (
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', marginBottom: 28 }}>
+                {users.map((u) => {
+                  const isCurrent = Boolean(
+                    me?.email &&
+                    u?.email &&
+                    me.email.toLowerCase().trim() === u.email.toLowerCase().trim()
+                  );
+                  const isProtected = ['propkads@gmail.com', 'admin@propkads.com', 'khurram@propkads.com', 'khurram7jc@gmail.com'].includes(u.email?.toLowerCase());
+                  const perms = Array.isArray(u.permissions) ? u.permissions : [];
+                  const hasAll = u.role === 'admin' || perms.includes('all') || perms.length === AVAILABLE_PERMISSIONS.length;
 
-                    return (
-                      <tr key={u.id}>
-                        <td style={{ ...ui.td, fontWeight: 600, color: '#0F172A' }}>{u.name}</td>
-                        <td style={ui.td}>{u.email}</td>
-                        <td style={ui.td}>
+                  return (
+                    <div
+                      key={u.id}
+                      style={{
+                        background: '#FFFFFF',
+                        border: '1px solid #E2E8F0',
+                        borderRadius: '8px',
+                        padding: '14px',
+                        boxShadow: '0 1px 3px rgba(0,0,0,0.04)',
+                      }}
+                    >
+                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '8px' }}>
+                        <div>
+                          <div style={{ fontSize: '15px', fontWeight: 700, color: '#0F172A' }}>{u.name}</div>
+                          <div style={{ fontSize: '12.5px', color: '#64748B' }}>{u.email}</div>
+                        </div>
+                        <div style={{ display: 'flex', gap: '5px', flexWrap: 'wrap', justifyContent: 'flex-end' }}>
                           <span
                             style={{
                               fontSize: '11px',
                               fontWeight: 700,
-                              padding: '2px 8px',
+                              padding: '2px 7px',
                               borderRadius: '4px',
                               background: u.role === 'admin' ? '#0F172A' : '#F1F5F9',
                               color: u.role === 'admin' ? '#FFFFFF' : '#475569',
@@ -2107,102 +2207,331 @@ export default function Dashboard() {
                           >
                             {u.role === 'admin' ? 'Admin' : 'Team Member'}
                           </span>
-                        </td>
-                        <td style={{ ...ui.td, maxWidth: 280 }}>
-                          {hasAll ? (
-                            <span style={{ fontSize: '11px', fontWeight: 600, padding: '2px 8px', borderRadius: '4px', background: '#DCFCE7', color: '#166534', display: 'inline-block' }}>
-                              Full Access (All Sections)
+                          {u.status === 'pending' ? (
+                            <span style={{ fontSize: '10.5px', fontWeight: 700, padding: '2px 7px', borderRadius: '4px', background: '#FEF3C7', color: '#B45309' }}>
+                              Pending
                             </span>
-                          ) : perms.length > 0 ? (
-                            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '4px' }}>
-                              {perms.map((pKey) => {
-                                const found = AVAILABLE_PERMISSIONS.find((p) => p.key === pKey);
-                                return (
-                                  <span
-                                    key={pKey}
-                                    style={{
-                                      fontSize: '11px',
-                                      fontWeight: 500,
-                                      padding: '2px 7px',
-                                      borderRadius: '4px',
-                                      background: '#F1F5F9',
-                                      color: '#475569',
-                                      border: '1px solid #E2E8F0',
-                                    }}
-                                  >
-                                    {found?.label || pKey}
-                                  </span>
-                                );
-                              })}
-                            </div>
                           ) : (
-                            <span style={{ fontSize: '12px', color: '#94A3B8', fontStyle: 'italic' }}>
-                              No access assigned
+                            <span style={{ fontSize: '10.5px', fontWeight: 700, padding: '2px 7px', borderRadius: '4px', background: '#DCFCE7', color: '#166534' }}>
+                              Active
                             </span>
                           )}
-                        </td>
-                        <td style={{ ...ui.td, textAlign: 'right', whiteSpace: 'nowrap' }}>
-                          {isCurrent ? (
-                            <span style={{ fontSize: '12px', color: '#64748B', fontWeight: 600, fontStyle: 'italic' }}>
-                              You (Active)
-                            </span>
-                          ) : isProtected ? (
-                            <span style={{ fontSize: '12px', color: '#94A3B8', fontWeight: 500 }}>
-                              Primary Admin
-                            </span>
-                          ) : (
-                            <div style={{ display: 'inline-flex', gap: '6px' }}>
+                        </div>
+                      </div>
+
+                      {/* Assigned Access Section directly visible under Role */}
+                      <div style={{ margin: '10px 0', padding: '10px 12px', background: '#F8FAFC', borderRadius: '6px', border: '1px solid #F1F5F9' }}>
+                        <div style={{ fontSize: '11px', fontWeight: 700, color: '#64748B', textTransform: 'uppercase', marginBottom: '6px' }}>
+                          Assigned Access:
+                        </div>
+                        {hasAll ? (
+                          <span style={{ fontSize: '11.5px', fontWeight: 600, padding: '3px 8px', borderRadius: '4px', background: '#DCFCE7', color: '#166534', display: 'inline-block' }}>
+                            Full Access (All Sections)
+                          </span>
+                        ) : perms.length > 0 ? (
+                          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '4px' }}>
+                            {perms.map((pKey) => {
+                              const found = AVAILABLE_PERMISSIONS.find((p) => p.key === pKey);
+                              return (
+                                <span
+                                  key={pKey}
+                                  style={{
+                                    fontSize: '11px',
+                                    fontWeight: 500,
+                                    padding: '2px 7px',
+                                    borderRadius: '4px',
+                                    background: '#FFFFFF',
+                                    color: '#475569',
+                                    border: '1px solid #E2E8F0',
+                                  }}
+                                >
+                                  {found?.label || pKey}
+                                </span>
+                              );
+                            })}
+                          </div>
+                        ) : (
+                          <span style={{ fontSize: '12px', color: '#94A3B8', fontStyle: 'italic' }}>
+                            No access assigned
+                          </span>
+                        )}
+                      </div>
+
+                      {/* Card Actions */}
+                      <div style={{ display: 'flex', gap: '8px', alignItems: 'center', marginTop: '10px', flexWrap: 'wrap' }}>
+                        {isCurrent ? (
+                          <span style={{ fontSize: '12px', color: '#64748B', fontWeight: 600, fontStyle: 'italic' }}>
+                            You (Active)
+                          </span>
+                        ) : isProtected ? (
+                          <span style={{ fontSize: '12px', color: '#94A3B8', fontWeight: 500 }}>
+                            Primary Admin
+                          </span>
+                        ) : (
+                          <>
+                            <button
+                              type="button"
+                              style={{
+                                background: '#F1F5F9',
+                                color: '#0F172A',
+                                border: '1px solid #CBD5E1',
+                                padding: '6px 12px',
+                                fontSize: '12px',
+                                fontWeight: 600,
+                                borderRadius: '5px',
+                                cursor: 'pointer',
+                              }}
+                              onClick={() =>
+                                setEditingMember({
+                                  ...u,
+                                  permissions: Array.isArray(u.permissions)
+                                    ? [...u.permissions]
+                                    : (u.role === 'admin' ? ['all', ...AVAILABLE_PERMISSIONS.map((p) => p.key)] : []),
+                                })
+                              }
+                            >
+                              Edit Access
+                            </button>
+                            {u.status === 'pending' && u.verifyLink && (
                               <button
                                 type="button"
                                 style={{
-                                  background: '#F1F5F9',
-                                  color: '#0F172A',
+                                  background: '#E0F2FE',
+                                  color: '#0369A1',
+                                  border: '1px solid #BAE6FD',
+                                  padding: '6px 10px',
+                                  fontSize: '11.5px',
+                                  fontWeight: 600,
+                                  borderRadius: '5px',
+                                  cursor: 'pointer',
+                                }}
+                                onClick={() => copyToClipboard(u.verifyLink, u.id)}
+                              >
+                                {copiedKey === u.id ? 'Copied ✓' : 'Copy Invite Link'}
+                              </button>
+                            )}
+                            {u.status === 'pending' && (
+                              <button
+                                type="button"
+                                style={{
+                                  background: '#F8FAFC',
+                                  color: '#64748B',
                                   border: '1px solid #CBD5E1',
-                                  padding: '5px 10px',
+                                  padding: '6px 10px',
                                   fontSize: '11.5px',
                                   fontWeight: 600,
                                   borderRadius: '5px',
                                   cursor: 'pointer',
                                 }}
-                                onClick={() =>
-                                  setEditingMember({
-                                    ...u,
-                                    permissions: Array.isArray(u.permissions)
-                                      ? [...u.permissions]
-                                      : (u.role === 'admin' ? ['all', ...AVAILABLE_PERMISSIONS.map((p) => p.key)] : []),
-                                  })
-                                }
+                                onClick={() => resendInvite(u.id, u.name)}
                               >
-                                Edit Access
+                                Resend
                               </button>
-                              <button
-                                type="button"
-                                style={{
-                                  background: '#FEE2E2',
-                                  color: '#DC2626',
-                                  border: '1px solid #FCA5A5',
-                                  padding: '5px 10px',
-                                  fontSize: '11.5px',
-                                  fontWeight: 600,
-                                  borderRadius: '5px',
-                                  cursor: 'pointer',
-                                  transition: 'background 0.15s',
-                                }}
-                                onMouseEnter={(e) => (e.currentTarget.style.background = '#FCA5A5')}
-                                onMouseLeave={(e) => (e.currentTarget.style.background = '#FEE2E2')}
-                                onClick={() => removeTeamMember(u.id, u.name)}
-                              >
-                                Remove
-                              </button>
-                            </div>
-                          )}
-                        </td>
-                      </tr>
-                    );
-                  })}
-                </tbody>
-              </table>
-            </div>
+                            )}
+                            <button
+                              type="button"
+                              style={{
+                                background: '#FEE2E2',
+                                color: '#DC2626',
+                                border: '1px solid #FCA5A5',
+                                padding: '6px 12px',
+                                fontSize: '12px',
+                                fontWeight: 600,
+                                borderRadius: '5px',
+                                cursor: 'pointer',
+                                marginLeft: 'auto',
+                              }}
+                              onClick={() => removeTeamMember(u.id, u.name)}
+                            >
+                              Remove
+                            </button>
+                          </>
+                        )}
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            ) : (
+              <div style={{ overflowX: 'auto', WebkitOverflowScrolling: 'touch', width: '100%', marginBottom: 32 }}>
+                <table style={{ ...ui.table, maxWidth: 960 }}>
+                  <thead>
+                    <tr>
+                      <th style={ui.th}>Name</th>
+                      <th style={ui.th}>Email</th>
+                      <th style={ui.th}>Role</th>
+                      <th style={ui.th}>Assigned Access</th>
+                      <th style={ui.th}>Status</th>
+                      <th style={{ ...ui.th, textAlign: 'right' }}>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {users.map((u) => {
+                      const isCurrent = Boolean(
+                        me?.email &&
+                        u?.email &&
+                        me.email.toLowerCase().trim() === u.email.toLowerCase().trim()
+                      );
+                      const isProtected = ['propkads@gmail.com', 'admin@propkads.com', 'khurram@propkads.com', 'khurram7jc@gmail.com'].includes(u.email?.toLowerCase());
+                      const perms = Array.isArray(u.permissions) ? u.permissions : [];
+                      const hasAll = u.role === 'admin' || perms.includes('all') || perms.length === AVAILABLE_PERMISSIONS.length;
+
+                      return (
+                        <tr key={u.id}>
+                          <td style={{ ...ui.td, fontWeight: 600, color: '#0F172A' }}>{u.name}</td>
+                          <td style={ui.td}>{u.email}</td>
+                          <td style={ui.td}>
+                            <span
+                              style={{
+                                fontSize: '11px',
+                                fontWeight: 700,
+                                padding: '2px 8px',
+                                borderRadius: '4px',
+                                background: u.role === 'admin' ? '#0F172A' : '#F1F5F9',
+                                color: u.role === 'admin' ? '#FFFFFF' : '#475569',
+                                textTransform: 'uppercase',
+                              }}
+                            >
+                              {u.role === 'admin' ? 'Admin' : 'Team Member'}
+                            </span>
+                          </td>
+                          <td style={{ ...ui.td, maxWidth: 260 }}>
+                            {hasAll ? (
+                              <span style={{ fontSize: '11px', fontWeight: 600, padding: '2px 8px', borderRadius: '4px', background: '#DCFCE7', color: '#166534', display: 'inline-block' }}>
+                                Full Access (All Sections)
+                              </span>
+                            ) : perms.length > 0 ? (
+                              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '4px' }}>
+                                {perms.map((pKey) => {
+                                  const found = AVAILABLE_PERMISSIONS.find((p) => p.key === pKey);
+                                  return (
+                                    <span
+                                      key={pKey}
+                                      style={{
+                                        fontSize: '11px',
+                                        fontWeight: 500,
+                                        padding: '2px 7px',
+                                        borderRadius: '4px',
+                                        background: '#F1F5F9',
+                                        color: '#475569',
+                                        border: '1px solid #E2E8F0',
+                                      }}
+                                    >
+                                      {found?.label || pKey}
+                                    </span>
+                                  );
+                                })}
+                              </div>
+                            ) : (
+                              <span style={{ fontSize: '12px', color: '#94A3B8', fontStyle: 'italic' }}>
+                                No access assigned
+                              </span>
+                            )}
+                          </td>
+                          <td style={ui.td}>
+                            {u.status === 'pending' ? (
+                              <div style={{ display: 'flex', flexDirection: 'column', gap: '3px', alignItems: 'flex-start' }}>
+                                <span style={{ fontSize: '10.5px', fontWeight: 700, padding: '2px 7px', borderRadius: '4px', background: '#FEF3C7', color: '#B45309' }}>
+                                  Pending Verification
+                                </span>
+                                {u.verifyLink && (
+                                  <button
+                                    type="button"
+                                    style={{ background: 'transparent', border: 'none', color: '#0284C7', fontSize: '11px', fontWeight: 600, cursor: 'pointer', padding: 0 }}
+                                    onClick={() => copyToClipboard(u.verifyLink, u.id)}
+                                  >
+                                    {copiedKey === u.id ? 'Copied ✓' : 'Copy Invite Link'}
+                                  </button>
+                                )}
+                              </div>
+                            ) : (
+                              <span style={{ fontSize: '11px', fontWeight: 700, padding: '2px 7px', borderRadius: '4px', background: '#DCFCE7', color: '#166534' }}>
+                                Active
+                              </span>
+                            )}
+                          </td>
+                          <td style={{ ...ui.td, textAlign: 'right', whiteSpace: 'nowrap' }}>
+                            {isCurrent ? (
+                              <span style={{ fontSize: '12px', color: '#64748B', fontWeight: 600, fontStyle: 'italic' }}>
+                                You (Active)
+                              </span>
+                            ) : isProtected ? (
+                              <span style={{ fontSize: '12px', color: '#94A3B8', fontWeight: 500 }}>
+                                Primary Admin
+                              </span>
+                            ) : (
+                              <div style={{ display: 'inline-flex', gap: '6px' }}>
+                                <button
+                                  type="button"
+                                  style={{
+                                    background: '#F1F5F9',
+                                    color: '#0F172A',
+                                    border: '1px solid #CBD5E1',
+                                    padding: '5px 10px',
+                                    fontSize: '11.5px',
+                                    fontWeight: 600,
+                                    borderRadius: '5px',
+                                    cursor: 'pointer',
+                                  }}
+                                  onClick={() =>
+                                    setEditingMember({
+                                      ...u,
+                                      permissions: Array.isArray(u.permissions)
+                                        ? [...u.permissions]
+                                        : (u.role === 'admin' ? ['all', ...AVAILABLE_PERMISSIONS.map((p) => p.key)] : []),
+                                    })
+                                  }
+                                >
+                                  Edit Access
+                                </button>
+                                {u.status === 'pending' && (
+                                  <button
+                                    type="button"
+                                    style={{
+                                      background: '#F8FAFC',
+                                      color: '#64748B',
+                                      border: '1px solid #CBD5E1',
+                                      padding: '5px 8px',
+                                      fontSize: '11px',
+                                      fontWeight: 600,
+                                      borderRadius: '5px',
+                                      cursor: 'pointer',
+                                    }}
+                                    onClick={() => resendInvite(u.id, u.name)}
+                                    title="Resend verification email"
+                                  >
+                                    Resend
+                                  </button>
+                                )}
+                                <button
+                                  type="button"
+                                  style={{
+                                    background: '#FEE2E2',
+                                    color: '#DC2626',
+                                    border: '1px solid #FCA5A5',
+                                    padding: '5px 10px',
+                                    fontSize: '11.5px',
+                                    fontWeight: 600,
+                                    borderRadius: '5px',
+                                    cursor: 'pointer',
+                                    transition: 'background 0.15s',
+                                  }}
+                                  onMouseEnter={(e) => (e.currentTarget.style.background = '#FCA5A5')}
+                                  onMouseLeave={(e) => (e.currentTarget.style.background = '#FEE2E2')}
+                                  onClick={() => removeTeamMember(u.id, u.name)}
+                                >
+                                  Remove
+                                </button>
+                              </div>
+                            )}
+                          </td>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </table>
+              </div>
+            )}
 
             {/* Add Team Member Card */}
             <div
@@ -2251,16 +2580,18 @@ export default function Dashboard() {
 
                 <div>
                   <label style={{ fontSize: 12, fontWeight: 600, color: '#475569', display: 'block', marginBottom: 4 }}>
-                    Temporary Password *
+                    Initial Password (Optional)
                   </label>
                   <input
                     style={{ ...ui.input, width: '100%' }}
                     type="password"
-                    placeholder="Assign password"
-                    required
+                    placeholder="Leave blank or assign password (member can set via invite link)"
                     value={newUser.password}
                     onChange={(e) => setNewUser({ ...newUser, password: e.target.value })}
                   />
+                  <p style={{ margin: '4px 0 0', fontSize: '11.5px', color: '#94A3B8' }}>
+                    An email verification invite link will be generated for the member to activate their account.
+                  </p>
                 </div>
 
                 {/* Section Access Permissions */}
@@ -2332,7 +2663,7 @@ export default function Dashboard() {
                   style={{ ...ui.btnGreen, alignSelf: 'flex-start', padding: '10px 22px', borderRadius: '6px', cursor: 'pointer', marginTop: 4 }}
                   type="submit"
                 >
-                  Add Team Member
+                  Send Invitation & Add Member
                 </button>
               </form>
             </div>
@@ -2443,7 +2774,7 @@ export default function Dashboard() {
 
             <label style={ui.label}>Display Placement</label>
             <select
-              style={ui.fieldInput}
+              style={ui.selectInput}
               value={selectedBlog.placement}
               onChange={(e) => setSelectedBlog({ ...selectedBlog, placement: e.target.value })}
             >
@@ -2613,7 +2944,7 @@ export default function Dashboard() {
                   onChange={(e) => setSelected({ ...selected, company_name: e.target.value })} />
 
                 <label style={ui.label}>Property Type</label>
-                <select style={ui.fieldInput} value={selected.inventory_type || ''}
+                <select style={ui.selectInput} value={selected.inventory_type || ''}
                   onChange={(e) => setSelected({ ...selected, inventory_type: e.target.value })}>
                   <option value="">Select Property Type</option>
                   <option>Apartments</option>
@@ -2635,7 +2966,7 @@ export default function Dashboard() {
 
             <label style={ui.label}>Status</label>
             <select
-              style={ui.fieldInput}
+              style={ui.selectInput}
               value={selected.status}
               onChange={(e) => setSelected({ ...selected, status: e.target.value })}
             >
@@ -2773,6 +3104,93 @@ export default function Dashboard() {
                 onClick={() => setEditingMember(null)}
               >
                 Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {createdInvite && (
+        <div style={ui.overlay} onClick={() => setCreatedInvite(null)}>
+          <div style={{ ...ui.modal, width: '480px' }} onClick={(e) => e.stopPropagation()}>
+            <div style={{ textAlign: 'center', marginBottom: '18px' }}>
+              <div
+                style={{
+                  width: '46px',
+                  height: '46px',
+                  borderRadius: '50%',
+                  background: '#DCFCE7',
+                  color: '#16A34A',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  fontSize: '22px',
+                  margin: '0 auto 10px',
+                }}
+              >
+                ✓
+              </div>
+              <h3 style={{ margin: '0 0 6px', fontSize: '18px', color: '#0F172A', fontWeight: 700 }}>
+                Team Member Added!
+              </h3>
+              <p style={{ margin: 0, fontSize: '13px', color: '#64748B' }}>
+                {createdInvite.message || `Account created for ${createdInvite.name} (${createdInvite.email}).`}
+              </p>
+            </div>
+
+            <div style={{ background: '#F8FAFC', border: '1px solid #E2E8F0', borderRadius: '8px', padding: '12px 14px', marginBottom: '18px' }}>
+              <div style={{ fontSize: '11px', fontWeight: 700, color: '#64748B', textTransform: 'uppercase', marginBottom: '6px' }}>
+                Invitation & Email Verification Link:
+              </div>
+              <div style={{ display: 'flex', gap: '8px' }}>
+                <input
+                  readOnly
+                  value={createdInvite.link}
+                  style={{ ...ui.input, flex: 1, minWidth: 0, fontSize: '12px', background: '#FFFFFF' }}
+                  onClick={(e) => e.target.select()}
+                />
+                <button
+                  style={{ ...ui.btnGreen, padding: '8px 14px', fontSize: '12px', whiteSpace: 'nowrap' }}
+                  onClick={() => copyToClipboard(createdInvite.link, 'modal-invite-link')}
+                >
+                  {copiedKey === 'modal-invite-link' ? 'Copied ✓' : 'Copy Link'}
+                </button>
+              </div>
+              <p style={{ fontSize: '11.5px', color: '#94A3B8', margin: '8px 0 0 0' }}>
+                {createdInvite.emailSent
+                  ? 'An automated email was sent to the member, but you can also share this link directly.'
+                  : 'Share this link with your team member via WhatsApp or Email so they can verify and activate.'}
+              </p>
+            </div>
+
+            <div style={{ display: 'flex', gap: '10px', marginTop: '16px' }}>
+              <a
+                href={`https://wa.me/?text=${encodeURIComponent(`Hello ${createdInvite.name}, please click this link to verify your email and activate your Propkads portal account: ${createdInvite.link}`)}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{
+                  ...ui.btnGhost,
+                  flex: 1,
+                  textAlign: 'center',
+                  textDecoration: 'none',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: '6px',
+                  color: '#16A34A',
+                  borderColor: '#86EFAC',
+                  background: '#F0FDF4',
+                  fontWeight: 600,
+                  fontSize: '13px',
+                }}
+              >
+                Share on WhatsApp 💬
+              </a>
+              <button
+                style={{ ...ui.btnGhost, padding: '10px 20px', fontSize: '13px' }}
+                onClick={() => setCreatedInvite(null)}
+              >
+                Done
               </button>
             </div>
           </div>

@@ -62,6 +62,15 @@ export async function POST(req) {
         const user = rows[0];
 
         if (user && verifyPassword(trimmedPassword, user.password_hash)) {
+          if (user.status === 'pending') {
+            return NextResponse.json(
+              {
+                success: false,
+                error: 'Your account is pending email verification. Please click the invitation link sent to your email to activate your account.',
+              },
+              { status: 403 }
+            );
+          }
           const token = createSessionToken(user);
           const res = NextResponse.json({ success: true, user: { name: user.name, role: user.role, email: user.email, permissions: user.permissions } });
           res.cookies.set(COOKIE_NAME, token, {
