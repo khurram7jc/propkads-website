@@ -1961,9 +1961,11 @@ export default function Dashboard() {
               </thead>
               <tbody>
                 {users.map((u) => {
-                  const isCurrent = (me?.email && u.email && me.email.toLowerCase() === u.email.toLowerCase()) ||
-                    (me?.id && u.id === me.id) ||
-                    (me?.name && u.name === me.name && u.role === 'admin');
+                  const isCurrent = Boolean(
+                    me?.email &&
+                    u?.email &&
+                    me.email.toLowerCase().trim() === u.email.toLowerCase().trim()
+                  );
                   const isProtected = ['propkads@gmail.com', 'admin@propkads.com', 'khurram@propkads.com', 'khurram7jc@gmail.com'].includes(u.email?.toLowerCase());
 
                   return (

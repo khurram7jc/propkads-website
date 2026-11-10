@@ -52,10 +52,12 @@ export async function DELETE(req) {
   }
   const targetUser = targetUsers[0];
 
-  // Prevent removing own active account
-  const isSelf =
-    (session.userId && Number(id) === Number(session.userId)) ||
-    (session.email && targetUser.email && session.email.toLowerCase() === targetUser.email.toLowerCase());
+  // Prevent removing own active account (only if email matches current logged-in admin)
+  const isSelf = Boolean(
+    session.email &&
+    targetUser.email &&
+    session.email.toLowerCase().trim() === targetUser.email.toLowerCase().trim()
+  );
   if (isSelf) {
     return NextResponse.json({ success: false, error: 'You cannot remove your own active account.' }, { status: 400 });
   }
