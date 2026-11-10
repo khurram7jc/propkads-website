@@ -46,10 +46,37 @@ export async function DELETE(req) {
   const id = searchParams.get('id');
   if (!id) return NextResponse.json({ success: false, error: 'Missing id.' }, { status: 400 });
 
-  if (Number(id) === session.userId) {
-    return NextResponse.json({ success: false, error: 'You cannot remove your own account.' }, { status: 400 });
+  const targetUsers = await sql`select id, email, role, name from users where id = ${id}`;
+  if (!targetUsers || targetUsers.length === 0) {
+    return NextResponse.json({ success: false, error: 'Team member not found or already removed.' }, { status: 404 });
+  }
+  const targetUser = targetUsers[0];
+
+  // Prevent removing own active account
+  const isSelf =
+    (session.userId && Number(id) === Number(session.userId)) ||
+    (session.email && targetUser.email && session.email.toLowerCase() === targetUser.email.toLowerCase());
+  if (isSelf) {
+    return NextResponse.json({ success: false, error: 'You cannot remove your own active account.' }, { status: 400 });
+  }
+
+  // Prevent deleting primary admin accounts
+  const protectedEmails = [
+    'propkads@gmail.com',
+    'admin@propkads.com',
+    'khurram@propkads.com',
+    'khurram7jc@gmail.com',
+  ];
+  if (protectedEmails.includes(targetUser.email.toLowerCase())) {
+    return NextResponse.json({ success: false, error: 'Cannot remove primary admin account.' }, { status: 400 });
   }
 
   await sql`delete from users where id = ${id}`;
-  return NextResponse.json({ success: true });
+
+  const remaining = await sql`select id from users where id = ${id}`;
+  if (remaining && remaining.length > 0) {
+    return NextResponse.json({ success: false, error: 'Failed to delete user from database.' }, { status: 500 });
+  }
+
+  return NextResponse.json({ success: true, message: 'Team member removed successfully.' });
 }

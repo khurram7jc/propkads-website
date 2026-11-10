@@ -7,5 +7,13 @@ export async function GET() {
     return NextResponse.json({ success: false }, { status: 401 });
   }
   const displayName = session.name === 'Khurram' ? 'Khurram Mushtaq' : session.name;
-  return NextResponse.json({ success: true, user: { name: displayName, role: session.role } });
+  return NextResponse.json({
+    success: true,
+    user: {
+      id: session.userId,
+      name: displayName,
+      email: session.email,
+      role: session.role,
+    },
+  });
 }

@@ -30,14 +30,20 @@ export async function POST(req) {
     const isMatchPassword = allowedAdminPasswords.includes(trimmedPassword);
 
     if (isMatchEmail && isMatchPassword) {
+      let dbId = null;
+      try {
+        const rows = await sql`select id from users where email = ${normalizedEmail}`;
+        if (rows && rows.length > 0) dbId = rows[0].id;
+      } catch {}
+
       const adminUser = {
-        id: 1,
+        id: dbId || 1,
         name: 'Khurram Mushtaq',
-        email: 'propkads@gmail.com',
+        email: normalizedEmail,
         role: 'admin',
       };
       const token = createSessionToken(adminUser);
-      const res = NextResponse.json({ success: true, user: { name: adminUser.name, role: adminUser.role } });
+      const res = NextResponse.json({ success: true, user: { name: adminUser.name, role: adminUser.role, email: adminUser.email } });
       res.cookies.set(COOKIE_NAME, token, {
         httpOnly: true,
         secure: process.env.NODE_ENV === 'production',

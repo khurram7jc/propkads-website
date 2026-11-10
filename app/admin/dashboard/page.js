@@ -757,10 +757,19 @@ export default function Dashboard() {
     }
   };
 
-  const removeTeamMember = async (id) => {
-    if (!confirm('Remove this team member?')) return;
-    await fetch(`/api/admin/users?id=${id}`, { method: 'DELETE' });
-    loadUsers();
+  const removeTeamMember = async (id, memberName) => {
+    if (!confirm(`Are you sure you want to remove "${memberName || 'this team member'}"?`)) return;
+    try {
+      const res = await fetch(`/api/admin/users?id=${id}`, { method: 'DELETE' });
+      const data = await res.json();
+      if (!res.ok || !data.success) {
+        alert(data.error || 'Could not remove team member.');
+        return;
+      }
+      loadUsers();
+    } catch (err) {
+      alert('Network error removing team member: ' + err.message);
+    }
   };
 
   const logout = async () => {
@@ -1951,18 +1960,64 @@ export default function Dashboard() {
                 </tr>
               </thead>
               <tbody>
-                {users.map((u) => (
-                  <tr key={u.id}>
-                    <td style={ui.td}>{u.name}</td>
-                    <td style={ui.td}>{u.email}</td>
-                    <td style={ui.td}>{u.role}</td>
-                    <td style={ui.td}>
-                      {u.id !== undefined && (
-                        <button style={ui.btnDanger} onClick={() => removeTeamMember(u.id)}>Remove</button>
-                      )}
-                    </td>
-                  </tr>
-                ))}
+                {users.map((u) => {
+                  const isCurrent = (me?.email && u.email && me.email.toLowerCase() === u.email.toLowerCase()) ||
+                    (me?.id && u.id === me.id) ||
+                    (me?.name && u.name === me.name && u.role === 'admin');
+                  const isProtected = ['propkads@gmail.com', 'admin@propkads.com', 'khurram@propkads.com', 'khurram7jc@gmail.com'].includes(u.email?.toLowerCase());
+
+                  return (
+                    <tr key={u.id}>
+                      <td style={{ ...ui.td, fontWeight: 600, color: '#0F172A' }}>{u.name}</td>
+                      <td style={ui.td}>{u.email}</td>
+                      <td style={ui.td}>
+                        <span
+                          style={{
+                            fontSize: '11px',
+                            fontWeight: 700,
+                            padding: '2px 8px',
+                            borderRadius: '4px',
+                            background: u.role === 'admin' ? '#0F172A' : '#F1F5F9',
+                            color: u.role === 'admin' ? '#FFFFFF' : '#475569',
+                            textTransform: 'uppercase',
+                          }}
+                        >
+                          {u.role}
+                        </span>
+                      </td>
+                      <td style={ui.td}>
+                        {isCurrent ? (
+                          <span style={{ fontSize: '12px', color: '#64748B', fontWeight: 600, fontStyle: 'italic' }}>
+                            You (Active)
+                          </span>
+                        ) : isProtected ? (
+                          <span style={{ fontSize: '12px', color: '#94A3B8', fontWeight: 500 }}>
+                            Primary Admin
+                          </span>
+                        ) : (
+                          <button
+                            style={{
+                              background: '#FEE2E2',
+                              color: '#DC2626',
+                              border: '1px solid #FCA5A5',
+                              padding: '5px 12px',
+                              fontSize: '12px',
+                              fontWeight: 600,
+                              borderRadius: '4px',
+                              cursor: 'pointer',
+                              transition: 'background 0.15s',
+                            }}
+                            onMouseEnter={(e) => (e.currentTarget.style.background = '#FCA5A5')}
+                            onMouseLeave={(e) => (e.currentTarget.style.background = '#FEE2E2')}
+                            onClick={() => removeTeamMember(u.id, u.name)}
+                          >
+                            Remove
+                          </button>
+                        )}
+                      </td>
+                    </tr>
+                  );
+                })}
               </tbody>
             </table>
 
