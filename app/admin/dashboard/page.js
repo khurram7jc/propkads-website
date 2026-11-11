@@ -556,6 +556,7 @@ export default function Dashboard() {
   const [updatingPerms, setUpdatingPerms] = useState(false);
   const [createdInvite, setCreatedInvite] = useState(null);
   const [copiedKey, setCopiedKey] = useState('');
+  const [showAddMemberModal, setShowAddMemberModal] = useState(false);
 
   // Newsletter state
   const [subscribers, setSubscribers] = useState([]);
@@ -859,6 +860,7 @@ export default function Dashboard() {
       });
       const d = await res.json();
       if (d.success) {
+        setShowAddMemberModal(false);
         if (d.verifyLink) {
           setCreatedInvite({
             name: newUser.name,
@@ -887,6 +889,7 @@ export default function Dashboard() {
       });
       const d = await res.json();
       if (d.success) {
+        setShowAddMemberModal(false);
         if (d.verifyLink) {
           copyToClipboard(d.verifyLink, `resend-${userId}`);
         }
@@ -2178,6 +2181,31 @@ export default function Dashboard() {
 
         {tab === 'team' && me.role === 'admin' && (
           <div>
+            <div style={{ ...ui.toolbar, justifyContent: 'space-between', marginBottom: 20 }}>
+              <div style={{ fontSize: '13.5px', color: '#64748B', fontWeight: 500 }}>
+                {users.length} registered team member{users.length !== 1 ? 's' : ''}
+              </div>
+              <button
+                type="button"
+                style={{
+                  ...ui.btnGreen,
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '6px',
+                  padding: '9px 18px',
+                  borderRadius: '6px',
+                  fontSize: '13px',
+                  cursor: 'pointer',
+                }}
+                onClick={() => {
+                  setTeamError('');
+                  setShowAddMemberModal(true);
+                }}
+              >
+                <span style={{ fontSize: '16px', lineHeight: '1', fontWeight: 700 }}>+</span> Add New Member
+              </button>
+            </div>
+
             {isMobile ? (
               <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', marginBottom: 28 }}>
                 {users.map((u) => {
@@ -2545,141 +2573,6 @@ export default function Dashboard() {
                 </table>
               </div>
             )}
-
-            {/* Add Team Member Card */}
-            <div
-              style={{
-                background: '#FFFFFF',
-                border: '1px solid #E2E8F0',
-                borderRadius: '10px',
-                padding: isMobile ? '18px 16px' : '24px 28px',
-                maxWidth: '600px',
-              }}
-            >
-              <h3 style={{ margin: '0 0 6px', fontSize: 16, fontWeight: 700, color: '#0F172A' }}>
-                Add New Team Member
-              </h3>
-              <p style={{ margin: '0 0 18px', fontSize: 13, color: '#64748B' }}>
-                Create credentials for a team member and customize their specific section permissions.
-              </p>
-
-              <form onSubmit={addTeamMember} style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
-                <div>
-                  <label style={{ fontSize: 12, fontWeight: 600, color: '#475569', display: 'block', marginBottom: 4 }}>
-                    Full Name *
-                  </label>
-                  <input
-                    style={{ ...ui.input, width: '100%' }}
-                    placeholder="e.g. Ali Ahmed"
-                    required
-                    value={newUser.name}
-                    onChange={(e) => setNewUser({ ...newUser, name: e.target.value })}
-                  />
-                </div>
-
-                <div>
-                  <label style={{ fontSize: 12, fontWeight: 600, color: '#475569', display: 'block', marginBottom: 4 }}>
-                    Email Address *
-                  </label>
-                  <input
-                    style={{ ...ui.input, width: '100%' }}
-                    type="email"
-                    placeholder="team@example.com"
-                    required
-                    value={newUser.email}
-                    onChange={(e) => setNewUser({ ...newUser, email: e.target.value })}
-                  />
-                </div>
-
-                <div>
-                  <label style={{ fontSize: 12, fontWeight: 600, color: '#475569', display: 'block', marginBottom: 4 }}>
-                    Initial Password (Optional)
-                  </label>
-                  <input
-                    style={{ ...ui.input, width: '100%' }}
-                    type="password"
-                    placeholder="Leave blank or assign password (member can set via invite link)"
-                    value={newUser.password}
-                    onChange={(e) => setNewUser({ ...newUser, password: e.target.value })}
-                  />
-                  <p style={{ margin: '4px 0 0', fontSize: '11.5px', color: '#94A3B8' }}>
-                    An email verification invite link will be generated for the member to activate their account.
-                  </p>
-                </div>
-
-                {/* Section Access Permissions */}
-                <div style={{ marginTop: 6, padding: '14px', background: '#F8FAFC', borderRadius: '8px', border: '1px solid #E2E8F0' }}>
-                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 10 }}>
-                    <span style={{ fontSize: 13, fontWeight: 700, color: '#0F172A' }}>
-                      Section Access Permissions:
-                    </span>
-                    <button
-                      type="button"
-                      onClick={() => toggleNewUserPerm('all')}
-                      style={{
-                        background: 'none',
-                        border: 'none',
-                        color: '#14A750',
-                        fontSize: '12px',
-                        fontWeight: 600,
-                        cursor: 'pointer',
-                        padding: 0,
-                      }}
-                    >
-                      {newUser.permissions?.includes('all') || newUser.permissions?.length === AVAILABLE_PERMISSIONS.length
-                        ? 'Deselect All'
-                        : 'Select All / Full Access'}
-                    </button>
-                  </div>
-
-                  <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr', gap: '8px' }}>
-                    {AVAILABLE_PERMISSIONS.map((perm) => {
-                      const isChecked = newUser.permissions?.includes('all') || newUser.permissions?.includes(perm.key);
-                      return (
-                        <label
-                          key={perm.key}
-                          style={{
-                            display: 'flex',
-                            alignItems: 'center',
-                            gap: '8px',
-                            padding: '8px 10px',
-                            borderRadius: '6px',
-                            background: isChecked ? '#FFFFFF' : 'transparent',
-                            border: isChecked ? '1px solid #CBD5E1' : '1px solid transparent',
-                            cursor: 'pointer',
-                            fontSize: '13px',
-                            color: isChecked ? '#0F172A' : '#64748B',
-                            fontWeight: isChecked ? 600 : 500,
-                            userSelect: 'none',
-                          }}
-                        >
-                          <input
-                            type="checkbox"
-                            checked={Boolean(isChecked)}
-                            onChange={() => toggleNewUserPerm(perm.key)}
-                            style={{ accentColor: '#14A750', width: 16, height: 16, cursor: 'pointer' }}
-                          />
-                          <span>{perm.label}</span>
-                        </label>
-                      );
-                    })}
-                  </div>
-                </div>
-
-                <div style={{ fontSize: 11.5, color: '#64748B', fontStyle: 'italic' }}>
-                  * Added accounts are automatically assigned as Team Members. Full Admin control remains exclusively yours.
-                </div>
-
-                {teamError && <p style={{ color: '#B3261E', fontSize: 13, margin: 0 }}>{teamError}</p>}
-                
-                <button
-                  style={{ ...ui.btnGreen, alignSelf: 'flex-start', padding: '10px 22px', borderRadius: '6px', cursor: 'pointer', marginTop: 4 }}
-                  type="submit"
-                >
-                  Send Invitation & Add Member
-                </button>
-              </form>
-            </div>
           </div>
         )}
         </main>
@@ -3206,6 +3099,155 @@ export default function Dashboard() {
                 Done
               </button>
             </div>
+          </div>
+        </div>
+      )}
+
+      {showAddMemberModal && (
+        <div style={ui.overlay} onClick={() => setShowAddMemberModal(false)}>
+          <div style={{ ...ui.modal, width: '560px' }} onClick={(e) => e.stopPropagation()}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 18 }}>
+              <div>
+                <h3 style={{ margin: 0, fontSize: 18, color: '#0F172A', fontWeight: 700 }}>
+                  Add New Team Member
+                </h3>
+                <p style={{ margin: '4px 0 0', fontSize: 13, color: '#64748B' }}>
+                  Create credentials and assign specific section permissions.
+                </p>
+              </div>
+              <button
+                type="button"
+                onClick={() => setShowAddMemberModal(false)}
+                style={{ background: 'transparent', border: 'none', fontSize: '20px', cursor: 'pointer', color: '#94A3B8' }}
+              >
+                ✕
+              </button>
+            </div>
+
+            <form onSubmit={addTeamMember} style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
+              <div>
+                <label style={{ fontSize: 12, fontWeight: 600, color: '#475569', display: 'block', marginBottom: 4 }}>
+                  Full Name *
+                </label>
+                <input
+                  style={{ ...ui.input, width: '100%' }}
+                  placeholder="e.g. Ali Ahmed"
+                  required
+                  value={newUser.name}
+                  onChange={(e) => setNewUser({ ...newUser, name: e.target.value })}
+                />
+              </div>
+
+              <div>
+                <label style={{ fontSize: 12, fontWeight: 600, color: '#475569', display: 'block', marginBottom: 4 }}>
+                  Email Address *
+                </label>
+                <input
+                  style={{ ...ui.input, width: '100%' }}
+                  type="email"
+                  placeholder="team@example.com"
+                  required
+                  value={newUser.email}
+                  onChange={(e) => setNewUser({ ...newUser, email: e.target.value })}
+                />
+              </div>
+
+              <div>
+                <label style={{ fontSize: 12, fontWeight: 600, color: '#475569', display: 'block', marginBottom: 4 }}>
+                  Initial Password (Optional)
+                </label>
+                <input
+                  style={{ ...ui.input, width: '100%' }}
+                  type="password"
+                  placeholder="Leave blank or assign password (member can set via invite link)"
+                  value={newUser.password}
+                  onChange={(e) => setNewUser({ ...newUser, password: e.target.value })}
+                />
+                <p style={{ margin: '4px 0 0', fontSize: '11.5px', color: '#94A3B8' }}>
+                  An email verification invite link will be generated for the member to activate their account.
+                </p>
+              </div>
+
+              <div style={{ marginTop: 6, padding: '14px', background: '#F8FAFC', borderRadius: '8px', border: '1px solid #E2E8F0' }}>
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 10 }}>
+                  <span style={{ fontSize: 13, fontWeight: 700, color: '#0F172A' }}>
+                    Section Access Permissions:
+                  </span>
+                  <button
+                    type="button"
+                    onClick={() => toggleNewUserPerm('all')}
+                    style={{
+                      background: 'none',
+                      border: 'none',
+                      color: '#14A750',
+                      fontSize: '12px',
+                      fontWeight: 600,
+                      cursor: 'pointer',
+                      padding: 0,
+                    }}
+                  >
+                    {newUser.permissions?.includes('all') || newUser.permissions?.length === AVAILABLE_PERMISSIONS.length
+                      ? 'Deselect All'
+                      : 'Select All / Full Access'}
+                  </button>
+                </div>
+
+                <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr', gap: '8px' }}>
+                  {AVAILABLE_PERMISSIONS.map((perm) => {
+                    const isChecked = newUser.permissions?.includes('all') || newUser.permissions?.includes(perm.key);
+                    return (
+                      <label
+                        key={perm.key}
+                        style={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '8px',
+                          padding: '8px 10px',
+                          borderRadius: '6px',
+                          background: isChecked ? '#F0FDF4' : '#FFFFFF',
+                          border: isChecked ? '1px solid #14A750' : '1px solid #E2E8F0',
+                          cursor: 'pointer',
+                          fontSize: '12.5px',
+                          color: isChecked ? '#0F172A' : '#64748B',
+                          fontWeight: isChecked ? 600 : 500,
+                          userSelect: 'none',
+                        }}
+                      >
+                        <input
+                          type="checkbox"
+                          checked={Boolean(isChecked)}
+                          onChange={() => toggleNewUserPerm(perm.key)}
+                          style={{ accentColor: '#14A750', width: 16, height: 16, cursor: 'pointer' }}
+                        />
+                        <span>{perm.label}</span>
+                      </label>
+                    );
+                  })}
+                </div>
+              </div>
+
+              <div style={{ fontSize: 11.5, color: '#64748B', fontStyle: 'italic' }}>
+                * Added accounts are automatically assigned as Team Members. Full Admin control remains exclusively yours.
+              </div>
+
+              {teamError && <p style={{ color: '#B3261E', fontSize: 13, margin: 0 }}>{teamError}</p>}
+
+              <div style={{ display: 'flex', gap: 10, marginTop: 10 }}>
+                <button
+                  style={{ ...ui.btnGreen, flex: 1, padding: '11px', borderRadius: '6px', justifyContent: 'center' }}
+                  type="submit"
+                >
+                  Send Invitation & Add Member
+                </button>
+                <button
+                  type="button"
+                  style={{ ...ui.btnGhost, padding: '11px 18px', borderRadius: '6px' }}
+                  onClick={() => setShowAddMemberModal(false)}
+                >
+                  Cancel
+                </button>
+              </div>
+            </form>
           </div>
         </div>
       )}
