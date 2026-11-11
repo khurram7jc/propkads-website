@@ -3169,14 +3169,9 @@ export default function Dashboard() {
         <div style={ui.overlay} onClick={() => setShowAddMemberModal(false)}>
           <div style={{ ...ui.modal, width: '560px' }} onClick={(e) => e.stopPropagation()}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 18 }}>
-              <div>
-                <h3 style={{ margin: 0, fontSize: 18, color: '#0F172A', fontWeight: 700 }}>
-                  Add New Team Member
-                </h3>
-                <p style={{ margin: '4px 0 0', fontSize: 13, color: '#64748B' }}>
-                  Create credentials and assign specific section permissions.
-                </p>
-              </div>
+              <h3 style={{ margin: 0, fontSize: 18, color: '#0F172A', fontWeight: 700 }}>
+                Add New Team Member
+              </h3>
               <button
                 type="button"
                 onClick={() => setShowAddMemberModal(false)}
@@ -3387,10 +3382,6 @@ export default function Dashboard() {
                 </div>
               )}
 
-              <p style={{ margin: '0', fontSize: '11.5px', color: '#94A3B8' }}>
-                An email verification invite link will be generated for the member to activate their account.
-              </p>
-
               <div style={{ marginTop: 6, padding: '14px', background: '#F8FAFC', borderRadius: '8px', border: '1px solid #E2E8F0' }}>
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 10 }}>
                   <span style={{ fontSize: 13, fontWeight: 700, color: '#0F172A' }}>
@@ -3447,10 +3438,6 @@ export default function Dashboard() {
                     );
                   })}
                 </div>
-              </div>
-
-              <div style={{ fontSize: 11.5, color: '#64748B', fontStyle: 'italic' }}>
-                * Added accounts are automatically assigned as Team Members. Full Admin control remains exclusively yours.
               </div>
 
               {teamError && <p style={{ color: '#B3261E', fontSize: 13, margin: 0 }}>{teamError}</p>}
