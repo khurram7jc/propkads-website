@@ -5,6 +5,19 @@ import { getSession } from '@/lib/auth';
 import { hashPassword } from '@/lib/password';
 import { sendVerificationEmail } from '@/lib/email';
 
+function getAppBaseUrl(req) {
+  const host = req?.headers?.get('x-forwarded-host') || req?.headers?.get('host');
+  const proto = req?.headers?.get('x-forwarded-proto') || 'https';
+  if (host && !host.includes('0.0.0.0')) {
+    return `${proto}://${host}`;
+  }
+  const origin = req?.nextUrl?.origin;
+  if (origin && !origin.includes('0.0.0.0')) {
+    return origin;
+  }
+  return process.env.NEXT_PUBLIC_APP_URL || 'https://propkads.com';
+}
+
 export async function GET(req) {
   const session = getSession();
   if (!session || session.role !== 'admin') {
@@ -12,7 +25,7 @@ export async function GET(req) {
   }
 
   const rows = await sql`select id, name, email, role, permissions, status, verification_token, created_at from users order by created_at asc`;
-  const origin = req.nextUrl.origin || 'https://propkads.com';
+  const origin = getAppBaseUrl(req);
 
   const parsedUsers = rows.map((u) => {
     let perms = [];
@@ -76,7 +89,7 @@ export async function POST(req) {
     to: normalizedEmail,
     name,
     token,
-    origin: req.nextUrl.origin,
+    origin: getAppBaseUrl(req),
     permissions: permsArray,
   });
 
@@ -131,7 +144,7 @@ export async function PATCH(req) {
       to: user.email,
       name: user.name,
       token,
-      origin: req.nextUrl.origin,
+      origin: getAppBaseUrl(req),
       permissions: userPerms,
     });
 
