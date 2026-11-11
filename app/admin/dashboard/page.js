@@ -560,7 +560,6 @@ export default function Dashboard() {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [confirmPassword, setConfirmPassword] = useState('');
-  const [showPermissionsPanel, setShowPermissionsPanel] = useState(false);
 
   // Newsletter state
   const [subscribers, setSubscribers] = useState([]);
@@ -903,8 +902,8 @@ export default function Dashboard() {
       }
     }
 
-    if (showPermissionsPanel && (!newUser.permissions || newUser.permissions.length === 0)) {
-      setTeamError('Please select at least one permission section or turn off custom access.');
+    if (!newUser.permissions || newUser.permissions.length === 0) {
+      setTeamError('Please select at least one permission section.');
       return;
     }
 
@@ -930,7 +929,6 @@ export default function Dashboard() {
         setConfirmPassword('');
         setShowPassword(false);
         setShowConfirmPassword(false);
-        setShowPermissionsPanel(false);
         loadUsers();
       } else {
         setTeamError(d.error || 'Could not add team member.');
@@ -2263,7 +2261,6 @@ export default function Dashboard() {
                   setConfirmPassword('');
                   setShowPassword(false);
                   setShowConfirmPassword(false);
-                  setShowPermissionsPanel(false);
                   setShowAddMemberModal(true);
                 }}
               >
@@ -3394,118 +3391,62 @@ export default function Dashboard() {
                 An email verification invite link will be generated for the member to activate their account.
               </p>
 
-              <div style={{ marginTop: 4, padding: '14px', background: '#F8FAFC', borderRadius: '8px', border: '1px solid #E2E8F0' }}>
-                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                  <div>
-                    <span style={{ fontSize: 13, fontWeight: 700, color: '#0F172A', display: 'block' }}>
-                      Section Access Permissions
-                    </span>
-                    <span style={{ fontSize: 12, color: '#64748B' }}>
-                      {showPermissionsPanel
-                        ? `${newUser.permissions?.length || 0} section(s) selected`
-                        : 'Off (Toggle to assign specific section access)'}
-                    </span>
-                  </div>
-
+              <div style={{ marginTop: 6, padding: '14px', background: '#F8FAFC', borderRadius: '8px', border: '1px solid #E2E8F0' }}>
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 10 }}>
+                  <span style={{ fontSize: 13, fontWeight: 700, color: '#0F172A' }}>
+                    Section Access Permissions:
+                  </span>
                   <button
                     type="button"
-                    role="switch"
-                    aria-checked={showPermissionsPanel}
-                    onClick={() => {
-                      const next = !showPermissionsPanel;
-                      setShowPermissionsPanel(next);
-                      if (!next) {
-                        setNewUser((prev) => ({ ...prev, permissions: [] }));
-                      }
-                    }}
+                    onClick={() => toggleNewUserPerm('all')}
                     style={{
-                      width: '46px',
-                      height: '26px',
-                      borderRadius: '13px',
-                      background: showPermissionsPanel ? '#14A750' : '#CBD5E1',
+                      background: 'none',
                       border: 'none',
+                      color: '#14A750',
+                      fontSize: '12px',
+                      fontWeight: 600,
                       cursor: 'pointer',
-                      position: 'relative',
-                      transition: 'background 0.2s',
                       padding: 0,
-                      flexShrink: 0,
                     }}
                   >
-                    <span
-                      style={{
-                        width: '20px',
-                        height: '20px',
-                        borderRadius: '50%',
-                        background: '#FFFFFF',
-                        position: 'absolute',
-                        top: '3px',
-                        left: showPermissionsPanel ? '23px' : '3px',
-                        transition: 'left 0.2s',
-                        boxShadow: '0 1px 3px rgba(0,0,0,0.2)',
-                      }}
-                    />
+                    {newUser.permissions?.includes('all') || newUser.permissions?.length === AVAILABLE_PERMISSIONS.length
+                      ? 'Deselect All'
+                      : 'Select All / Full Access'}
                   </button>
                 </div>
 
-                {showPermissionsPanel && (
-                  <div style={{ marginTop: 14, paddingTop: 12, borderTop: '1px solid #E2E8F0' }}>
-                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 10 }}>
-                      <span style={{ fontSize: 12, fontWeight: 600, color: '#475569' }}>
-                        Select Allowed Sections:
-                      </span>
-                      <button
-                        type="button"
-                        onClick={() => toggleNewUserPerm('all')}
+                <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr', gap: '8px' }}>
+                  {AVAILABLE_PERMISSIONS.map((perm) => {
+                    const isChecked = newUser.permissions?.includes('all') || newUser.permissions?.includes(perm.key);
+                    return (
+                      <label
+                        key={perm.key}
                         style={{
-                          background: 'none',
-                          border: 'none',
-                          color: '#14A750',
-                          fontSize: '12px',
-                          fontWeight: 600,
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '8px',
+                          padding: '8px 10px',
+                          borderRadius: '6px',
+                          background: isChecked ? '#F0FDF4' : '#FFFFFF',
+                          border: isChecked ? '1px solid #14A750' : '1px solid #E2E8F0',
                           cursor: 'pointer',
-                          padding: 0,
+                          fontSize: '12.5px',
+                          color: isChecked ? '#0F172A' : '#64748B',
+                          fontWeight: isChecked ? 600 : 500,
+                          userSelect: 'none',
                         }}
                       >
-                        {newUser.permissions?.includes('all') || newUser.permissions?.length === AVAILABLE_PERMISSIONS.length
-                          ? 'Deselect All'
-                          : 'Select All / Full Access'}
-                      </button>
-                    </div>
-
-                    <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr', gap: '8px' }}>
-                      {AVAILABLE_PERMISSIONS.map((perm) => {
-                        const isChecked = newUser.permissions?.includes('all') || newUser.permissions?.includes(perm.key);
-                        return (
-                          <label
-                            key={perm.key}
-                            style={{
-                              display: 'flex',
-                              alignItems: 'center',
-                              gap: '8px',
-                              padding: '8px 10px',
-                              borderRadius: '6px',
-                              background: isChecked ? '#F0FDF4' : '#FFFFFF',
-                              border: isChecked ? '1px solid #14A750' : '1px solid #E2E8F0',
-                              cursor: 'pointer',
-                              fontSize: '12.5px',
-                              color: isChecked ? '#0F172A' : '#64748B',
-                              fontWeight: isChecked ? 600 : 500,
-                              userSelect: 'none',
-                            }}
-                          >
-                            <input
-                              type="checkbox"
-                              checked={Boolean(isChecked)}
-                              onChange={() => toggleNewUserPerm(perm.key)}
-                              style={{ accentColor: '#14A750', width: 16, height: 16, cursor: 'pointer' }}
-                            />
-                            <span>{perm.label}</span>
-                          </label>
-                        );
-                      })}
-                    </div>
-                  </div>
-                )}
+                        <input
+                          type="checkbox"
+                          checked={Boolean(isChecked)}
+                          onChange={() => toggleNewUserPerm(perm.key)}
+                          style={{ accentColor: '#14A750', width: 16, height: 16, cursor: 'pointer' }}
+                        />
+                        <span>{perm.label}</span>
+                      </label>
+                    );
+                  })}
+                </div>
               </div>
 
               <div style={{ fontSize: 11.5, color: '#64748B', fontStyle: 'italic' }}>
