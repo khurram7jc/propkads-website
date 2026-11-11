@@ -549,7 +549,7 @@ export default function Dashboard() {
     name: '',
     email: '',
     password: '',
-    permissions: ['leads', 'project_leads'],
+    permissions: [],
   });
   const [teamError, setTeamError] = useState('');
   const [editingMember, setEditingMember] = useState(null);
@@ -557,6 +557,10 @@ export default function Dashboard() {
   const [createdInvite, setCreatedInvite] = useState(null);
   const [copiedKey, setCopiedKey] = useState('');
   const [showAddMemberModal, setShowAddMemberModal] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [showPermissionsPanel, setShowPermissionsPanel] = useState(false);
 
   // Newsletter state
   const [subscribers, setSubscribers] = useState([]);
@@ -845,13 +849,65 @@ export default function Dashboard() {
     }
   };
 
+  const generateStrongPassword = () => {
+    const upper = 'ABCDEFGHJKLMNPQRSTUVWXYZ';
+    const lower = 'abcdefghijkmnpqrstuvwxyz';
+    const digits = '23456789';
+    const symbols = '!@#$%&*';
+    const all = upper + lower + digits + symbols;
+    let pwd = '';
+    pwd += upper[Math.floor(Math.random() * upper.length)];
+    pwd += lower[Math.floor(Math.random() * lower.length)];
+    pwd += digits[Math.floor(Math.random() * digits.length)];
+    pwd += symbols[Math.floor(Math.random() * symbols.length)];
+    for (let i = 4; i < 12; i++) {
+      pwd += all[Math.floor(Math.random() * all.length)];
+    }
+    pwd = pwd.split('').sort(() => 0.5 - Math.random()).join('');
+    setNewUser((prev) => ({ ...prev, password: pwd }));
+    setConfirmPassword(pwd);
+    setShowPassword(true);
+    setShowConfirmPassword(true);
+    setTeamError('');
+  };
+
   const addTeamMember = async (e) => {
     e.preventDefault();
     setTeamError('');
-    if (!newUser.permissions || newUser.permissions.length === 0) {
-      setTeamError('Please select at least one permission section.');
+
+    // Password validation (if initial password or confirm password entered)
+    if (newUser.password || confirmPassword) {
+      if (newUser.password !== confirmPassword) {
+        setTeamError('Passwords do not match. Please re-enter matching passwords.');
+        return;
+      }
+      if (newUser.password.length < 8) {
+        setTeamError('Password must be at least 8 characters long.');
+        return;
+      }
+      if (!/[A-Z]/.test(newUser.password)) {
+        setTeamError('Password must contain at least one uppercase letter (A-Z).');
+        return;
+      }
+      if (!/[a-z]/.test(newUser.password)) {
+        setTeamError('Password must contain at least one lowercase letter (a-z).');
+        return;
+      }
+      if (!/[0-9]/.test(newUser.password)) {
+        setTeamError('Password must contain at least one number (0-9).');
+        return;
+      }
+      if (!/[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]/.test(newUser.password)) {
+        setTeamError('Password must contain at least one special symbol (@, #, $, etc.).');
+        return;
+      }
+    }
+
+    if (showPermissionsPanel && (!newUser.permissions || newUser.permissions.length === 0)) {
+      setTeamError('Please select at least one permission section or turn off custom access.');
       return;
     }
+
     try {
       const res = await fetch('/api/admin/users', {
         method: 'POST',
@@ -870,7 +926,11 @@ export default function Dashboard() {
             message: d.message,
           });
         }
-        setNewUser({ name: '', email: '', password: '', permissions: ['leads', 'project_leads'] });
+        setNewUser({ name: '', email: '', password: '', permissions: [] });
+        setConfirmPassword('');
+        setShowPassword(false);
+        setShowConfirmPassword(false);
+        setShowPermissionsPanel(false);
         loadUsers();
       } else {
         setTeamError(d.error || 'Could not add team member.');
@@ -2199,6 +2259,11 @@ export default function Dashboard() {
                 }}
                 onClick={() => {
                   setTeamError('');
+                  setNewUser({ name: '', email: '', password: '', permissions: [] });
+                  setConfirmPassword('');
+                  setShowPassword(false);
+                  setShowConfirmPassword(false);
+                  setShowPermissionsPanel(false);
                   setShowAddMemberModal(true);
                 }}
               >
@@ -3153,77 +3218,294 @@ export default function Dashboard() {
               </div>
 
               <div>
-                <label style={{ fontSize: 12, fontWeight: 600, color: '#475569', display: 'block', marginBottom: 4 }}>
-                  Initial Password (Optional)
-                </label>
-                <input
-                  style={{ ...ui.input, width: '100%' }}
-                  type="password"
-                  placeholder="Leave blank or assign password (member can set via invite link)"
-                  value={newUser.password}
-                  onChange={(e) => setNewUser({ ...newUser, password: e.target.value })}
-                />
-                <p style={{ margin: '4px 0 0', fontSize: '11.5px', color: '#94A3B8' }}>
-                  An email verification invite link will be generated for the member to activate their account.
-                </p>
-              </div>
-
-              <div style={{ marginTop: 6, padding: '14px', background: '#F8FAFC', borderRadius: '8px', border: '1px solid #E2E8F0' }}>
-                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 10 }}>
-                  <span style={{ fontSize: 13, fontWeight: 700, color: '#0F172A' }}>
-                    Section Access Permissions:
-                  </span>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 4 }}>
+                  <label style={{ fontSize: 12, fontWeight: 600, color: '#475569' }}>
+                    Initial Password (Optional)
+                  </label>
                   <button
                     type="button"
-                    onClick={() => toggleNewUserPerm('all')}
+                    onClick={generateStrongPassword}
                     style={{
-                      background: 'none',
-                      border: 'none',
-                      color: '#14A750',
-                      fontSize: '12px',
+                      background: '#F0FDF4',
+                      border: '1px solid #BBF7D0',
+                      color: '#15803D',
+                      fontSize: '11.5px',
                       fontWeight: 600,
+                      borderRadius: '5px',
+                      padding: '2px 8px',
                       cursor: 'pointer',
-                      padding: 0,
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: '4px',
                     }}
                   >
-                    {newUser.permissions?.includes('all') || newUser.permissions?.length === AVAILABLE_PERMISSIONS.length
-                      ? 'Deselect All'
-                      : 'Select All / Full Access'}
+                    <span>⚡</span> Auto Suggest Strong Password
+                  </button>
+                </div>
+                <div style={{ position: 'relative' }}>
+                  <input
+                    style={{ ...ui.input, width: '100%', paddingRight: '40px' }}
+                    type={showPassword ? 'text' : 'password'}
+                    placeholder="Set password or leave blank for invite link"
+                    value={newUser.password}
+                    onChange={(e) => setNewUser({ ...newUser, password: e.target.value })}
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    style={{
+                      position: 'absolute',
+                      right: '10px',
+                      top: '50%',
+                      transform: 'translateY(-50%)',
+                      background: 'none',
+                      border: 'none',
+                      cursor: 'pointer',
+                      color: '#64748B',
+                      padding: '4px',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                    }}
+                    title={showPassword ? 'Hide password' : 'Show password'}
+                  >
+                    {showPassword ? (
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24" />
+                        <line x1="1" y1="1" x2="23" y2="23" />
+                      </svg>
+                    ) : (
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                        <circle cx="12" cy="12" r="3" />
+                      </svg>
+                    )}
+                  </button>
+                </div>
+              </div>
+
+              <div>
+                <label style={{ fontSize: 12, fontWeight: 600, color: '#475569', display: 'block', marginBottom: 4 }}>
+                  Re-enter Password
+                </label>
+                <div style={{ position: 'relative' }}>
+                  <input
+                    style={{
+                      ...ui.input,
+                      width: '100%',
+                      paddingRight: '40px',
+                      borderColor:
+                        confirmPassword && newUser.password
+                          ? confirmPassword === newUser.password
+                            ? '#16A34A'
+                            : '#DC2626'
+                          : undefined,
+                    }}
+                    type={showConfirmPassword ? 'text' : 'password'}
+                    placeholder="Re-type password to match"
+                    value={confirmPassword}
+                    onChange={(e) => setConfirmPassword(e.target.value)}
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                    style={{
+                      position: 'absolute',
+                      right: '10px',
+                      top: '50%',
+                      transform: 'translateY(-50%)',
+                      background: 'none',
+                      border: 'none',
+                      cursor: 'pointer',
+                      color: '#64748B',
+                      padding: '4px',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                    }}
+                    title={showConfirmPassword ? 'Hide password' : 'Show password'}
+                  >
+                    {showConfirmPassword ? (
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24" />
+                        <line x1="1" y1="1" x2="23" y2="23" />
+                      </svg>
+                    ) : (
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                        <circle cx="12" cy="12" r="3" />
+                      </svg>
+                    )}
+                  </button>
+                </div>
+                {confirmPassword && (
+                  <div
+                    style={{
+                      fontSize: '11.5px',
+                      marginTop: '4px',
+                      fontWeight: 600,
+                      color: confirmPassword === newUser.password ? '#16A34A' : '#DC2626',
+                    }}
+                  >
+                    {confirmPassword === newUser.password ? '✓ Passwords match' : '✗ Passwords do not match'}
+                  </div>
+                )}
+              </div>
+
+              {newUser.password && (
+                <div
+                  style={{
+                    padding: '10px 12px',
+                    background: '#F8FAFC',
+                    borderRadius: '6px',
+                    border: '1px solid #E2E8F0',
+                    fontSize: '12px',
+                  }}
+                >
+                  <div style={{ fontWeight: 600, color: '#475569', marginBottom: '6px', fontSize: '11.5px' }}>
+                    Password Security Requirements:
+                  </div>
+                  <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr', gap: '4px' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '6px', color: newUser.password.length >= 8 ? '#16A34A' : '#94A3B8' }}>
+                      <span style={{ fontWeight: 700 }}>{newUser.password.length >= 8 ? '✓' : '○'}</span>
+                      <span>At least 8 characters</span>
+                    </div>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '6px', color: /[A-Z]/.test(newUser.password) ? '#16A34A' : '#94A3B8' }}>
+                      <span style={{ fontWeight: 700 }}>{/[A-Z]/.test(newUser.password) ? '✓' : '○'}</span>
+                      <span>1 uppercase letter (A-Z)</span>
+                    </div>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '6px', color: /[a-z]/.test(newUser.password) ? '#16A34A' : '#94A3B8' }}>
+                      <span style={{ fontWeight: 700 }}>{/[a-z]/.test(newUser.password) ? '✓' : '○'}</span>
+                      <span>1 lowercase letter (a-z)</span>
+                    </div>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '6px', color: /[0-9]/.test(newUser.password) ? '#16A34A' : '#94A3B8' }}>
+                      <span style={{ fontWeight: 700 }}>{/[0-9]/.test(newUser.password) ? '✓' : '○'}</span>
+                      <span>1 number (0-9)</span>
+                    </div>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '6px', color: /[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]/.test(newUser.password) ? '#16A34A' : '#94A3B8' }}>
+                      <span style={{ fontWeight: 700 }}>{/[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]/.test(newUser.password) ? '✓' : '○'}</span>
+                      <span>1 special symbol (@, $, #, etc.)</span>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              <p style={{ margin: '0', fontSize: '11.5px', color: '#94A3B8' }}>
+                An email verification invite link will be generated for the member to activate their account.
+              </p>
+
+              <div style={{ marginTop: 4, padding: '14px', background: '#F8FAFC', borderRadius: '8px', border: '1px solid #E2E8F0' }}>
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                  <div>
+                    <span style={{ fontSize: 13, fontWeight: 700, color: '#0F172A', display: 'block' }}>
+                      Section Access Permissions
+                    </span>
+                    <span style={{ fontSize: 12, color: '#64748B' }}>
+                      {showPermissionsPanel
+                        ? `${newUser.permissions?.length || 0} section(s) selected`
+                        : 'Off (Toggle to assign specific section access)'}
+                    </span>
+                  </div>
+
+                  <button
+                    type="button"
+                    role="switch"
+                    aria-checked={showPermissionsPanel}
+                    onClick={() => {
+                      const next = !showPermissionsPanel;
+                      setShowPermissionsPanel(next);
+                      if (!next) {
+                        setNewUser((prev) => ({ ...prev, permissions: [] }));
+                      }
+                    }}
+                    style={{
+                      width: '46px',
+                      height: '26px',
+                      borderRadius: '13px',
+                      background: showPermissionsPanel ? '#14A750' : '#CBD5E1',
+                      border: 'none',
+                      cursor: 'pointer',
+                      position: 'relative',
+                      transition: 'background 0.2s',
+                      padding: 0,
+                      flexShrink: 0,
+                    }}
+                  >
+                    <span
+                      style={{
+                        width: '20px',
+                        height: '20px',
+                        borderRadius: '50%',
+                        background: '#FFFFFF',
+                        position: 'absolute',
+                        top: '3px',
+                        left: showPermissionsPanel ? '23px' : '3px',
+                        transition: 'left 0.2s',
+                        boxShadow: '0 1px 3px rgba(0,0,0,0.2)',
+                      }}
+                    />
                   </button>
                 </div>
 
-                <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr', gap: '8px' }}>
-                  {AVAILABLE_PERMISSIONS.map((perm) => {
-                    const isChecked = newUser.permissions?.includes('all') || newUser.permissions?.includes(perm.key);
-                    return (
-                      <label
-                        key={perm.key}
+                {showPermissionsPanel && (
+                  <div style={{ marginTop: 14, paddingTop: 12, borderTop: '1px solid #E2E8F0' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 10 }}>
+                      <span style={{ fontSize: 12, fontWeight: 600, color: '#475569' }}>
+                        Select Allowed Sections:
+                      </span>
+                      <button
+                        type="button"
+                        onClick={() => toggleNewUserPerm('all')}
                         style={{
-                          display: 'flex',
-                          alignItems: 'center',
-                          gap: '8px',
-                          padding: '8px 10px',
-                          borderRadius: '6px',
-                          background: isChecked ? '#F0FDF4' : '#FFFFFF',
-                          border: isChecked ? '1px solid #14A750' : '1px solid #E2E8F0',
+                          background: 'none',
+                          border: 'none',
+                          color: '#14A750',
+                          fontSize: '12px',
+                          fontWeight: 600,
                           cursor: 'pointer',
-                          fontSize: '12.5px',
-                          color: isChecked ? '#0F172A' : '#64748B',
-                          fontWeight: isChecked ? 600 : 500,
-                          userSelect: 'none',
+                          padding: 0,
                         }}
                       >
-                        <input
-                          type="checkbox"
-                          checked={Boolean(isChecked)}
-                          onChange={() => toggleNewUserPerm(perm.key)}
-                          style={{ accentColor: '#14A750', width: 16, height: 16, cursor: 'pointer' }}
-                        />
-                        <span>{perm.label}</span>
-                      </label>
-                    );
-                  })}
-                </div>
+                        {newUser.permissions?.includes('all') || newUser.permissions?.length === AVAILABLE_PERMISSIONS.length
+                          ? 'Deselect All'
+                          : 'Select All / Full Access'}
+                      </button>
+                    </div>
+
+                    <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr', gap: '8px' }}>
+                      {AVAILABLE_PERMISSIONS.map((perm) => {
+                        const isChecked = newUser.permissions?.includes('all') || newUser.permissions?.includes(perm.key);
+                        return (
+                          <label
+                            key={perm.key}
+                            style={{
+                              display: 'flex',
+                              alignItems: 'center',
+                              gap: '8px',
+                              padding: '8px 10px',
+                              borderRadius: '6px',
+                              background: isChecked ? '#F0FDF4' : '#FFFFFF',
+                              border: isChecked ? '1px solid #14A750' : '1px solid #E2E8F0',
+                              cursor: 'pointer',
+                              fontSize: '12.5px',
+                              color: isChecked ? '#0F172A' : '#64748B',
+                              fontWeight: isChecked ? 600 : 500,
+                              userSelect: 'none',
+                            }}
+                          >
+                            <input
+                              type="checkbox"
+                              checked={Boolean(isChecked)}
+                              onChange={() => toggleNewUserPerm(perm.key)}
+                              style={{ accentColor: '#14A750', width: 16, height: 16, cursor: 'pointer' }}
+                            />
+                            <span>{perm.label}</span>
+                          </label>
+                        );
+                      })}
+                    </div>
+                  </div>
+                )}
               </div>
 
               <div style={{ fontSize: 11.5, color: '#64748B', fontStyle: 'italic' }}>

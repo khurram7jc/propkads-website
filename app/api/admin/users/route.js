@@ -56,7 +56,7 @@ export async function POST(req) {
     return NextResponse.json({ success: false, error: 'A user with this email already exists.' }, { status: 409 });
   }
 
-  const permsArray = Array.isArray(permissions) && permissions.length > 0 ? permissions : ['all'];
+  const permsArray = Array.isArray(permissions) ? permissions : ['all'];
   const permsJson = JSON.stringify(permsArray);
   const tempPassword = password || crypto.randomBytes(8).toString('hex');
   const password_hash = hashPassword(tempPassword);
