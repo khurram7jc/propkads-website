@@ -77,6 +77,7 @@ export async function POST(req) {
     name,
     token,
     origin: req.nextUrl.origin,
+    permissions: permsArray,
   });
 
   return NextResponse.json({
@@ -100,7 +101,7 @@ export async function PATCH(req) {
   if (!id) return NextResponse.json({ success: false, error: 'Missing id.' }, { status: 400 });
 
   if (action === 'resend_invite') {
-    const userRows = await sql`select id, name, email from users where id = ${id}`;
+    const userRows = await sql`select id, name, email, permissions from users where id = ${id}`;
     if (!userRows || userRows.length === 0) {
       return NextResponse.json({ success: false, error: 'User not found.' }, { status: 404 });
     }
@@ -117,11 +118,21 @@ export async function PATCH(req) {
       where id = ${id}
     `;
 
+    let userPerms = [];
+    if (user.permissions) {
+      try {
+        userPerms = JSON.parse(user.permissions);
+      } catch {
+        userPerms = String(user.permissions).split(',').map((p) => p.trim());
+      }
+    }
+
     const emailResult = await sendVerificationEmail({
       to: user.email,
       name: user.name,
       token,
       origin: req.nextUrl.origin,
+      permissions: userPerms,
     });
 
     return NextResponse.json({
