@@ -1034,18 +1034,19 @@ export default function Dashboard() {
     }
   };
 
-  const removeTeamMember = async (id, memberName) => {
-    if (!confirm(`Are you sure you want to remove "${memberName || 'this team member'}"?`)) return;
+  const removeTeamMember = async (id, memberName, isPending = false) => {
+    const actionLabel = isPending ? 'cancel the invitation for' : 'remove';
+    if (!confirm(`Are you sure you want to ${actionLabel} "${memberName || 'this user'}"?`)) return;
     try {
       const res = await fetch(`/api/admin/users?id=${id}`, { method: 'DELETE' });
       const data = await res.json();
       if (!res.ok || !data.success) {
-        alert(data.error || 'Could not remove team member.');
+        alert(data.error || `Could not ${actionLabel} team member.`);
         return;
       }
       loadUsers();
     } catch (err) {
-      alert('Network error removing team member: ' + err.message);
+      alert(`Network error: ${err.message}`);
     }
   };
 
@@ -2276,7 +2277,7 @@ export default function Dashboard() {
                     u?.email &&
                     me.email.toLowerCase().trim() === u.email.toLowerCase().trim()
                   );
-                  const isProtected = ['propkads@gmail.com', 'admin@propkads.com', 'khurram@propkads.com', 'khurram7jc@gmail.com'].includes(u.email?.toLowerCase());
+                  const isProtected = u.role === 'admin' && ['propkads@gmail.com', 'admin@propkads.com', 'khurram@propkads.com'].includes(u.email?.toLowerCase());
                   const perms = Array.isArray(u.permissions) ? u.permissions : [];
                   const hasAll = u.role === 'admin' || perms.includes('all') || perms.length === AVAILABLE_PERMISSIONS.length;
 
@@ -2417,18 +2418,21 @@ export default function Dashboard() {
                               <button
                                 type="button"
                                 style={{
-                                  background: '#F8FAFC',
-                                  color: '#64748B',
-                                  border: '1px solid #CBD5E1',
-                                  padding: '6px 10px',
-                                  fontSize: '11.5px',
+                                  background: '#E0F2FE',
+                                  color: '#0369A1',
+                                  border: '1px solid #BAE6FD',
+                                  padding: '6px 12px',
+                                  fontSize: '12px',
                                   fontWeight: 600,
                                   borderRadius: '5px',
                                   cursor: 'pointer',
+                                  display: 'inline-flex',
+                                  alignItems: 'center',
+                                  gap: '4px',
                                 }}
                                 onClick={() => resendInvite(u.id, u.name)}
                               >
-                                Resend
+                                <span>✉️</span> Resend Invite
                               </button>
                             )}
                             <button
@@ -2444,9 +2448,9 @@ export default function Dashboard() {
                                 cursor: 'pointer',
                                 marginLeft: 'auto',
                               }}
-                              onClick={() => removeTeamMember(u.id, u.name)}
+                              onClick={() => removeTeamMember(u.id, u.name, u.status === 'pending')}
                             >
-                              Remove
+                              {u.status === 'pending' ? 'Cancel Invitation' : 'Remove'}
                             </button>
                           </>
                         )}
@@ -2475,7 +2479,7 @@ export default function Dashboard() {
                         u?.email &&
                         me.email.toLowerCase().trim() === u.email.toLowerCase().trim()
                       );
-                      const isProtected = ['propkads@gmail.com', 'admin@propkads.com', 'khurram@propkads.com', 'khurram7jc@gmail.com'].includes(u.email?.toLowerCase());
+                      const isProtected = u.role === 'admin' && ['propkads@gmail.com', 'admin@propkads.com', 'khurram@propkads.com'].includes(u.email?.toLowerCase());
                       const perms = Array.isArray(u.permissions) ? u.permissions : [];
                       const hasAll = u.role === 'admin' || perms.includes('all') || perms.length === AVAILABLE_PERMISSIONS.length;
 
@@ -2591,19 +2595,22 @@ export default function Dashboard() {
                                   <button
                                     type="button"
                                     style={{
-                                      background: '#F8FAFC',
-                                      color: '#64748B',
-                                      border: '1px solid #CBD5E1',
-                                      padding: '5px 8px',
-                                      fontSize: '11px',
+                                      background: '#E0F2FE',
+                                      color: '#0369A1',
+                                      border: '1px solid #BAE6FD',
+                                      padding: '5px 10px',
+                                      fontSize: '11.5px',
                                       fontWeight: 600,
                                       borderRadius: '5px',
                                       cursor: 'pointer',
+                                      display: 'inline-flex',
+                                      alignItems: 'center',
+                                      gap: '4px',
                                     }}
                                     onClick={() => resendInvite(u.id, u.name)}
                                     title="Resend verification email"
                                   >
-                                    Resend
+                                    <span>✉️</span> Resend Invite
                                   </button>
                                 )}
                                 <button
@@ -2621,9 +2628,9 @@ export default function Dashboard() {
                                   }}
                                   onMouseEnter={(e) => (e.currentTarget.style.background = '#FCA5A5')}
                                   onMouseLeave={(e) => (e.currentTarget.style.background = '#FEE2E2')}
-                                  onClick={() => removeTeamMember(u.id, u.name)}
+                                  onClick={() => removeTeamMember(u.id, u.name, u.status === 'pending')}
                                 >
-                                  Remove
+                                  {u.status === 'pending' ? 'Cancel Invitation' : 'Remove'}
                                 </button>
                               </div>
                             )}

@@ -171,9 +171,8 @@ export async function DELETE(req) {
     'propkads@gmail.com',
     'admin@propkads.com',
     'khurram@propkads.com',
-    'khurram7jc@gmail.com',
   ];
-  if (protectedEmails.includes(targetUser.email.toLowerCase())) {
+  if (targetUser.role === 'admin' && protectedEmails.includes(targetUser.email.toLowerCase())) {
     return NextResponse.json({ success: false, error: 'Cannot remove primary admin account.' }, { status: 400 });
   }
 
