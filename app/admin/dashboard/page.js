@@ -635,22 +635,12 @@ export default function Dashboard() {
     return () => clearInterval(interval);
   }, [me]);
 
-  const loadLeads = async (customSearch, customStatus) => {
-    const params = new URLSearchParams();
-    params.set('category', 'client');
-    const s = customSearch !== undefined ? customSearch : search;
-    const st = customStatus !== undefined ? customStatus : statusFilter;
-    if (s) params.set('search', s);
-    if (st) params.set('status', st);
-    const res = await fetch(`/api/admin/leads?${params.toString()}`);
+  const loadLeads = async () => {
+    const res = await fetch('/api/admin/leads?category=client');
     const d = await res.json();
     if (d.success) {
       setLeads(d.leads);
-      if (typeof d.totalCount === 'number') {
-        setTotalClientCount(d.totalCount);
-      } else if (!st && !s) {
-        setTotalClientCount(d.leads.length);
-      }
+      setTotalClientCount(d.leads.length);
     }
   };
 
@@ -1088,6 +1078,28 @@ export default function Dashboard() {
   };
 
   if (!me) return null;
+
+  // Filtered Client Leads (real-time instant search & status filter)
+  const visibleClientLeads = leads.filter((l) => {
+    if (statusFilter && l.status !== statusFilter) return false;
+    if (search.trim()) {
+      const q = search.trim().toLowerCase();
+      const hay = [
+        l.full_name,
+        l.company_name,
+        l.phone,
+        l.city,
+        l.inventory_type,
+        l.status,
+        l.next_followup_date,
+      ]
+        .filter(Boolean)
+        .join(' ')
+        .toLowerCase();
+      if (!hay.includes(q)) return false;
+    }
+    return true;
+  });
 
   const total = leads.length;
   const newLeads = leads.filter((l) => l.status === 'New').length;
@@ -1713,96 +1725,98 @@ export default function Dashboard() {
               style={{
                 display: 'flex',
                 alignItems: 'center',
-                justifyContent: 'space-between',
+                gap: '8px',
+                marginBottom: '14px',
                 flexWrap: 'wrap',
-                gap: '12px',
-                marginBottom: '16px',
-                padding: '12px 16px',
-                background: '#FFFFFF',
-                borderRadius: '8px',
-                border: '1px solid #E2E8F0',
               }}
             >
-              <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap' }}>
-                <span style={{ fontSize: '15px', fontWeight: 700, color: '#0F172A' }}>
-                  {statusFilter ? `${statusFilter} Leads` : 'All Client Leads'}
+              <span style={{ fontSize: '15px', fontWeight: 600, color: '#0F172A' }}>
+                {statusFilter ? `${statusFilter} Leads:` : 'Total Leads:'}
+              </span>
+              <span style={{ fontSize: '18px', fontWeight: 800, color: '#14A750' }}>
+                {statusFilter || search.trim()
+                  ? `${visibleClientLeads.length} / ${leads.length}`
+                  : leads.length}
+              </span>
+              {search.trim() && (
+                <span style={{ fontSize: '12.5px', color: '#64748B', fontWeight: 500 }}>
+                  (matching "{search}")
                 </span>
-                <span
-                  style={{
-                    background: statusFilter ? '#EEF2FF' : '#F1F5F9',
-                    color: statusFilter ? '#4F46E5' : '#475569',
-                    fontSize: '12.5px',
-                    fontWeight: 700,
-                    padding: '3px 10px',
-                    borderRadius: '20px',
-                    border: '1px solid',
-                    borderColor: statusFilter ? '#C7D2FE' : '#E2E8F0',
-                  }}
-                >
-                  {statusFilter
-                    ? `${leads.length} of ${totalClientCount || leads.length}`
-                    : `${leads.length} Total`}
-                </span>
-                {search && (
-                  <span style={{ fontSize: '12.5px', color: '#0284C7', fontWeight: 600 }}>
-                    matching "{search}"
-                  </span>
-                )}
-              </div>
-
-              {statusFilter && (
-                <button
-                  type="button"
-                  onClick={() => {
-                    setStatusFilter('');
-                    loadLeads(undefined, '');
-                  }}
-                  style={{
-                    background: '#F8FAFC',
-                    border: '1px solid #CBD5E1',
-                    borderRadius: '6px',
-                    padding: '6px 12px',
-                    fontSize: '12px',
-                    fontWeight: 600,
-                    color: '#475569',
-                    cursor: 'pointer',
-                    display: 'inline-flex',
-                    alignItems: 'center',
-                    gap: '4px',
-                  }}
-                >
-                  ✕ Clear Status Filter
-                </button>
               )}
             </div>
 
             <div style={ui.toolbar}>
-              <input
-                style={ui.input}
-                placeholder="Search name, phone, city, company..."
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
-                onKeyDown={(e) => e.key === 'Enter' && loadLeads()}
-              />
-              <select
-                style={ui.select}
-                value={statusFilter}
-                onChange={(e) => {
-                  const val = e.target.value;
-                  setStatusFilter(val);
-                  loadLeads(undefined, val);
-                }}
-              >
-                <option value="">All Statuses</option>
-                {CLIENT_STATUSES.map((s) => (
-                  <option key={s} value={s}>
-                    {s}
-                  </option>
-                ))}
-              </select>
-              <button style={ui.btnGhost} onClick={() => loadLeads()}>
-                Search
-              </button>
+              <div style={{ position: 'relative', display: 'flex', alignItems: 'center', flex: 1, minWidth: '220px' }}>
+                <input
+                  style={{ ...ui.input, width: '100%', paddingRight: search ? '30px' : '12px' }}
+                  placeholder="Search name, phone, city, company..."
+                  value={search}
+                  onChange={(e) => setSearch(e.target.value)}
+                />
+                {search && (
+                  <button
+                    type="button"
+                    onClick={() => setSearch('')}
+                    title="Clear search"
+                    style={{
+                      position: 'absolute',
+                      right: '10px',
+                      background: 'none',
+                      border: 'none',
+                      color: '#94A3B8',
+                      cursor: 'pointer',
+                      fontSize: '14px',
+                      fontWeight: 700,
+                      padding: '2px',
+                      lineHeight: 1,
+                    }}
+                  >
+                    ✕
+                  </button>
+                )}
+              </div>
+
+              <div style={{ position: 'relative', display: 'inline-flex', alignItems: 'center' }}>
+                <select
+                  style={{
+                    ...ui.select,
+                    paddingRight: statusFilter ? '32px' : '12px',
+                    fontWeight: statusFilter ? 600 : 400,
+                    color: statusFilter ? '#0F172A' : '#64748B',
+                  }}
+                  value={statusFilter}
+                  onChange={(e) => setStatusFilter(e.target.value)}
+                >
+                  <option value="">All Statuses</option>
+                  {CLIENT_STATUSES.map((s) => (
+                    <option key={s} value={s}>
+                      {s}
+                    </option>
+                  ))}
+                </select>
+                {statusFilter && (
+                  <button
+                    type="button"
+                    onClick={() => setStatusFilter('')}
+                    title="Clear status filter"
+                    style={{
+                      position: 'absolute',
+                      right: '10px',
+                      background: 'none',
+                      border: 'none',
+                      color: '#94A3B8',
+                      cursor: 'pointer',
+                      fontSize: '13px',
+                      fontWeight: 700,
+                      padding: '2px',
+                      lineHeight: 1,
+                    }}
+                  >
+                    ✕
+                  </button>
+                )}
+              </div>
+
               <a
                 style={{ ...ui.btnGhost, marginLeft: 'auto', textDecoration: 'none' }}
                 href="/api/admin/leads/export?category=client"
@@ -1826,7 +1840,7 @@ export default function Dashboard() {
                   </tr>
                 </thead>
                 <tbody>
-                  {leads.map((l) => (
+                  {visibleClientLeads.map((l) => (
                     <tr key={l.id} style={{ cursor: 'pointer' }} onClick={() => openLead(l)}>
                       <td style={{ ...ui.td, fontWeight: 600, color: '#0F172A' }}>{l.full_name}</td>
                       <td style={ui.td}>{l.company_name || '—'}</td>
@@ -1861,7 +1875,7 @@ export default function Dashboard() {
                       <td style={ui.td}>{new Date(l.created_at).toLocaleDateString()}</td>
                     </tr>
                   ))}
-                  {leads.length === 0 && (
+                  {visibleClientLeads.length === 0 && (
                     <tr>
                       <td colSpan={8} style={{ ...ui.td, textAlign: 'center', color: '#94a3b8' }}>
                         No client leads found.
