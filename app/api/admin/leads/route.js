@@ -8,6 +8,7 @@ async function ensureLeadColumns() {
   await sql`alter table leads add column if not exists lead_category text default 'client'`;
   await sql`alter table leads add column if not exists project_name text`;
   await sql`alter table leads add column if not exists unit_interest text`;
+  await sql`alter table leads add column if not exists next_followup_date text`;
 
   // Auto-classify any earlier Karachi Enclave inquiries that were stored via company_name
   await sql`
@@ -60,7 +61,9 @@ export async function GET(req) {
       return true;
     });
 
-    return NextResponse.json({ success: true, leads: filtered });
+    const totalCategoryCount = allRows.filter((r) => (r.lead_category || 'client') === (category || 'client')).length;
+
+    return NextResponse.json({ success: true, leads: filtered, totalCount: totalCategoryCount });
   } catch (err) {
     console.error('admin leads GET error:', err);
     return NextResponse.json({ success: true, leads: [] });
@@ -85,23 +88,44 @@ export async function PATCH(req) {
       status = null,
       project_name = null,
       unit_interest = null,
+      next_followup_date,
     } = body;
 
     if (!id) return NextResponse.json({ success: false, error: 'Missing id.' }, { status: 400 });
 
-    await sql`
-      update leads set
-        full_name = coalesce(${full_name}, full_name),
-        company_name = coalesce(${company_name}, company_name),
-        phone = coalesce(${phone}, phone),
-        city = coalesce(${city}, city),
-        inventory_type = coalesce(${inventory_type}, inventory_type),
-        status = coalesce(${status}, status),
-        project_name = coalesce(${project_name}, project_name),
-        unit_interest = coalesce(${unit_interest}, unit_interest),
-        updated_at = now()
-      where id = ${id}
-    `;
+    const hasFollowup = Object.prototype.hasOwnProperty.call(body, 'next_followup_date');
+    const followupVal = hasFollowup ? (next_followup_date || null) : null;
+
+    if (hasFollowup) {
+      await sql`
+        update leads set
+          full_name = coalesce(${full_name}, full_name),
+          company_name = coalesce(${company_name}, company_name),
+          phone = coalesce(${phone}, phone),
+          city = coalesce(${city}, city),
+          inventory_type = coalesce(${inventory_type}, inventory_type),
+          status = coalesce(${status}, status),
+          project_name = coalesce(${project_name}, project_name),
+          unit_interest = coalesce(${unit_interest}, unit_interest),
+          next_followup_date = ${followupVal},
+          updated_at = now()
+        where id = ${id}
+      `;
+    } else {
+      await sql`
+        update leads set
+          full_name = coalesce(${full_name}, full_name),
+          company_name = coalesce(${company_name}, company_name),
+          phone = coalesce(${phone}, phone),
+          city = coalesce(${city}, city),
+          inventory_type = coalesce(${inventory_type}, inventory_type),
+          status = coalesce(${status}, status),
+          project_name = coalesce(${project_name}, project_name),
+          unit_interest = coalesce(${unit_interest}, unit_interest),
+          updated_at = now()
+        where id = ${id}
+      `;
+    }
     return NextResponse.json({ success: true });
   } catch (err) {
     console.error('admin leads PATCH error:', err);

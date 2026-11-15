@@ -11,7 +11,9 @@ const CLIENT_STATUSES = [
   'In Negotiation',
   'Deal Closed',
   'Future Prospect',
+  'Lost',
   'Not Interested',
+  'Un-Qualified',
 ];
 
 const PROJECT_STATUSES = [
@@ -377,9 +379,20 @@ const baseUi = {
           padding: '4px 10px',
           display: 'inline-block',
           borderRadius: '6px',
+          background: '#FFF1F2',
+          color: '#BE123C',
+          border: '1px solid rgba(190, 18, 60, 0.25)',
+        };
+      case 'Un-Qualified':
+        return {
+          fontSize: 11.5,
+          fontWeight: 700,
+          padding: '4px 10px',
+          display: 'inline-block',
+          borderRadius: '6px',
           background: '#F1F5F9',
-          color: '#475569',
-          border: '1px solid rgba(71, 85, 105, 0.25)',
+          color: '#64748B',
+          border: '1px solid rgba(100, 116, 139, 0.25)',
         };
       case 'New':
       default:
@@ -522,6 +535,7 @@ export default function Dashboard() {
 
   // Client Leads state (Developers / Builders from Home & Contact Us)
   const [leads, setLeads] = useState([]);
+  const [totalClientCount, setTotalClientCount] = useState(0);
   const [search, setSearch] = useState('');
   const [statusFilter, setStatusFilter] = useState('');
   const [selected, setSelected] = useState(null);
@@ -620,14 +634,23 @@ export default function Dashboard() {
     return () => clearInterval(interval);
   }, [me]);
 
-  const loadLeads = async () => {
+  const loadLeads = async (customSearch, customStatus) => {
     const params = new URLSearchParams();
     params.set('category', 'client');
-    if (search) params.set('search', search);
-    if (statusFilter) params.set('status', statusFilter);
+    const s = customSearch !== undefined ? customSearch : search;
+    const st = customStatus !== undefined ? customStatus : statusFilter;
+    if (s) params.set('search', s);
+    if (st) params.set('status', st);
     const res = await fetch(`/api/admin/leads?${params.toString()}`);
     const d = await res.json();
-    if (d.success) setLeads(d.leads);
+    if (d.success) {
+      setLeads(d.leads);
+      if (typeof d.totalCount === 'number') {
+        setTotalClientCount(d.totalCount);
+      } else if (!st && !s) {
+        setTotalClientCount(d.leads.length);
+      }
+    }
   };
 
   const loadProjectLeads = async () => {
@@ -831,10 +854,18 @@ export default function Dashboard() {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ leadId: selected.id, note: newNote }),
     });
+    // Also sync any updated next_followup_date or status on the lead
+    await fetch('/api/admin/leads', {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(selected),
+    });
     setNewNote('');
     const res = await fetch(`/api/admin/leads/notes?leadId=${selected.id}`);
     const d = await res.json();
     if (d.success) setNotes(d.notes);
+    loadLeads();
+    loadProjectLeads();
   };
 
 
@@ -1676,12 +1707,72 @@ export default function Dashboard() {
         <main style={ui.body}>
         {tab === 'leads' && (
           <>
-            <div style={ui.statRow}>
-              <div style={ui.statCard}><div style={ui.statNum}>{total}</div><div style={ui.statLbl}>Total Leads</div></div>
-              <div style={ui.statCard}><div style={ui.statNum}>{newLeads}</div><div style={ui.statLbl}>New Leads</div></div>
-              <div style={ui.statCard}><div style={ui.statNum}>{contactedLeads}</div><div style={ui.statLbl}>Contacted Leads</div></div>
-              <div style={ui.statCard}><div style={ui.statNum}>{dealsClosed}</div><div style={ui.statLbl}>Deal Closed</div></div>
-              <div style={ui.statCard}><div style={ui.statNum}>{notInterested}</div><div style={ui.statLbl}>Not Interested</div></div>
+            {/* Dynamic Status Counter Header */}
+            <div
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                flexWrap: 'wrap',
+                gap: '12px',
+                marginBottom: '16px',
+                padding: '12px 16px',
+                background: '#FFFFFF',
+                borderRadius: '8px',
+                border: '1px solid #E2E8F0',
+              }}
+            >
+              <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap' }}>
+                <span style={{ fontSize: '15px', fontWeight: 700, color: '#0F172A' }}>
+                  {statusFilter ? `${statusFilter} Leads` : 'All Client Leads'}
+                </span>
+                <span
+                  style={{
+                    background: statusFilter ? '#EEF2FF' : '#F1F5F9',
+                    color: statusFilter ? '#4F46E5' : '#475569',
+                    fontSize: '12.5px',
+                    fontWeight: 700,
+                    padding: '3px 10px',
+                    borderRadius: '20px',
+                    border: '1px solid',
+                    borderColor: statusFilter ? '#C7D2FE' : '#E2E8F0',
+                  }}
+                >
+                  {statusFilter
+                    ? `${leads.length} of ${totalClientCount || leads.length}`
+                    : `${leads.length} Total`}
+                </span>
+                {search && (
+                  <span style={{ fontSize: '12.5px', color: '#0284C7', fontWeight: 600 }}>
+                    matching "{search}"
+                  </span>
+                )}
+              </div>
+
+              {statusFilter && (
+                <button
+                  type="button"
+                  onClick={() => {
+                    setStatusFilter('');
+                    loadLeads(undefined, '');
+                  }}
+                  style={{
+                    background: '#F8FAFC',
+                    border: '1px solid #CBD5E1',
+                    borderRadius: '6px',
+                    padding: '6px 12px',
+                    fontSize: '12px',
+                    fontWeight: 600,
+                    color: '#475569',
+                    cursor: 'pointer',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '4px',
+                  }}
+                >
+                  ✕ Clear Status Filter
+                </button>
+              )}
             </div>
 
             <div style={ui.toolbar}>
@@ -1692,12 +1783,31 @@ export default function Dashboard() {
                 onChange={(e) => setSearch(e.target.value)}
                 onKeyDown={(e) => e.key === 'Enter' && loadLeads()}
               />
-              <select style={ui.select} value={statusFilter} onChange={(e) => setStatusFilter(e.target.value)}>
+              <select
+                style={ui.select}
+                value={statusFilter}
+                onChange={(e) => {
+                  const val = e.target.value;
+                  setStatusFilter(val);
+                  loadLeads(undefined, val);
+                }}
+              >
                 <option value="">All Statuses</option>
-                {CLIENT_STATUSES.map((s) => <option key={s} value={s}>{s}</option>)}
+                {CLIENT_STATUSES.map((s) => (
+                  <option key={s} value={s}>
+                    {s}
+                  </option>
+                ))}
               </select>
-              <button style={ui.btnGhost} onClick={loadLeads}>Apply</button>
-              <a style={{ ...ui.btnGhost, marginLeft: 'auto', textDecoration: 'none' }} href="/api/admin/leads/export?category=client">Export CSV</a>
+              <button style={ui.btnGhost} onClick={() => loadLeads()}>
+                Search
+              </button>
+              <a
+                style={{ ...ui.btnGhost, marginLeft: 'auto', textDecoration: 'none' }}
+                href="/api/admin/leads/export?category=client"
+              >
+                Export CSV
+              </a>
             </div>
 
             <div style={{ overflowX: 'auto' }}>
@@ -1710,6 +1820,7 @@ export default function Dashboard() {
                     <th style={ui.th}>City</th>
                     <th style={ui.th}>Property Type</th>
                     <th style={ui.th}>Status</th>
+                    <th style={ui.th}>Next Reminder</th>
                     <th style={ui.th}>Date</th>
                   </tr>
                 </thead>
@@ -1721,12 +1832,40 @@ export default function Dashboard() {
                       <td style={ui.td}>{l.phone}</td>
                       <td style={ui.td}>{l.city || '—'}</td>
                       <td style={ui.td}>{l.inventory_type || '—'}</td>
-                      <td style={ui.td}><span style={ui.statusPill(l.status)}>{l.status}</span></td>
+                      <td style={ui.td}>
+                        <span style={ui.statusPill(l.status)}>{l.status}</span>
+                      </td>
+                      <td style={ui.td}>
+                        {l.next_followup_date ? (
+                          <span
+                            style={{
+                              display: 'inline-flex',
+                              alignItems: 'center',
+                              gap: '4px',
+                              padding: '3px 8px',
+                              borderRadius: '4px',
+                              fontSize: '11.5px',
+                              fontWeight: 600,
+                              background: '#FEF3C7',
+                              color: '#92400E',
+                              border: '1px solid #FDE68A',
+                            }}
+                          >
+                            📅 {l.next_followup_date}
+                          </span>
+                        ) : (
+                          <span style={{ color: '#94a3b8', fontSize: '12px' }}>—</span>
+                        )}
+                      </td>
                       <td style={ui.td}>{new Date(l.created_at).toLocaleDateString()}</td>
                     </tr>
                   ))}
                   {leads.length === 0 && (
-                    <tr><td colSpan={7} style={{ ...ui.td, textAlign: 'center', color: '#94a3b8' }}>No client leads found.</td></tr>
+                    <tr>
+                      <td colSpan={8} style={{ ...ui.td, textAlign: 'center', color: '#94a3b8' }}>
+                        No client leads found.
+                      </td>
+                    </tr>
                   )}
                 </tbody>
               </table>
@@ -2953,6 +3092,25 @@ export default function Dashboard() {
                 ));
               })()}
             </select>
+
+            <label style={ui.label}>Next Follow-up Reminder Date</label>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
+              <input
+                type="date"
+                style={{ ...ui.fieldInput, margin: 0, flex: 1 }}
+                value={selected.next_followup_date || ''}
+                onChange={(e) => setSelected({ ...selected, next_followup_date: e.target.value })}
+              />
+              {selected.next_followup_date && (
+                <button
+                  type="button"
+                  style={{ ...ui.btnGhost, padding: '8px 12px', fontSize: '12px' }}
+                  onClick={() => setSelected({ ...selected, next_followup_date: '' })}
+                >
+                  Clear
+                </button>
+              )}
+            </div>
 
             <div style={{ display: 'flex', gap: 10, marginTop: 20 }}>
               <a style={{ ...ui.btnGhost, textAlign: 'center', flex: 1 }} href={`tel:${(selected.phone || '').replace(/\s/g, '')}`}>Call</a>
