@@ -13,7 +13,7 @@ const CLIENT_STATUSES = [
   'Future Prospect',
   'Lost',
   'Not Interested',
-  'Un-Qualified',
+  'Unqualified',
 ];
 
 const PROJECT_STATUSES = [
@@ -383,6 +383,7 @@ const baseUi = {
           color: '#BE123C',
           border: '1px solid rgba(190, 18, 60, 0.25)',
         };
+      case 'Unqualified':
       case 'Un-Qualified':
         return {
           fontSize: 11.5,
