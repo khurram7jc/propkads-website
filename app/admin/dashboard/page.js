@@ -542,6 +542,8 @@ export default function Dashboard() {
   const [selected, setSelected] = useState(null);
   const [notes, setNotes] = useState([]);
   const [newNote, setNewNote] = useState('');
+  const [newNoteDate, setNewNoteDate] = useState('');
+  const [newNoteAction, setNewNoteAction] = useState('Call');
 
   // Project Leads state (Buyers / Investors per Project, e.g. Karachi Enclave)
   const [projectLeads, setProjectLeads] = useState([]);
@@ -811,23 +813,61 @@ export default function Dashboard() {
     }
   };
 
+  const getActionMeta = (type) => {
+    switch ((type || '').toLowerCase()) {
+      case 'whatsapp':
+        return { icon: '💬', label: 'WhatsApp', color: '#16A34A', bg: '#DCFCE7' };
+      case 'email':
+        return { icon: '✉️', label: 'Email', color: '#2563EB', bg: '#DBEAFE' };
+      case 'meeting':
+        return { icon: '🤝', label: 'Meeting', color: '#7C3AED', bg: '#EDE9FE' };
+      case 'sms':
+        return { icon: '📱', label: 'SMS', color: '#D97706', bg: '#FEF3C7' };
+      case 'call':
+      default:
+        return { icon: '📞', label: 'Call', color: '#059669', bg: '#D1FAE5' };
+    }
+  };
+
   const openLead = async (lead) => {
     markAsRead(`${lead.lead_category || 'client'}-${lead.id}`);
     setSelected({ ...lead });
+    setNewNote('');
+    setNewNoteDate(lead.next_followup_date || '');
+    setNewNoteAction(lead.next_action_type || 'Call');
     const res = await fetch(`/api/admin/leads/notes?leadId=${lead.id}`);
     const d = await res.json();
     if (d.success) setNotes(d.notes);
   };
 
   const saveLead = async () => {
+    const payload = {
+      ...selected,
+      next_followup_date: newNoteDate || selected.next_followup_date || null,
+      next_action_type: newNoteDate ? (newNoteAction || 'Call') : (selected.next_action_type || null),
+    };
     await fetch('/api/admin/leads', {
       method: 'PATCH',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(selected),
+      body: JSON.stringify(payload),
     });
     setSelected(null);
     loadLeads();
     loadProjectLeads();
+  };
+
+  const clearReminder = async () => {
+    if (!selected) return;
+    const updated = { ...selected, next_followup_date: null, next_action_type: null };
+    setSelected(updated);
+    setNewNoteDate('');
+    await fetch('/api/admin/leads', {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ id: selected.id, next_followup_date: null, next_action_type: null }),
+    });
+    setLeads((prev) => prev.map((l) => (l.id === selected.id ? updated : l)));
+    setProjectLeads((prev) => prev.map((l) => (l.id === selected.id ? updated : l)));
   };
 
   const deleteLead = async () => {
@@ -839,18 +879,28 @@ export default function Dashboard() {
   };
 
   const addNote = async () => {
-    if (!newNote.trim()) return;
-    await fetch('/api/admin/leads/notes', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ leadId: selected.id, note: newNote }),
-    });
-    // Also sync any updated next_followup_date or status on the lead
+    if (!newNote.trim() && !newNoteDate) return;
+    if (newNote.trim()) {
+      await fetch('/api/admin/leads/notes', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ leadId: selected.id, note: newNote.trim() }),
+      });
+    }
+
+    const updatedLead = {
+      ...selected,
+      next_followup_date: newNoteDate ? newNoteDate : (selected.next_followup_date || null),
+      next_action_type: newNoteDate ? (newNoteAction || 'Call') : (selected.next_action_type || null),
+    };
+
     await fetch('/api/admin/leads', {
       method: 'PATCH',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(selected),
+      body: JSON.stringify(updatedLead),
     });
+
+    setSelected(updatedLead);
     setNewNote('');
     const res = await fetch(`/api/admin/leads/notes?leadId=${selected.id}`);
     const d = await res.json();
@@ -1092,6 +1142,7 @@ export default function Dashboard() {
         l.inventory_type,
         l.status,
         l.next_followup_date,
+        l.next_action_type,
       ]
         .filter(Boolean)
         .join(' ')
@@ -1852,22 +1903,40 @@ export default function Dashboard() {
                       </td>
                       <td style={ui.td}>
                         {l.next_followup_date ? (
-                          <span
-                            style={{
-                              display: 'inline-flex',
-                              alignItems: 'center',
-                              gap: '4px',
-                              padding: '3px 8px',
-                              borderRadius: '4px',
-                              fontSize: '11.5px',
-                              fontWeight: 600,
-                              background: '#FEF3C7',
-                              color: '#92400E',
-                              border: '1px solid #FDE68A',
-                            }}
-                          >
-                            📅 {l.next_followup_date}
-                          </span>
+                          (() => {
+                            const act = getActionMeta(l.next_action_type);
+                            return (
+                              <span
+                                style={{
+                                  display: 'inline-flex',
+                                  alignItems: 'center',
+                                  gap: '6px',
+                                  padding: '3px 8px',
+                                  borderRadius: '6px',
+                                  fontSize: '11.5px',
+                                  fontWeight: 600,
+                                  background: '#FEF3C7',
+                                  color: '#92400E',
+                                  border: '1px solid #FDE68A',
+                                  whiteSpace: 'nowrap',
+                                }}
+                              >
+                                <span>📅 {l.next_followup_date}</span>
+                                <span
+                                  style={{
+                                    padding: '1px 5px',
+                                    borderRadius: '4px',
+                                    background: act.bg,
+                                    color: act.color,
+                                    fontSize: '10.5px',
+                                    fontWeight: 700,
+                                  }}
+                                >
+                                  {act.icon} {act.label}
+                                </span>
+                              </span>
+                            );
+                          })()
                         ) : (
                           <span style={{ color: '#94a3b8', fontSize: '12px' }}>—</span>
                         )}
@@ -3108,50 +3177,167 @@ export default function Dashboard() {
               })()}
             </select>
 
-            <label style={ui.label}>Next Follow-up Reminder Date</label>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
-              <input
-                type="date"
-                style={{ ...ui.fieldInput, margin: 0, flex: 1 }}
-                value={selected.next_followup_date || ''}
-                onChange={(e) => setSelected({ ...selected, next_followup_date: e.target.value })}
-              />
-              {selected.next_followup_date && (
-                <button
-                  type="button"
-                  style={{ ...ui.btnGhost, padding: '8px 12px', fontSize: '12px' }}
-                  onClick={() => setSelected({ ...selected, next_followup_date: '' })}
-                >
-                  Clear
-                </button>
-              )}
-            </div>
-
-            <div style={{ display: 'flex', gap: 10, marginTop: 20 }}>
+            <div style={{ display: 'flex', gap: 10, marginTop: 16 }}>
               <a style={{ ...ui.btnGhost, textAlign: 'center', flex: 1 }} href={`tel:${(selected.phone || '').replace(/\s/g, '')}`}>Call</a>
               <a style={{ ...ui.btnGhost, textAlign: 'center', flex: 1 }}
                 href={`https://wa.me/${(selected.phone || '').replace(/\D/g, '')}`} target="_blank" rel="noopener noreferrer">WhatsApp</a>
             </div>
 
-            <hr style={{ margin: '24px 0', border: 'none', borderTop: '1px solid #E7E8EA' }} />
+            <hr style={{ margin: '22px 0 16px', border: 'none', borderTop: '1px solid #E7E8EA' }} />
 
-            <label style={ui.label}>Follow-up Notes</label>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 10, maxHeight: 160, overflowY: 'auto', marginBottom: 10 }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 10 }}>
+              <label style={{ ...ui.label, margin: 0 }}>Follow-up History</label>
+              {selected.next_followup_date && (
+                <span
+                  style={{
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '6px',
+                    padding: '3px 10px',
+                    borderRadius: '999px',
+                    background: '#ECFDF5',
+                    border: '1px solid #A7F3D0',
+                    fontSize: '11.5px',
+                    fontWeight: 600,
+                    color: '#065F46',
+                  }}
+                >
+                  <span>📅 Next: {selected.next_followup_date}</span>
+                  <span style={{ color: '#047857' }}>
+                    · {getActionMeta(selected.next_action_type).icon} {getActionMeta(selected.next_action_type).label}
+                  </span>
+                  <button
+                    type="button"
+                    title="Clear next reminder"
+                    onClick={clearReminder}
+                    style={{
+                      border: 'none',
+                      background: 'transparent',
+                      color: '#EF4444',
+                      fontWeight: 700,
+                      cursor: 'pointer',
+                      padding: '0 2px',
+                      marginLeft: '3px',
+                      fontSize: '12px',
+                    }}
+                  >
+                    ✕
+                  </button>
+                </span>
+              )}
+            </div>
+
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 8, maxHeight: 150, overflowY: 'auto', marginBottom: 12 }}>
               {notes.map((n) => (
-                <div key={n.id} style={{ fontSize: 13, background: '#F7F8F9', padding: 10 }}>
-                  <div style={{ color: '#70757D', fontSize: 11, marginBottom: 4 }}>
+                <div key={n.id} style={{ fontSize: 13, background: '#F8FAFC', border: '1px solid #E2E8F0', borderRadius: '6px', padding: '8px 10px' }}>
+                  <div style={{ color: '#64748B', fontSize: 11, marginBottom: 4 }}>
                     {n.author_name || 'Team'} · {new Date(n.created_at).toLocaleString()}
                   </div>
-                  {n.note}
+                  <div style={{ color: '#1E293B', whiteSpace: 'pre-wrap' }}>{n.note}</div>
                 </div>
               ))}
-              {notes.length === 0 && <p style={{ fontSize: 12.5, color: '#94a3b8' }}>No notes yet.</p>}
+              {notes.length === 0 && <p style={{ fontSize: 12.5, color: '#94a3b8', margin: '4px 0' }}>No notes yet.</p>}
             </div>
-            <div style={{ display: 'flex', gap: 8 }}>
-              <input style={{ ...ui.fieldInput, flex: 1 }} placeholder="Add a follow-up note..."
-                value={newNote} onChange={(e) => setNewNote(e.target.value)}
-                onKeyDown={(e) => e.key === 'Enter' && addNote()} />
-              <button style={ui.btnGhost} onClick={addNote}>Add</button>
+
+            {/* New Follow-up & Next Action Box */}
+            <div
+              style={{
+                padding: '12px',
+                borderRadius: '8px',
+                background: '#F8FAFC',
+                border: '1px solid #E2E8F0',
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '10px',
+              }}
+            >
+              <div>
+                <span style={{ fontSize: '11.5px', fontWeight: 600, color: '#475569', display: 'block', marginBottom: '4px' }}>
+                  Add Follow-up Note:
+                </span>
+                <textarea
+                  rows={2}
+                  style={{
+                    ...ui.fieldInput,
+                    margin: 0,
+                    width: '100%',
+                    boxSizing: 'border-box',
+                    resize: 'vertical',
+                    fontSize: '12.5px',
+                    fontFamily: 'inherit',
+                    padding: '8px 10px',
+                  }}
+                  placeholder="Log discussion notes (e.g. Discussed proposal, client requested revised rates...)"
+                  value={newNote}
+                  onChange={(e) => setNewNote(e.target.value)}
+                />
+              </div>
+
+              <div
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '8px',
+                  flexWrap: 'wrap',
+                }}
+              >
+                <div style={{ display: 'flex', alignItems: 'center', gap: '6px', flex: '1 1 180px' }}>
+                  <span style={{ fontSize: '11.5px', fontWeight: 600, color: '#64748B', whiteSpace: 'nowrap' }}>
+                    📅 Next Date:
+                  </span>
+                  <input
+                    type="date"
+                    style={{
+                      ...ui.fieldInput,
+                      margin: 0,
+                      flex: 1,
+                      padding: '6px 8px',
+                      fontSize: '12px',
+                    }}
+                    value={newNoteDate}
+                    onChange={(e) => setNewNoteDate(e.target.value)}
+                  />
+                </div>
+
+                <div style={{ display: 'flex', alignItems: 'center', gap: '6px', flex: '1 1 140px' }}>
+                  <span style={{ fontSize: '11.5px', fontWeight: 600, color: '#64748B', whiteSpace: 'nowrap' }}>
+                    Action:
+                  </span>
+                  <select
+                    style={{
+                      ...ui.fieldInput,
+                      margin: 0,
+                      flex: 1,
+                      padding: '6px 8px',
+                      fontSize: '12px',
+                      cursor: 'pointer',
+                    }}
+                    value={newNoteAction}
+                    onChange={(e) => setNewNoteAction(e.target.value)}
+                  >
+                    <option value="Call">📞 Call</option>
+                    <option value="WhatsApp">💬 WhatsApp</option>
+                    <option value="Email">✉️ Email</option>
+                    <option value="Meeting">🤝 Meeting</option>
+                    <option value="SMS">📱 SMS</option>
+                  </select>
+                </div>
+
+                <button
+                  type="button"
+                  onClick={addNote}
+                  style={{
+                    ...ui.btnGreen,
+                    padding: '7px 14px',
+                    fontSize: '12.5px',
+                    fontWeight: 600,
+                    whiteSpace: 'nowrap',
+                    cursor: 'pointer',
+                  }}
+                >
+                  Save Note & Action
+                </button>
+              </div>
             </div>
 
             <div style={{ display: 'flex', gap: 10, marginTop: 26 }}>

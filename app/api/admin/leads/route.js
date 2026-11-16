@@ -9,6 +9,7 @@ async function ensureLeadColumns() {
   await sql`alter table leads add column if not exists project_name text`;
   await sql`alter table leads add column if not exists unit_interest text`;
   await sql`alter table leads add column if not exists next_followup_date text`;
+  await sql`alter table leads add column if not exists next_action_type text default 'Call'`;
 
   // Auto-classify any earlier Karachi Enclave inquiries that were stored via company_name
   await sql`
@@ -89,14 +90,17 @@ export async function PATCH(req) {
       project_name = null,
       unit_interest = null,
       next_followup_date,
+      next_action_type,
     } = body;
 
     if (!id) return NextResponse.json({ success: false, error: 'Missing id.' }, { status: 400 });
 
     const hasFollowup = Object.prototype.hasOwnProperty.call(body, 'next_followup_date');
     const followupVal = hasFollowup ? (next_followup_date || null) : null;
+    const hasAction = Object.prototype.hasOwnProperty.call(body, 'next_action_type');
+    const actionVal = hasAction ? (next_action_type || null) : null;
 
-    if (hasFollowup) {
+    if (hasFollowup && hasAction) {
       await sql`
         update leads set
           full_name = coalesce(${full_name}, full_name),
@@ -108,6 +112,37 @@ export async function PATCH(req) {
           project_name = coalesce(${project_name}, project_name),
           unit_interest = coalesce(${unit_interest}, unit_interest),
           next_followup_date = ${followupVal},
+          next_action_type = ${actionVal},
+          updated_at = now()
+        where id = ${id}
+      `;
+    } else if (hasFollowup) {
+      await sql`
+        update leads set
+          full_name = coalesce(${full_name}, full_name),
+          company_name = coalesce(${company_name}, company_name),
+          phone = coalesce(${phone}, phone),
+          city = coalesce(${city}, city),
+          inventory_type = coalesce(${inventory_type}, inventory_type),
+          status = coalesce(${status}, status),
+          project_name = coalesce(${project_name}, project_name),
+          unit_interest = coalesce(${unit_interest}, unit_interest),
+          next_followup_date = ${followupVal},
+          updated_at = now()
+        where id = ${id}
+      `;
+    } else if (hasAction) {
+      await sql`
+        update leads set
+          full_name = coalesce(${full_name}, full_name),
+          company_name = coalesce(${company_name}, company_name),
+          phone = coalesce(${phone}, phone),
+          city = coalesce(${city}, city),
+          inventory_type = coalesce(${inventory_type}, inventory_type),
+          status = coalesce(${status}, status),
+          project_name = coalesce(${project_name}, project_name),
+          unit_interest = coalesce(${unit_interest}, unit_interest),
+          next_action_type = ${actionVal},
           updated_at = now()
         where id = ${id}
       `;
