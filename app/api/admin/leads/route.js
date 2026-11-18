@@ -1,6 +1,8 @@
 import { NextResponse } from 'next/server';
 import { sql } from '@/lib/db';
 import { getSession } from '@/lib/auth';
+import { liveLocalDevLeads, updateLocalDevLead, deleteLocalDevLead } from '@/lib/mockClientLeads';
+import { liveLocalDevProjectLeads, updateLocalDevProjectLead, deleteLocalDevProjectLead } from '@/lib/mockProjectLeads';
 
 export const dynamic = 'force-dynamic';
 
@@ -36,7 +38,10 @@ export async function GET(req) {
     const status = searchParams.get('status');
     const search = searchParams.get('search');
 
-    const allRows = await sql`select * from leads order by created_at desc`;
+    let allRows = await sql`select * from leads order by created_at desc`;
+    if ((!allRows || allRows.length === 0) && process.env.NODE_ENV !== 'production') {
+      allRows = [...liveLocalDevLeads, ...liveLocalDevProjectLeads];
+    }
 
     const filtered = allRows.filter((r) => {
       const rowCat = r.lead_category || 'client';
@@ -161,6 +166,24 @@ export async function PATCH(req) {
         where id = ${id}
       `;
     }
+
+    if (process.env.NODE_ENV !== 'production') {
+      const updates = {
+        ...(full_name ? { full_name } : {}),
+        ...(company_name ? { company_name } : {}),
+        ...(phone ? { phone } : {}),
+        ...(city ? { city } : {}),
+        ...(inventory_type ? { inventory_type } : {}),
+        ...(status ? { status } : {}),
+        ...(project_name ? { project_name } : {}),
+        ...(unit_interest ? { unit_interest } : {}),
+        ...(hasFollowup ? { next_followup_date: followupVal } : {}),
+        ...(hasAction ? { next_action_type: actionVal } : {}),
+      };
+      updateLocalDevLead(id, updates);
+      updateLocalDevProjectLead(id, updates);
+    }
+
     return NextResponse.json({ success: true });
   } catch (err) {
     console.error('admin leads PATCH error:', err);
@@ -177,5 +200,9 @@ export async function DELETE(req) {
   if (!id) return NextResponse.json({ success: false, error: 'Missing id.' }, { status: 400 });
 
   await sql`delete from leads where id = ${id}`;
+  if (process.env.NODE_ENV !== 'production') {
+    deleteLocalDevLead(id);
+    deleteLocalDevProjectLead(id);
+  }
   return NextResponse.json({ success: true });
 }

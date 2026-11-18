@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { sql } from '@/lib/db';
+import { addLocalDevApplication } from '@/lib/mockApplications';
 
 export async function POST(req) {
   try {
@@ -49,6 +50,19 @@ export async function POST(req) {
       `;
     } catch (dbErr) {
       console.warn('DB save warning:', dbErr.message);
+    }
+
+    if (process.env.NODE_ENV !== 'production') {
+      addLocalDevApplication({
+        full_name: fullName,
+        email,
+        phone,
+        position,
+        portfolio_link: portfolioLink,
+        message,
+        resume_name: resumeName,
+        resume_size: resumeSize,
+      });
     }
 
     return NextResponse.json({

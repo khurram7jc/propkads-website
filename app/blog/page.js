@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
+import ArticleContent from '@/components/ArticleContent';
 import { DEFAULT_CONTENT } from '@/data/content';
 import { BLOG_POSTS } from '@/data/blogs';
 
@@ -282,21 +283,9 @@ export default function BlogPage() {
               className="blog-modal-img"
             />
 
-            {/* Key Takeaways Box */}
-            {activeArticle.takeaways && activeArticle.takeaways.length > 0 && (
-              <div className="blog-modal-takeaways">
-                <h4>Key Market Takeaways</h4>
-                <ul>
-                  {activeArticle.takeaways.map((point, idx) => (
-                    <li key={idx}>{point}</li>
-                  ))}
-                </ul>
-              </div>
-            )}
-
             {/* Article Body */}
             <div className="blog-modal-body">
-              {activeArticle.fullContent}
+              <ArticleContent content={activeArticle.fullContent} />
             </div>
 
             <div style={{ marginTop: '36px', paddingTop: '20px', borderTop: '1px solid #E2E8F0', display: 'flex', justifyContent: 'flex-end' }}>

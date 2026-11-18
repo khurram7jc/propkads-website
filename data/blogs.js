@@ -6,7 +6,7 @@ export const BLOG_POSTS = [
     isTrending: false,
     title: 'Malir Expressway Inauguration: How the 39km Corridor is Reshaping Karachi’s M-9 Property Valuations',
     date: 'Nov 2025',
-    readTime: '5 min read',
+    readTime: '2 min read',
     image: '/blogs/malir-expressway-impact.jpg',
     excerpt: 'The operationalization of the 39-kilometer Shahrah-e-Bhutto has eliminated the historical distance penalty for Karachi’s suburban expansion, triggering double-digit capital appreciation across key M-9 projects.',
     fullContent: `
@@ -20,14 +20,9 @@ For decades, master-planned developments along the Super Highway and M-9 corrido
 - **Bahria Town Karachi:** Improved connectivity to central Karachi business districts has revitalized secondary market trading and commercial leasing.
 - **Scheme 33 & Malir Link Road Sectors:** Major road intersections along the expressway route are witnessing commercial plots and high-density apartment launches commanding premium square-foot rates.
 
-### Investor Takeaways
+### Market Impact & Summary
 Urban infrastructure of this scale permanently resets the price ceiling for peripheral land. Developers holding inventory along the corridor are repositioning their payment plans to capture accelerated end-user demand before post-inauguration price adjustments solidify.
-    `,
-    takeaways: [
-      'Travel times between DHA/Clifton and M-9 reduced by over 60%.',
-      'End-user demand surging in DHA City Karachi and neighboring master-planned communities.',
-      'Commercial plots along expressway interchanges seeing double-digit capital appreciation.'
-    ]
+    `
   },
 
   // 2. TRENDING STORY 1 (Top-Right)
@@ -37,7 +32,7 @@ Urban infrastructure of this scale permanently resets the price ceiling for peri
     isTrending: true,
     title: 'DHA City Karachi (DCK) Sees Record Capital Inflow as Commute Times Drop Under 25 Minutes',
     date: 'Nov 2025',
-    readTime: '4 min read',
+    readTime: '1 min read',
     image: '/blogs/dha-city-capital-inflow.jpg',
     excerpt: 'Driven by institutional brand credibility and rapid infrastructural readiness, DHA City has emerged as Karachi’s leading destination for overseas remittances and long-term capital preservation.',
     fullContent: `
@@ -45,12 +40,7 @@ DHA City Karachi (DCK) has witnessed a sharp uptick in market transactions follo
 
 ### Institutional Readiness & Commercial Clusters
 The activation of educational institutions, healthcare centers, and solar-supported municipal infrastructure within DCK’s earlier sectors has enabled early residents to begin immediate residential construction. Furthermore, the planned commercial district along the main arterial boulevard is attracting corporate offices and retail chains anticipating a demographic boom over the next 24 to 36 months.
-    `,
-    takeaways: [
-      'High preference among overseas Pakistani investors for verified land titles.',
-      'Sustained price growth across 300, 500, and 1,000 sq yd residential categories.',
-      'Commercial plots along primary boulevards seeing aggressive acquisition by builders.'
-    ]
+    `
   },
 
   // 3. TRENDING STORY 2 (Top-Right)
@@ -60,7 +50,7 @@ The activation of educational institutions, healthcare centers, and solar-suppor
     isTrending: true,
     title: 'Clifton & Marine Drive High-Rises: Land Scarcity Drives Surge in Luxury Vertical Towers',
     date: 'Oct 2025',
-    readTime: '4 min read',
+    readTime: '1 min read',
     image: '/blogs/clifton-vertical-highrises.jpg',
     excerpt: 'With horizontal land virtually exhausted in prime coastal zones, high-density vertical towers featuring branded amenities and sea views are setting new benchmark prices per square foot in Karachi.',
     fullContent: `
@@ -72,12 +62,7 @@ Today’s high-net-worth buyers in Karachi are moving away from traditional bung
 - Dedicated multi-story parking podiums with EV charging capabilities.
 - Integrated lifestyle amenities including infinity pools, fitness studios, and rooftop executive lounges.
 - Standby power generation with hybrid solar integration to insulate against municipal grid volatility.
-    `,
-    takeaways: [
-      'Average luxury high-rise pricing reaching new records per square foot in coastal sectors.',
-      'High-net-worth buyers prioritizing security, standby power, and concierge facilities.',
-      'SBCA regulatory updates facilitating controlled high-density vertical approvals.'
-    ]
+    `
   },
 
   // 4. TRENDING STORY 3 (Top-Right)
@@ -87,7 +72,7 @@ Today’s high-net-worth buyers in Karachi are moving away from traditional bung
     isTrending: true,
     title: 'FBR Property Valuations 2025: Updated Valuation Tables and Tax Shifts for Karachi Real Estate',
     date: 'Oct 2025',
-    readTime: '3 min read',
+    readTime: '1 min read',
     image: '/blogs/fbr-property-valuations.jpg',
     excerpt: 'The Federal Board of Revenue has notified revised valuation tables across prime Karachi housing societies, bridging the gap with fair market value and formalizing deal documentation.',
     fullContent: `
@@ -95,12 +80,7 @@ The Federal Board of Revenue (FBR) has implemented updated property valuation no
 
 ### Market Adaptation to Fiscal Transparency
 While initial announcements historically led to temporary trading pauses, the market has rapidly normalized. Legitimate real estate builders and corporate developers are increasingly welcoming formalization, as transparent banking transaction histories enhance credibility with overseas property investors and commercial banking channels.
-    `,
-    takeaways: [
-      'Revised tables align closer to prevailing transaction figures across top localities.',
-      'Increased documentation safeguards buyer equity and facilitates transparent banking transactions.',
-      'Professional real estate marketing systems increasingly focus on compliant buyers and filers.'
-    ]
+    `
   },
 
   // 5. TRENDING STORY 4 (Top-Right)
@@ -110,7 +90,7 @@ While initial announcements historically led to temporary trading pauses, the ma
     isTrending: true,
     title: 'Scheme 33 Infrastructure Push: KDA Accelerates Link Roads to Decongest Traffic toward Super Highway',
     date: 'Oct 2025',
-    readTime: '3 min read',
+    readTime: '1 min read',
     image: '/blogs/scheme-33-infrastructure.jpg',
     excerpt: 'Major road expansion projects connecting Mehran Road, Madras Road, and Rumi Road have crossed 75% completion, resolving bottle-necks and elevating middle-income residential demand.',
     fullContent: `
@@ -118,12 +98,7 @@ The Karachi Development Authority (KDA) has expedited multiple infrastructure an
 
 ### A Stronghold for Middle-Income End-Users
 Unlike outer suburban developments, Scheme 33 remains deeply attractive for middle-income families requiring immediate access to established schools, university campuses, and tertiary hospitals along the University Road axis. Completed infrastructure has immediately translated into higher occupancy rates in apartment complexes across Saadi Town and Ahsanabad.
-    `,
-    takeaways: [
-      'Over 75% progress achieved on key internal connector roads in Scheme 33.',
-      'High rental demand for 2-bed and 3-bed apartments due to educational hub proximity.',
-      'Significant liquidity and steady transactions in ready-to-move-in residential units.'
-    ]
+    `
   },
 
   // 6. GRID ARTICLE 2
@@ -133,7 +108,7 @@ Unlike outer suburban developments, Scheme 33 remains deeply attractive for midd
     isTrending: false,
     title: 'Commercial Real Estate on Shahrah-e-Faisal: Institutional Buyers Seek Grade-A Corporate Towers',
     date: 'Oct 2025',
-    readTime: '4 min read',
+    readTime: '1 min read',
     image: '/blogs/commercial-real-estate-demand.jpg',
     excerpt: 'Facing inflationary pressures, corporate entities and private equity groups are deploying capital into Grade-A commercial office space and retail flagship units with stable long-term yields.',
     fullContent: `
@@ -141,12 +116,7 @@ Karachi’s central business spine—Shahrah-e-Faisal—is seeing heightened com
 
 ### Commercial as an Inflation Hedge
 With inflation impacting cash reserves, commercial property investments offering guaranteed rental escalation clauses (typically 8% to 10% annual increases) remain the preferred vehicle for corporate treasuries and family offices seeking capital preservation coupled with quarterly cash flow.
-    `,
-    takeaways: [
-      'Grade-A corporate floor spaces commanding 10-12% gross annual rental returns.',
-      'Demand driven by expanding IT, logistics, and pharmaceutical corporate headquarters.',
-      'High occupancy rates in modern towers with dedicated multistory parking.'
-    ]
+    `
   },
 
   // 7. GRID ARTICLE 3
@@ -156,7 +126,7 @@ With inflation impacting cash reserves, commercial property investments offering
     isTrending: false,
     title: 'Overseas Pakistani Inflows: UAE and UK Buyers Drive Surge in Karachi Off-Plan Luxury Apartments',
     date: 'Sep 2025',
-    readTime: '4 min read',
+    readTime: '1 min read',
     image: '/blogs/overseas-pakistani-inflows.jpg',
     excerpt: 'Favorable foreign currency exchange dynamics and flexible 3- to 4-year installment structures have propelled expat investment in high-end gated apartment communities across Karachi.',
     fullContent: `
@@ -166,12 +136,7 @@ Overseas Pakistanis based in Dubai, Abu Dhabi, London, and the Gulf region have 
 1. **Currency Advantage:** The exchange rate provides overseas buyers unmatched purchasing leverage per square foot compared to international real estate hubs.
 2. **Flexible Cash-Flow Matching:** Installment schedules spread over 36 to 48 months align directly with expatriate monthly savings patterns.
 3. **Digital Marketing & Virtual 3D Tours:** Developers utilizing high-definition architectural walkthroughs and transparent CRM portals allow overseas buyers to track project progress without traveling.
-    `,
-    takeaways: [
-      'Record proportion of off-plan apartment bookings originating from Gulf and UK expats.',
-      'Milestone-linked construction schedules provide enhanced investor security.',
-      'Digital lead tracking and CRM updates ensure transparent buyer communication.'
-    ]
+    `
   },
 
   // 8. GRID ARTICLE 4
@@ -181,7 +146,7 @@ Overseas Pakistanis based in Dubai, Abu Dhabi, London, and the Gulf region have 
     isTrending: false,
     title: 'Karachi Apartment Rental Yields Outperform Alternative Assets Across Core Urban Districts',
     date: 'Sep 2025',
-    readTime: '3 min read',
+    readTime: '1 min read',
     image: '/blogs/rental-yields-analysis.jpg',
     excerpt: 'Rising demand for modern 2 and 3-bedroom family apartments in Gulshan-e-Iqbal, Johar, and North Nazimabad is delivering stable double-digit rental yields for landlords.',
     fullContent: `
@@ -190,12 +155,7 @@ A comprehensive survey of Karachi’s urban residential rental market reveals th
 ### High-Yield Micro-Markets
 - **Gulshan-e-Iqbal & Gulistan-e-Johar:** Near universities, commercial centers, and public transit terminals, rental units enjoy virtually zero vacancy periods.
 - **North Nazimabad:** Redeveloped modern mid-rise towers are commanding premium monthly rents from professionals seeking upgraded living spaces in established neighborhoods.
-    `,
-    takeaways: [
-      'Net rental yields on 2 & 3-bedroom apartments averaging between 7% and 9.5%.',
-      'Tenant turnover remains low in gated complexes with reliable water and power backup.',
-      'Flats require lower capital entry barrier compared to residential plots.'
-    ]
+    `
   },
 
   // 9. GRID ARTICLE 5
@@ -205,7 +165,7 @@ A comprehensive survey of Karachi’s urban residential rental market reveals th
     isTrending: false,
     title: 'Green Architecture: Why Karachi Developers Are Integrating Rooftop Solar & EV Charging in New Launches',
     date: 'Aug 2025',
-    readTime: '4 min read',
+    readTime: '1 min read',
     image: '/blogs/green-high-rises-solar.jpg',
     excerpt: 'Escalating utility tariffs and eco-conscious consumer sentiment have transformed solar-hybrid power and energy-efficient building envelopes into crucial selling points for Karachi towers.',
     fullContent: `
@@ -213,12 +173,7 @@ Sustainability in Karachi real estate is no longer an optional marketing luxury�
 
 ### Lowering Monthly Maintenance Overheads
 Prospective homebuyers frequently inquire about monthly maintenance fee projections before booking apartments. Buildings that generate up to 40% of communal power via grid-tied solar systems reduce maintenance bills by thousands of rupees per month, giving developers an immediate competitive edge in advertising campaigns.
-    `,
-    takeaways: [
-      'Solar integration reduces building common area utility expenses by up to 45%.',
-      'EV-ready parking bays emerging as standard features in luxury Clifton and DHA launches.',
-      'Lower recurring maintenance fees directly enhance apartment resale liquidity.'
-    ]
+    `
   },
 
   // 10. GRID ARTICLE 6
@@ -228,7 +183,7 @@ Prospective homebuyers frequently inquire about monthly maintenance fee projecti
     isTrending: false,
     title: 'Secondary Market vs Off-Plan: Where Smart Karachi Property Investors Are Deploying Capital in 2025',
     date: 'Aug 2025',
-    readTime: '4 min read',
+    readTime: '1 min read',
     image: '/blogs/secondary-vs-off-plan.jpg',
     excerpt: 'Analyzing the risk-reward tradeoff between immediate rental cash flow in secondary markets versus maximum capital appreciation through early-stage developer off-plan launches.',
     fullContent: `
@@ -239,12 +194,7 @@ Investing at ground-breaking allows buyers to secure introductory launch pricing
 
 ### The Case for Ready Secondary Assets
 For investors seeking immediate monthly cash flow, established neighborhoods in DHA Phase 5/6, Clifton, or Scheme 33 provide immediate rental returns and zero construction delay risk. Smart portfolio managers often balance their allocations: 60% in ready income-generating units and 40% in high-potential off-plan developments.
-    `,
-    takeaways: [
-      'Off-plan purchases offer 30-50% capital growth potential across 3-year construction cycles.',
-      'Ready properties provide immediate defensive rental cash flow and zero delivery risk.',
-      'Professional due diligence on developer completion track records remains paramount.'
-    ]
+    `
   }
 ,
   // 11. GRID ARTICLE 6
@@ -257,12 +207,7 @@ For investors seeking immediate monthly cash flow, established neighborhoods in 
     "readTime": "4 min read",
     "image": "/blogs/red-line-brt-corridor-impact.jpg",
     "excerpt": "With civil infrastructure accelerating along the 26km Red Line Bus Rapid Transit route from Safoora Chowk to Numaish, builders are capitalizing on transit-oriented rezoning to launch commercial podiums and modern high-rises.",
-    "fullContent": "\nThe construction of the 26.6-kilometer Karachi Red Line Bus Rapid Transit (BRT) corridor—running from Malir Halt and Safoora Chowk via University Road through to Numaish—is proving to be a catalyst for urban rejuvenation and real estate development along one of Karachi's busiest arterial roads.\n\n### Transit-Oriented Mixed-Use Developments\nModern urban planning globally hinges on Transit-Oriented Development (TOD), where high-density commercial and residential projects are centered around high-capacity transit nodes. Along University Road and Gulshan-e-Iqbal, developers are actively acquiring older low-density structures to construct mixed-use towers with multi-level retail concourses and modern apartment floors.\n\n### Commercial Footfall & Retail Demand\nProperties within a 500-meter radius of planned BRT stations are commanding a 15% to 25% premium in retail rental values. Commercial banks, corporate pharmacy chains, and nationwide food brands are actively reserving ground-floor units in upcoming commercial plazas, anticipating guaranteed daily pedestrian traffic from transit commuters.\n\n### Strategic Outlook for Homebuyers\nWith central Karachi commute times projected to fall below 35 minutes upon full operationalization, residential projects along the transit belt are capturing surging demand from salaried corporate professionals seeking centrally located, accessible housing.\n  ",
-    "takeaways": [
-      "Mass transit connectivity driving commercial podium and mixed-use apartment demand along University Road.",
-      "Properties within 500m of BRT stations witnessing 15-25% premium in retail lease valuations.",
-      "Commute time between Malir/Safoora and central municipal business hubs reduced to under 35 minutes."
-    ]
+    "fullContent": "\nThe construction of the 26.6-kilometer Karachi Red Line Bus Rapid Transit (BRT) corridor—running from Malir Halt and Safoora Chowk via University Road through to Numaish—is proving to be a catalyst for urban rejuvenation and real estate development along one of Karachi's busiest arterial roads.\n\n### Transit-Oriented Mixed-Use Developments\nModern urban planning globally hinges on Transit-Oriented Development (TOD), where high-density commercial and residential projects are centered around high-capacity transit nodes. Along University Road and Gulshan-e-Iqbal, developers are actively acquiring older low-density structures to construct mixed-use towers with multi-level retail concourses and modern apartment floors.\n\n### Commercial Footfall & Retail Demand\nProperties within a 500-meter radius of planned BRT stations are commanding a 15% to 25% premium in retail rental values. Commercial banks, corporate pharmacy chains, and nationwide food brands are actively reserving ground-floor units in upcoming commercial plazas, anticipating guaranteed daily pedestrian traffic from transit commuters.\n\n### Strategic Outlook for Homebuyers\nWith central Karachi commute times projected to fall below 35 minutes upon full operationalization, residential projects along the transit belt are capturing surging demand from salaried corporate professionals seeking centrally located, accessible housing.\n  "
   }
 ,
   // 12. GRID ARTICLE 7
@@ -275,12 +220,7 @@ For investors seeking immediate monthly cash flow, established neighborhoods in 
     "readTime": "4 min read",
     "image": "/blogs/fast-track-power-grid-connections.jpg",
     "excerpt": "A coordinated regulatory framework between power utilities and municipal building authorities has slashed electrical energization timelines from 18 months to under 90 days for compliant vertical towers.",
-    "fullContent": "\nIn a pivotal reform for Karachi's construction sector, municipal authorities and regional power utilities have introduced a consolidated fast-track energization protocol for registered high-rise and commercial projects across the city. Historically, the lag between building civil completion and grid activation frequently extended beyond a year, forcing builders to either delay buyer handovers or incur heavy operational losses running temporary diesel backup plants.\n\n### Single-Window Utility Coordination\nUnder the newly operationalized protocol, developer architectural blueprints and load requirements submitted to the Sindh Building Control Authority (SBCA) are simultaneously routed to utility engineers. Substation spatial allocations and cabling layouts are verified during the early foundation phase rather than post-construction, eliminating costly structural retrofits.\n\n### Operational and Handover Advantages\n- **Faster Handover Cycles:** Apartment buyers and commercial office tenants receive genuine occupancy permits months ahead of previous benchmarks.\n- **Lower Developer Holding Costs:** Reduced project completion latency mitigates financing charges and inflation-driven material expenditure.\n- **Investor Confidence:** Guaranteed grid readiness provides buyers with tangible assurance of immediate move-in status.\n  ",
-    "takeaways": [
-      "Utility energization approval lead times reduced from 18 months to under 90 days.",
-      "Early foundation-phase substation planning eliminates post-construction structural rework.",
-      "Faster project handovers substantially reduce developer debt service charges."
-    ]
+    "fullContent": "\nIn a pivotal reform for Karachi's construction sector, municipal authorities and regional power utilities have introduced a consolidated fast-track energization protocol for registered high-rise and commercial projects across the city. Historically, the lag between building civil completion and grid activation frequently extended beyond a year, forcing builders to either delay buyer handovers or incur heavy operational losses running temporary diesel backup plants.\n\n### Single-Window Utility Coordination\nUnder the newly operationalized protocol, developer architectural blueprints and load requirements submitted to the Sindh Building Control Authority (SBCA) are simultaneously routed to utility engineers. Substation spatial allocations and cabling layouts are verified during the early foundation phase rather than post-construction, eliminating costly structural retrofits.\n\n### Operational and Handover Advantages\n- **Faster Handover Cycles:** Apartment buyers and commercial office tenants receive genuine occupancy permits months ahead of previous benchmarks.\n- **Lower Developer Holding Costs:** Reduced project completion latency mitigates financing charges and inflation-driven material expenditure.\n- **Investor Confidence:** Guaranteed grid readiness provides buyers with tangible assurance of immediate move-in status.\n  "
   },
   // 13. GRID ARTICLE 8
   {
@@ -292,11 +232,6 @@ For investors seeking immediate monthly cash flow, established neighborhoods in 
     "readTime": "5 min read",
     "image": "/blogs/coastal-corridor-logistics-expansion.jpg",
     "excerpt": "Expanded arterial linkages connecting maritime transit routes with Karachi’s western bypass are fueling strong institutional acquisition of coastal townships, logistics hubs, and resort communities.",
-    "fullContent": "\nKarachi's western and coastal periphery is undergoing a sustained strategic revaluation as national highway expansions and port connectivity corridors become operational. For decades, institutional property investments concentrated along the eastern M-9 corridor; however, improving logistics infrastructure is rebalancing investor portfolios toward seaside master developments and industrial supply parks.\n\n### Logistics Warehousing & Maritime Transit\nThe development of modernized cargo corridors bypassing congested inner-city traffic has created prime industrial demand along the western belt. Multinational logistics companies, freight forwarders, and e-commerce distribution platforms are purchasing large acreage parcels for consolidated distribution hubs.\n\n### Waterfront Residential & Resort Townships\nBeyond commercial warehousing, the natural coastal beauty of Hawkesbay and Gadani's periphery is attracting premier builders designing gated coastal communities, beachfront villas, and holiday retreat concepts targeted at overseas Pakistanis seeking lifestyle assets with high capital upside.\n  ",
-    "takeaways": [
-      "Logistics and maritime transport upgrades channeling capital into western Karachi land belts.",
-      "High demand for centralized distribution centers and freight warehousing from e-commerce players.",
-      "Emergence of gated seaside residential townships commanding strong overseas buyer interest."
-    ]
+    "fullContent": "\nKarachi's western and coastal periphery is undergoing a sustained strategic revaluation as national highway expansions and port connectivity corridors become operational. For decades, institutional property investments concentrated along the eastern M-9 corridor; however, improving logistics infrastructure is rebalancing investor portfolios toward seaside master developments and industrial supply parks.\n\n### Logistics Warehousing & Maritime Transit\nThe development of modernized cargo corridors bypassing congested inner-city traffic has created prime industrial demand along the western belt. Multinational logistics companies, freight forwarders, and e-commerce distribution platforms are purchasing large acreage parcels for consolidated distribution hubs.\n\n### Waterfront Residential & Resort Townships\nBeyond commercial warehousing, the natural coastal beauty of Hawkesbay and Gadani's periphery is attracting premier builders designing gated coastal communities, beachfront villas, and holiday retreat concepts targeted at overseas Pakistanis seeking lifestyle assets with high capital upside.\n  "
   }
 ];

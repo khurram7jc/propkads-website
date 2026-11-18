@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { sql } from '@/lib/db';
+import { sendLeadNotificationEmail } from '@/lib/email';
 
 export async function POST(req) {
   try {
@@ -52,6 +53,52 @@ export async function POST(req) {
         ${unitInterest || null}
       )
     `;
+
+    // In local development, also store in memory so admin panel shows it instantly
+    if (process.env.NODE_ENV !== 'production') {
+      try {
+        const leadObj = {
+          id: Date.now(),
+          full_name: fullName,
+          company_name: companyName || '',
+          phone,
+          city: city || '',
+          inventory_type: inventoryType || '',
+          lead_category: resolvedCategory,
+          project_name: projectName || null,
+          unit_interest: unitInterest || null,
+          status: 'New',
+          next_followup_date: null,
+          next_action_type: null,
+          created_at: new Date().toISOString(),
+        };
+        if (resolvedCategory === 'project') {
+          const { addLocalDevProjectLead } = await import('@/lib/mockProjectLeads');
+          addLocalDevProjectLead(leadObj);
+        } else {
+          const { addLocalDevLead } = await import('@/lib/mockClientLeads');
+          addLocalDevLead(leadObj);
+        }
+      } catch (mockErr) {
+        console.error('Failed to store local dev lead:', mockErr);
+      }
+    }
+
+    // Send instant lead alert to propkads@gmail.com
+    try {
+      await sendLeadNotificationEmail({
+        fullName,
+        companyName,
+        phone,
+        city,
+        inventoryType,
+        leadCategory: resolvedCategory,
+        projectName,
+        unitInterest,
+      });
+    } catch (emailErr) {
+      console.error('Lead notification email dispatch error:', emailErr);
+    }
 
     return NextResponse.json({ success: true });
   } catch (err) {

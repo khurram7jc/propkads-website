@@ -41,6 +41,7 @@ export default function KarachiEnclavePage() {
   });
   const [lightboxImg, setLightboxImg] = useState(null);
   const [leadForm, setLeadForm] = useState({ name: '', phone: '', city: 'Karachi', unit: '' });
+  const [formError, setFormError] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitSuccess, setSubmitSuccess] = useState(false);
   const videoIframeRef = useRef(null);
@@ -112,9 +113,10 @@ export default function KarachiEnclavePage() {
   const handleLeadSubmit = async (e) => {
     e.preventDefault();
     if (!leadForm.unit) {
-      alert('Please select an apartment category / price range.');
+      setFormError('Please select an apartment category / price range.');
       return;
     }
+    setFormError('');
     setIsSubmitting(true);
     try {
       const res = await fetch('/api/contact', {
@@ -560,10 +562,16 @@ export default function KarachiEnclavePage() {
                           className="project-custom-select"
                           options={UNIT_OPTIONS}
                           value={leadForm.unit}
-                          onChange={(val) => setLeadForm({ ...leadForm, unit: val })}
+                          onChange={(val) => { setLeadForm({ ...leadForm, unit: val }); if (formError) setFormError(''); }}
                           placeholder="- Select -"
                         />
                       </div>
+
+                      {formError && (
+                        <p style={{ color: '#E11D48', fontSize: '13.5px', margin: '2px 0 0', fontWeight: 600 }}>
+                          ⚠️ {formError}
+                        </p>
+                      )}
 
                       <button
                         type="submit"
